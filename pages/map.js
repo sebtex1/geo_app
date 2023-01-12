@@ -28,7 +28,9 @@ import * as Location from 'expo-location';
     return (
       <View style={styles.container}>
         <MapView style={styles.map}>
-          <Marker coordinate={ {latitude: location?.coords?.latitude ?? 0, longitude: location?.coords?.longitude ?? 0} } />
+          { location !== null ? 
+            <Marker coordinate={ {latitude: location?.coords?.latitude ?? 0, longitude: location?.coords?.longitude ?? 0} } /> : 
+            null }
         </MapView>
       </View>
     );
