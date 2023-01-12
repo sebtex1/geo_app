@@ -38,10 +38,6 @@ export default function GoogleAuth() {
                     promptAsync();
                 }}
             />
-            
-            <Text>{profile?.email}</Text>
-            <Text>{profile?.family_name}</Text>
-            <Text>{profile?.given_name}</Text>
         </View>
     );
 }

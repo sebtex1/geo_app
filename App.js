@@ -4,7 +4,6 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Login from './pages/login';
 import Map from './pages/map';
-import GoogleAuth from './pages/googleAuth';
 
 // const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -38,16 +37,6 @@ export default function App() {
             tabBarLabel: 'Home',
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="map" color={color} size={26} />
-            ),
-          }}
-        />
-        <Tab.Screen 
-          name="GoogleAuth"
-          component={GoogleAuth} 
-          options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="google" color={color} size={26} />
             ),
           }}
         />
