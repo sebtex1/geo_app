@@ -2,10 +2,9 @@ import { View } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Login from './pages/login';
-import Map from './pages/map';
+import Login from './pages/Login';
+import Map from './pages/Map';
 
-// const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
