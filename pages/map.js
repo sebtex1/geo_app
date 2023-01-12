@@ -1,10 +1,10 @@
 import { View } from 'react-native';
 import { Text } from '@rneui/base';
 
-const Map = ({navigation, route}) => {
+const Map = ({navigation}) => {
     return (
       <View>
-        <Text>Map {route.params.name}</Text>
+        <Text>Map</Text>
       </View>
     );
   };
