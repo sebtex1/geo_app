@@ -1,6 +1,5 @@
 import { View } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-// import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Login from './pages/login';
@@ -12,17 +11,6 @@ const Tab = createMaterialBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Login}
-          options={{title: 'Welcome'}}
-        />
-        <Stack.Screen
-          name="Map"
-          component={Map}
-        />
-      </Stack.Navigator> */}
       <View style={{ paddingTop: 50 }}></View>
       
       <Tab.Navigator
