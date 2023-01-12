@@ -1,7 +1,8 @@
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from './pages/login';
+import Map from './pages/map';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,6 +14,10 @@ export default function App() {
           name="Home"
           component={Login}
           options={{title: 'Welcome'}}
+        />
+        <Stack.Screen
+          name="Map"
+          component={Map}
         />
       </Stack.Navigator>
     </NavigationContainer>
