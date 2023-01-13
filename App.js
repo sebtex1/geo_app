@@ -2,8 +2,9 @@ import { View } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Login from './pages/Login';
-import Map from './pages/Map';
+import Login from './pages/login';
+import Map from './pages/map';
+import FriendList from './pages/friendList';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -36,6 +37,16 @@ export default function App() {
             tabBarLabel: 'Home',
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="map" color={color} size={26} />
+            ),
+          }}
+        />
+        <Tab.Screen 
+          name="FriendList"
+          component={FriendList} 
+          options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="account-group" color={color} size={26} />
             ),
           }}
         />
