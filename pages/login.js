@@ -9,7 +9,7 @@ const Login = ({navigation}) => {
         <Button
           title="Log"
           onPress={() =>
-            navigation.navigate('Home', {name: 'test'})
+            navigation.navigate('GeoApp')
           }
           />
       </View>
