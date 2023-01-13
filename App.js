@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Map from './pages/Map';
 import Firebase from "./pages/Firebase";
+import { auth } from "./config/firebaseConfig";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -46,17 +47,35 @@ function Tabs() {
 }
 
 export default function App() {
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isSignedIn, setIsSignedIn] =useState(false);
+  const [userCred, setUserCred] = useState({});
+
+  //Listen to the user connection state
+  useEffect(() => {
+    console.log(userCred);
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("Logged in");
+        setIsSignedIn(true);
+      } else {
+        console.log("Not logged in");
+        setIsSignedIn(false);
+      }
+    });
+
+    return unsubscribe;
+  }, [userCred]);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Group>
+        { isSignedIn === false ? 
+        (<Stack.Group>
           <Stack.Screen name="Login" component={Login} />
-        </Stack.Group>
-        <Stack.Group screenOptions={{ headerShown: false }}>
+        </Stack.Group>) : 
+        (<Stack.Group screenOptions={{ headerShown: false }}>
           <Stack.Screen name="GeoApp" component={Tabs} />
-        </Stack.Group>
+        </Stack.Group>) }
       </Stack.Navigator>
     </NavigationContainer>
   );

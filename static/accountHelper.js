@@ -6,7 +6,7 @@ import {
 } from "firebase/auth";
 
 const accountHelper = {
-  signupWithEmail: (email, password, setUserCred) => {
+  signupWithEmail: (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((response) => {
         setUserCred(response);
