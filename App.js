@@ -7,6 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Map from './pages/Map';
+import Firebase from "./pages/Firebase";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
