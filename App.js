@@ -5,13 +5,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Login from './pages/Login';
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import Home from './pages/Home';
 import Map from './pages/Map';
-import Firebase from "./pages/Firebase";
 import { auth } from "./config/firebaseConfig";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
+const LoginNavigator = createNativeStackNavigator();
 
 function Tabs() {
   return (
@@ -46,6 +48,18 @@ function Tabs() {
   )
 }
 
+function LoginPages() {
+  return (
+    <LoginNavigator.Navigator>
+      <LoginNavigator.Group screenOptions={{ headerShown: false }}>
+        <LoginNavigator.Screen name="Login" component={Login} />
+        <LoginNavigator.Screen name="SignIn" component={SignIn} />
+        <LoginNavigator.Screen name="SignUp" component={SignUp} />
+      </LoginNavigator.Group>
+    </LoginNavigator.Navigator>
+  )
+}
+
 export default function App() {
   const [isSignedIn, setIsSignedIn] =useState(false);
   const [userCred, setUserCred] = useState({});
@@ -71,7 +85,7 @@ export default function App() {
       <Stack.Navigator>
         { isSignedIn === false ? 
         (<Stack.Group>
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Login" component={LoginPages} />
         </Stack.Group>) : 
         (<Stack.Group screenOptions={{ headerShown: false }}>
           <Stack.Screen name="GeoApp" component={Tabs} />

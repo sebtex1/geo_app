@@ -40,7 +40,6 @@ const accountHelper = {
   },
 
   checkEmail: (email, setAuthMethods) => {
-    console.log("Checking email", email);
     fetchSignInMethodsForEmail(auth, email)
       .then((result) => {
         setAuthMethods(result);

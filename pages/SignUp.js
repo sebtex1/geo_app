@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { Input, Button, Text } from "@rneui/base";
+import { Input, Button } from "@rneui/base";
 import accountHelper from "../static/accountHelper";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-const Stack = createNativeStackNavigator();
 
 // "olivier@gmail.com", "olivierbigboss123!"
 // "seb@gmail.com", "swaggySeb"
-const Login = ({ navigation }) => {
+const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState("");
-  const [authMethods, setAuthMethods] = useState([]);
+  const [authMethods, setAuthMethods] = useState();
 
   useEffect(() => {
-    console.log("authMethods: "+authMethods);
+    console.log(authMethods);
   }, [authMethods]);
-
-  const test = () => {
-    const a = accountHelper.checkEmail(email, setAuthMethods);
-    console.log(a);
-  }
 
   return (
     <View style={styles.container}>
@@ -30,7 +22,7 @@ const Login = ({ navigation }) => {
       />
       <Button
         title="check mail"
-        onPress={() => test()}
+        onPress={() => accountHelper.checkEmail(email, setAuthMethods)}
       />
     </View>
   );
@@ -45,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default SignUp;
