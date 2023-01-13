@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  fetchSignInMethodsForEmail,
 } from "firebase/auth";
 
 const accountHelper = {
@@ -32,6 +33,17 @@ const accountHelper = {
       .then((response) => {
         console.log(response);
         setUserCred({});
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  checkEmail: (email, setAuthMethods) => {
+    console.log("Checking email", email);
+    fetchSignInMethodsForEmail(auth, email)
+      .then((result) => {
+        setAuthMethods(result);
       })
       .catch((error) => {
         console.log(error);
