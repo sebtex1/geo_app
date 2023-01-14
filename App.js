@@ -10,6 +10,7 @@ import SignUp from "./pages/SignUp";
 import Home from './pages/Home';
 import Map from './pages/map';
 import { auth } from "./config/firebaseConfig";
+import FriendList from './pages/friendList';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
