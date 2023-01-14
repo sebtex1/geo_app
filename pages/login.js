@@ -6,20 +6,17 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-// "olivier@gmail.com", "olivierbigboss123!"
-// "seb@gmail.com", "swaggySeb"
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
-  const [authMethods, setAuthMethods] = useState([]);
+  const [authMethods, setAuthMethods] = useState();
 
   useEffect(() => {
-    console.log("authMethods: "+authMethods);
+    if (authMethods?.length > 0 && authMethods[0] === "password") {
+      navigation.navigate('SignIn', { email: email })
+    } else if (authMethods?.length === 0) {
+      navigation.navigate('SignUp', { email: email })
+    }
   }, [authMethods]);
-
-  const test = () => {
-    const a = accountHelper.checkEmail(email, setAuthMethods);
-    console.log(a);
-  }
 
   return (
     <View style={styles.container}>
@@ -29,8 +26,8 @@ const Login = ({ navigation }) => {
         onChangeText={(text) => setEmail(text)}
       />
       <Button
-        title="check mail"
-        onPress={() => test()}
+        title="Check email"
+        onPress={() => accountHelper.checkEmail(email, setAuthMethods)}
       />
     </View>
   );

@@ -3,15 +3,10 @@ import { StyleSheet, View } from "react-native";
 import { Input, Button } from "@rneui/base";
 import accountHelper from "../static/accountHelper";
 
-// "olivier@gmail.com", "olivierbigboss123!"
-// "seb@gmail.com", "swaggySeb"
-const SignUp = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [authMethods, setAuthMethods] = useState();
-
-  useEffect(() => {
-    console.log(authMethods);
-  }, [authMethods]);
+const SignUp = ({ route, navigation }) => {
+  const [email, setEmail] = useState(route.params.email ?? "");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   return (
     <View style={styles.container}>
@@ -20,9 +15,21 @@ const SignUp = ({ navigation }) => {
         value={email}
         onChangeText={(text) => setEmail(text)}
       />
+      <Input
+        label="Password"
+        value={password}
+        secureTextEntry={true}
+        onChangeText={(text) => setPassword(text)}
+      />
+      <Input
+        label="Confirm Password"
+        value={confirmPassword}
+        secureTextEntry={true}
+        onChangeText={(text) => setConfirmPassword(text)}
+      />
       <Button
-        title="check mail"
-        onPress={() => accountHelper.checkEmail(email, setAuthMethods)}
+        title="Register"
+        onPress={() => password === confirmPassword ? accountHelper.signupWithEmail(email, password) : console.log('Passwords not matching')}
       />
     </View>
   );

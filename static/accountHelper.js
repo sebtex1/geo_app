@@ -10,7 +10,7 @@ const accountHelper = {
   signupWithEmail: (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((response) => {
-        setUserCred(response);
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -45,7 +45,7 @@ const accountHelper = {
         setAuthMethods(result);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error); // Peut indiquer une mauvaise écriture de email
       });
   },
 };

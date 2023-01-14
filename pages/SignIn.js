@@ -5,13 +5,10 @@ import accountHelper from "../static/accountHelper";
 
 // "olivier@gmail.com", "olivierbigboss123!"
 // "seb@gmail.com", "swaggySeb"
-const SignIn = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [authMethods, setAuthMethods] = useState();
-
-  useEffect(() => {
-    console.log(authMethods);
-  }, [authMethods]);
+// "newseb@gmail.com", "123456"
+const SignIn = ({ route, navigation }) => {
+  const [email, setEmail] = useState(route.params.email ?? "");
+  const [password, setPassword] = useState("");
 
   return (
     <View style={styles.container}>
@@ -20,9 +17,15 @@ const SignIn = ({ navigation }) => {
         value={email}
         onChangeText={(text) => setEmail(text)}
       />
+      <Input
+        label="Password"
+        value={password}
+        secureTextEntry={true}
+        onChangeText={(text) => setPassword(text)}
+      />
       <Button
-        title="check mail"
-        onPress={() => accountHelper.checkEmail(email, setAuthMethods)}
+        title="Login"
+        onPress={() => accountHelper.signinWithEmail(email, password)}
       />
     </View>
   );
