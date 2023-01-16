@@ -1,13 +1,16 @@
+import React from "react";
 import { StyleSheet, View } from 'react-native';
-import { Text } from '@rneui/base';
+import { Text, Button } from '@rneui/base';
+import accountHelper from "../static/accountHelper";
 
 const Home = ({navigation}) => {
-    return (
-      <View style={styles.container}>
-        <Text>Welcome!</Text>
-      </View>
-    );
-  };
+  return (
+    <View style={styles.container}>
+      <Text>Welcome!</Text>
+      <Button title="Log out" onPress={() => accountHelper.SignOut()}/>
+    </View>
+  );
+};
 
   const styles = StyleSheet.create({
     container: {
