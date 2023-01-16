@@ -29,7 +29,6 @@ function Tabs() {
         name="Home" 
         component={Home} 
         options={{
-          tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
@@ -39,9 +38,17 @@ function Tabs() {
         name="Map"
         component={Map} 
         options={{
-          tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="map" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen 
+        name="FriendList"
+        component={FriendList} 
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="friendList" color={color} size={26} />
           ),
         }}
       />
@@ -63,11 +70,11 @@ function LoginPages() {
 
 export default function App() {
   const [isSignedIn, setIsSignedIn] =useState(false);
-  const [userCred, setUserCred] = useState({});
+  const [userCred] = useState({});
 
   //Listen to the user connection state
   useEffect(() => {
-    console.log(userCred);
+    console.log("useEffect" + userCred);
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         console.log("Logged in");

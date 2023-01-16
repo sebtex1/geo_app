@@ -27,12 +27,11 @@ const accountHelper = {
       });
   },
 
-  SignOut: (setUserCred) => {
+  SignOut: () => {
     auth
       .signOut()
       .then((response) => {
         console.log(response);
-        setUserCred({});
       })
       .catch((error) => {
         console.log(error);
