@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
       />
       <Button
         title="Check email"
-        onPress={() => accountHelper.checkEmail(email, setAuthMethods)}
+        onPress={() => AccountHelper.checkEmail(email, setAuthMethods)}
       />
     </View>
   );
