@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { View, StyleSheet, FlatList } from 'react-native';
 import { SearchBar } from "react-native-elements";
-import Friend from '../components/friend';
+import Friend from '../components/Friend';
 
 const FriendList = () => {
     const [value, setValue] = useState()
