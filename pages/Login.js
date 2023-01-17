@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Input, Button, Text } from "@rneui/base";
-import accountHelper from "../static/accountHelper";
+import AccountHelper from "../static/AccountHelper";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
