@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-const firebaseConfig = {
+const FirebaseConfig = {
   apiKey: "AIzaSyC3c5UrTaZ5H3pb9bpgPdfzzzOX34EjYeo",
   authDomain: "geo-app-ynov.firebaseapp.com",
   projectId: "geo-app-ynov",
