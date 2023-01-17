@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Input, Button } from "@rneui/base";
-import accountHelper from "../static/accountHelper";
+import AccountHelper from "../static/AccountHelper";
 
 const SignUp = ({ route, navigation }) => {
   const [email, setEmail] = useState(route.params.email ?? "");
@@ -29,7 +29,7 @@ const SignUp = ({ route, navigation }) => {
       />
       <Button
         title="Register"
-        onPress={() => password === confirmPassword ? accountHelper.signupWithEmail(email, password) : console.log('Passwords not matching')}
+        onPress={() => password === confirmPassword ? AccountHelper.signupWithEmail(email, password) : console.log('Passwords not matching')}
       />
     </View>
   );
