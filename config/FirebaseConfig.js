@@ -15,7 +15,7 @@ let auth;
 
 // Initialize Firebase
 try {
-  app = initializeApp(firebaseConfig);
+  app = initializeApp(FirebaseConfig);
   auth = getAuth(app);
 } catch (error) {
   console.log("Error:", error);
