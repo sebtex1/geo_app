@@ -4,13 +4,13 @@ import {NavigationContainer} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Login from './pages/login';
+import Login from './pages/Login';
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from './pages/Home';
-import Map from './pages/map';
-import { auth } from "./config/firebaseConfig";
-import FriendList from './pages/friendList';
+import Map from './pages/Map';
+import { auth } from "./config/FirebaseConfig";
+import FriendList from './pages/FriendList';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
