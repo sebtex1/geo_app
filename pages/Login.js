@@ -10,9 +10,9 @@ const Login = ({ navigation }) => {
 
   useEffect(() => {
     if (authMethods?.length > 0 && authMethods[0] === "password") {
-      navigation.navigate('SignIn', { email: email })
+      navigation.navigate('signIn', { email: email })
     } else if (authMethods?.length === 0) {
-      navigation.navigate('SignUp', { email: email })
+      navigation.navigate('signUp', { email: email })
     }
   }, [authMethods]);
 
