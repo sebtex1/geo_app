@@ -8,6 +8,7 @@ import * as Location from 'expo-location';
   const Map = ({navigation}) => {
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
+    const [ticking, setTicking] = useState(true), [count, setCount] = useState(0);
 
     useEffect(() => {
       (async () => {
@@ -20,6 +21,12 @@ import * as Location from 'expo-location';
       })();
     }, []);
 
+    useEffect(() => {
+      const timer = setTimeout(() => ticking && setCount(count+1), 1e3); // 1 second delay
+      getLocation();
+      return () => clearTimeout(timer);
+     }, [count, ticking]);
+
     const getLocation = async () => {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
@@ -28,8 +35,8 @@ import * as Location from 'expo-location';
     return (
       <View style={styles.container}>
         <MapView style={styles.map}>
-          { location !== null ? 
-            <Marker coordinate={ {latitude: location?.coords?.latitude ?? 0, longitude: location?.coords?.longitude ?? 0} } /> : 
+          { location !== null && location?.coords?.latitude && location?.coords?.longitude ? 
+            <Marker coordinate={{ latitude: location.coords.latitude, longitude: location.coords.longitude }} /> : 
             null }
         </MapView>
       </View>

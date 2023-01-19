@@ -1,14 +1,15 @@
-import {useState, useEffect} from 'react';
+import {useState, useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MaterialCommunityIcons, Entypo } from 'react-native-vector-icons';
 import Login from './pages/Login';
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from './pages/Home';
 import Map from './pages/Map';
+import Chat from './pages/Chat';
 import { auth } from "./config/FirebaseConfig";
 import FriendList from './pages/FriendList';
 
@@ -60,7 +61,16 @@ function Tabs() {
         component={FriendList} 
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="friendList" color={color} size={26} />
+            <MaterialCommunityIcons name="human" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen 
+        name="Chat"
+        component={Chat} 
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Entypo name="chat" color={color} size={26} />
           ),
         }}
       />
@@ -72,9 +82,9 @@ function LoginPages() {
   return (
     <LoginNavigator.Navigator>
       <LoginNavigator.Group screenOptions={{ headerShown: false }}>
-        <LoginNavigator.Screen name="Login" component={Login} />
-        <LoginNavigator.Screen name="SignIn" component={SignIn} />
-        <LoginNavigator.Screen name="SignUp" component={SignUp} />
+        <LoginNavigator.Screen name="checkEmal" component={Login} />
+        <LoginNavigator.Screen name="signIn" component={SignIn} />
+        <LoginNavigator.Screen name="signUp" component={SignUp} />
       </LoginNavigator.Group>
     </LoginNavigator.Navigator>
   )
@@ -85,7 +95,7 @@ export default function App() {
   const [userCred] = useState({});
 
   //Listen to the user connection state
-  useEffect(() => {
+  useLayoutEffect(() => {
     console.log("useEffect" + userCred);
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
