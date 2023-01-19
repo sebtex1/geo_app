@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
-import { collection, addDoc, orderBy, query, onSnapshot } from 'firebase/firestore'
+import { collection, addDoc, where, orderBy, query, onSnapshot } from 'firebase/firestore'
 import { GiftedChat } from 'react-native-gifted-chat';
 import { auth, database } from '../config/FirebaseConfig';
 import PropTypes from 'prop-types';
@@ -9,7 +9,10 @@ const Chat = ({ navigation, route }) => {
 
     useLayoutEffect(() => {
         const collectionRef = collection(database, 'chats');
-        const q = query(collectionRef, orderBy('createdAt', 'desc'));
+        const q = query(collectionRef,
+            where('receiver', '==', route.params.friendId),
+            where('user._id', '==', auth?.currentUser?.uid),
+            orderBy('createdAt', 'desc'));
 
         const unsubscribe = onSnapshot(q, snapshot => {
             console.log('snapshot');
@@ -31,7 +34,6 @@ const Chat = ({ navigation, route }) => {
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
         
         const receiver = route.params.friendId;
-        console.log('receiver' + receiver);
         const { _id, createdAt, text, user } = messages[0];
         addDoc(collection(database, 'chats'), { _id, createdAt, text, user, receiver });
     }, [])
