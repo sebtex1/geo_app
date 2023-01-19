@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { Input, Button, Text } from "@rneui/base";
+import { useTheme } from '@react-navigation/native';
+import { Input, Button } from "@rneui/base";
 import AccountHelper from "../static/AccountHelper";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-const Stack = createNativeStackNavigator();
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -17,6 +15,17 @@ const Login = ({ navigation }) => {
       navigation.navigate('SignUp', { email: email })
     }
   }, [authMethods]);
+
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.primary,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  });
 
   return (
     <View style={styles.container}>
@@ -32,14 +41,5 @@ const Login = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default Login;

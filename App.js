@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import { StyleSheet, View } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,6 +15,18 @@ import FriendList from './pages/FriendList';
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const LoginNavigator = createNativeStackNavigator();
+
+const Theme = {
+  dark: false,
+  colors: {
+    primary: '#F0B221',
+    secondary: '#FFDA66',
+    background: '#EFEDE7',
+    text: '#222121',
+    line: '#AAA9A5',
+    icon: '#666563'
+  },
+}
 
 function Tabs() {
   return (
@@ -89,10 +101,10 @@ export default function App() {
   }, [userCred]);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={Theme}>
       <Stack.Navigator>
         { isSignedIn === false ? 
-        (<Stack.Group>
+        (<Stack.Group screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login" component={LoginPages} />
         </Stack.Group>) : 
         (<Stack.Group screenOptions={{ headerShown: false }}>
