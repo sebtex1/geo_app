@@ -1,7 +1,7 @@
 import { ref, get, set, child, update } from "firebase/database";
-import { auth, realTimeDB } from '../config/firebaseConfig'
+import { auth, realTimeDB } from '../config/FirebaseConfig'
 
-const userHelper = {
+const UserHelper = {
     get: (setFriends) => {
         const db = realTimeDB
         const dbRef = ref(db);
@@ -50,4 +50,4 @@ const userHelper = {
     }
 }
 
-export default userHelper;
+export default UserHelper;

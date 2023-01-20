@@ -4,9 +4,9 @@ import {
     FlatList, 
 } from 'react-native';
 import User from '../components/User';
-import userHelper from '../static/userHelper'
+import UserHelper from '../static/UserHelper'
 import SearchBar from '../components/SearchBar';
-import { auth } from '../config/firebaseConfig'
+import { auth } from '../config/FirebaseConfig'
 
 const UserList = ({ route }) => {
     const [searchText, setSearchText] = useState('')
@@ -16,7 +16,7 @@ const UserList = ({ route }) => {
 
     useEffect(() => {
         if (users == null){
-            userHelper.get(setUsers) 
+            UserHelper.get(setUsers) 
         } 
         else {
             const notFriendsUser = Object.values(users)
