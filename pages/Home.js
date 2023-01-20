@@ -9,14 +9,14 @@ import { useEffect } from "react";
 
 const Home = ({ navigation }) => {
     const [user, setUser] = useState({});
-    const [friends, setFriends] = useState({});
+    const [friends, setFriends] = useState([]);
 
     useEffect(() => {
-        console.log(user);
+        console.log("Logged user: " + user);
     }, [user]);
 
     useEffect(() => {
-        console.log(friends);
+        console.log("Friends: " + friends);
     }, [friends]);
 
     return (

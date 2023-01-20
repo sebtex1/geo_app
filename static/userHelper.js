@@ -59,12 +59,12 @@ const UserHelper = {
     //Creates an user in firestore for the currently authenticated user in auth
     createUser: () => {
         const createdAt = new Date();
-        const _id = auth.currentUser.uid;
+        const uid = auth.currentUser.uid;
         const email = auth.currentUser.email;
         const friends = [];
 
         addDoc(collection(database, "users"), {
-            _id,
+            uid,
             createdAt,
             email,
             friends,
@@ -83,11 +83,12 @@ const UserHelper = {
 
         const q = query(
             collection(database, "users"),
-            where("_id", "==", userId)
+            where("uid", "==", userId)
         );
         const unsubscribe = onSnapshot(q, (snapshot) => {
             setUser({
-                _id: snapshot.docs[0].data()._id,
+                _id: snapshot.docs[0].id,
+                uid: snapshot.docs[0].data().uid,
                 createdAt: snapshot.docs[0].data().createdAt.toDate(),
                 email: snapshot.docs[0].data().email,
                 friends: snapshot.docs[0].data().friends,
@@ -100,19 +101,22 @@ const UserHelper = {
         console.info("Fetching friend of user: " + userId);
         const q = query(
             collection(database, "users"),
-            where("_id", "==", userId)
+            where("uid", "==", userId)
         );
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const friends = snapshot.docs[0].data().friends;
 
+            if (friends.length <= 0) return () => unsubscribe();
+
             const qF = query(
                 collection(database, "users"),
-                where("_id", "in", friends)
+                where("uid", "in", friends)
             );
             const unsubscribeFriends = onSnapshot(qF, (snapshotF) => {
                 setFriends(
                     snapshotF.docs.map((doc) => ({
                         _id: doc.id,
+                        uid: doc.data()._id,
                         createdAt: doc.data().createdAt.toDate(),
                         email: doc.data().email,
                         friends: doc.data().friends,
@@ -122,6 +126,8 @@ const UserHelper = {
         });
         return () => unsubscribe();
     },
+
+    addFriend: (userId, friendId) => {},
 };
 
 export default UserHelper;
