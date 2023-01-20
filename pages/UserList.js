@@ -9,7 +9,7 @@ import SearchBar from '../components/SearchBar';
 import { auth } from '../config/firebaseConfig'
 
 const UserList = ({ route }) => {
-    const [value, setValue] = useState('')
+    const [searchText, setSearchText] = useState('')
     const [users, setUsers] = useState(null)
     const [addFriends, setAddFriends] = useState(null)
     const [addFriendsList, setAddFriendsList] = useState(null)
@@ -29,17 +29,17 @@ const UserList = ({ route }) => {
 
     useEffect(() => {
         if(addFriends != null){
-            setAddFriendsList(Object.values(addFriends).filter(item => item.pseudo.includes(value)))
+            setAddFriendsList(Object.values(addFriends).filter(item => item.pseudo.includes(searchText)))
         }
         else{
             setAddFriendsList(addFriends)
         }
-    }, [value]);
+    }, [searchText]);
     
     return (
         <SearchBar 
-            searchText={value} 
-            setSearchText={setValue} 
+            searchText={searchText} 
+            setSearchText={setSearchText} 
             addFriendIcon={false}>
             <FlatList
                 style={styles.flatList}
