@@ -35,9 +35,8 @@ const ConversationHelper = {
             console.info(
                 "Fetching conversations for user: " + auth?.currentUser?.uid
             );
-            const collectionRef = collection(database, "conversations");
             const q = query(
-                collectionRef,
+                collection(database, "conversations"),
                 where("users", "array-contains", userId),
                 orderBy("createdAt", "desc")
             );

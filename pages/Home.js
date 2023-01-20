@@ -3,8 +3,22 @@ import { StyleSheet, View } from "react-native";
 import { Text, Button } from "@rneui/base";
 import AccountHelper from "../static/AccountHelper";
 import ConversationHelper from "../static/ConversationHelper";
+import UserHelper from "../static/UserHelper";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Home = ({ navigation }) => {
+    const [user, setUser] = useState({});
+    const [friends, setFriends] = useState({});
+
+    useEffect(() => {
+        console.log(user);
+    }, [user]);
+
+    useEffect(() => {
+        console.log(friends);
+    }, [friends]);
+
     return (
         <View style={styles.container}>
             <Text>Welcome!</Text>
@@ -26,6 +40,27 @@ const Home = ({ navigation }) => {
                         "wQyFXbkfuIYwm3OXrX5c8QYjowD2",
                     ])
                 }
+            />
+            <Button
+                title="Create user"
+                onPress={() => {
+                    UserHelper.createUser(setUser);
+                }}
+            />
+            <Button
+                title="get user"
+                onPress={() => {
+                    UserHelper.getUser("HaQ0YTzRhLSkXtoetyX6s12pS7w1", setUser);
+                }}
+            />
+            <Button
+                title="get friends"
+                onPress={() => {
+                    UserHelper.getFriends(
+                        "HaQ0YTzRhLSkXtoetyX6s12pS7w1",
+                        setFriends
+                    );
+                }}
             />
         </View>
     );
