@@ -1,6 +1,8 @@
 import { View, Pressable, Text, StyleSheet, Alert, Image } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Friend = ({lastName, firstName}) => {
+const User = (props) => {
+    // console.log(props)
     return (
         <View style={styles.container} >
             <Pressable onPress={() => Alert.alert('ICON')}>
@@ -11,9 +13,16 @@ const Friend = ({lastName, firstName}) => {
                     }}
                 />
             </Pressable>
-            <Pressable style={styles.button} onPress={() => Alert.alert(lastName + ' ' + firstName)}>
-                <Text style={styles.text}>{lastName} {firstName}</Text>
+            <Pressable style={styles.button} onPress={() => Alert.alert(props.pseudo)}>
+                <Text style={styles.text}>{props.pseudo}</Text>
             </Pressable>
+            
+            <MaterialCommunityIcons 
+                style={styles.icon}
+                name={ props.addFriendIcon ? "account-plus" : "map-marker" }
+                size={26}
+                onPress={() => Alert.alert(props.uid)}/>
+            
         </View>
     );
 };
@@ -23,6 +32,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         backgroundColor: '#dee0e5',
         borderRadius: 10,
         borderWidth: 3,
@@ -32,13 +42,11 @@ const styles = StyleSheet.create({
         marginVertical: 4
     },
     button: {
+        maxWidth: 270,
+        maxHeight: 50,
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
-        maxWidth: 270,
-        maxHeight: 50,
-        paddingVertical: 10,
-        paddingRight: 15
     },
     text: {
         fontSize: 18,
@@ -47,8 +55,11 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         marginHorizontal: 15,
-        borderRadius: 50
+        borderRadius: 50,
+    },
+    icon:{
+        marginHorizontal: 15
     }
 })
 
-export default Friend;
+export default User;

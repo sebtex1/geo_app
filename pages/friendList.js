@@ -1,116 +1,76 @@
-import { useState } from 'react'
-import { View, StyleSheet, FlatList } from 'react-native';
-import { SearchBar } from "react-native-elements";
-import Friend from '../components/friend';
+import { useState, useEffect } from 'react'
+import { 
+    StyleSheet, 
+    FlatList, 
+} from 'react-native';
+import User from '../components/User';
+import userHelper from '../static/userHelper'
+import SearchBar from '../components/SearchBar';
+import { getAuth } from "firebase/auth";
 
-const FriendList = () => {
-    const [value, setValue] = useState()
-    
+const FriendList = ({navigation}) => {
+    const auth = getAuth();
+    const [searchText, setSearchText] = useState('')
+    const [users, setUsers] = useState(null)
+    const [friends, setFriends] = useState(null)
+    const [friendsList, setFriendsList] = useState(null)
+
+    useEffect(() => {
+        if (users == null){
+            userHelper.get(setUsers) 
+        } 
+        else{
+            //Get my object
+            const me = Object.values(users).filter((item, index) => Object.keys(users)[index] == auth.currentUser.uid)
+            //Get my friends uid
+            const myFriendsId = me.map(y => y.friends)[0]
+            //Get my friends objects in the user list
+            const myFriendsList = Object.values(users)
+                .map((item, t) => {return {...item, key: Object.keys(users)[t]}})
+                .filter((item, index) => myFriendsId.find(i => i == Object.keys(users)[index]))
+            
+            setFriends(myFriendsList)
+            setFriendsList(myFriendsList)
+        }
+
+    }, [users]);
+
+    useEffect(() => {
+        //Filter results with the search bar
+        if(friends != null){
+            setFriendsList(Object.values(friends).filter(item => item.pseudo.includes(searchText)))
+        }
+        else{
+            setFriendsList(friends)
+        }
+    }, [searchText]);
     return (
-        <View>
-            <SearchBar
-                placeholder="Search Here..."
-                lightTheme
-                round
-                value={value}
-                onChangeText={(text) => {
-                    setValue(text)
-                    console.log(text)
-                }}
-                />
-                <FlatList
-                    style={styles.container}
-                    data={friends}
-                    renderItem={({item}) => <Friend lastName={item.lastName} firstName={item.firstName} />}
-                    keyExtractor={item => item.id}
-                    />
-        </View>
+        <SearchBar 
+            searchText={searchText} 
+            setSearchText={setSearchText} 
+            addFriendIcon={true}
+            navigation={navigation} 
+            friendsList={friends != null ? Object.values(users).filter((item, index) => Object.keys(users)[index] == auth.currentUser.uid).map(y => y.friends)[0] : null}>
+            <FlatList
+                style={styles.flatList}
+                data={friendsList}
+                keyExtractor={(item) => item.key}
+                renderItem={({item}) => {
+                    return (<User uid={item.key} pseudo={item?.pseudo} addFriendIcon={false} />)
+                }}/>
+        </SearchBar>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    flatList: {
         marginTop: 5,
-        marginBottom: 65
+        marginBottom: 65,
+        flex: 1,
+        flexBasis: 'auto',
+        flexShrink: 0,
+        flexGrow: 10,
     }
 })
-
-const friends = [
-    {
-        id: '1',
-        lastName: 'Coujandassamy',
-        firstName: 'Olivier',
-    },
-    {
-        id: '2',
-        lastName: 'Texier',
-        firstName: 'Sébastien',
-    },
-    {
-        id: '3',
-        lastName: 'Strohl',
-        firstName: 'Lucas',
-    },
-    {
-        id: '4',
-        lastName: 'Coujandassamy',
-        firstName: 'Olivier',
-    },
-    {
-        id: '5',
-        lastName: 'Texier',
-        firstName: 'Sébastien',
-    },
-    {
-        id: '6',
-        lastName: 'Strohl',
-        firstName: 'Lucas',
-    },
-    {
-        id: '7',
-        lastName: 'Coujandassamy',
-        firstName: 'Olivier',
-    },
-    {
-        id: '8',
-        lastName: 'Texier',
-        firstName: 'Sébastien',
-    },
-    {
-        id: '9',
-        lastName: 'Strohl',
-        firstName: 'Lucas',
-    },
-    {
-        id: '10',
-        lastName: 'Coujandassamy',
-        firstName: 'Olivier',
-    },
-    {
-        id: '11',
-        lastName: 'Texier',
-        firstName: 'Sébastien',
-    },
-    {
-        id: '12',
-        lastName: 'Strohl',
-        firstName: 'Lucas',
-    },
-    {
-        id: '13',
-        lastName: 'Coujandassamy',
-        firstName: 'Olivier',
-    },
-    {
-        id: '14',
-        lastName: 'Texier',
-        firstName: 'Sébastien',
-    },
-    {
-        id: '15',
-        lastName: 'Strohl',
-        firstName: 'Lucas',
-    },
-];
 
 export default FriendList;

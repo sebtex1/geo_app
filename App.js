@@ -9,8 +9,9 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from './pages/Home';
 import Map from './pages/map';
+import FriendList from './pages/FriendList';
+import UserList from './pages/UserList';
 import { auth } from "./config/firebaseConfig";
-import FriendList from './pages/friendList';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -48,7 +49,7 @@ function Tabs() {
         component={FriendList} 
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="friendList" color={color} size={26} />
+            <MaterialCommunityIcons name="account-group" color={color} size={26} />
           ),
         }}
       />
@@ -97,6 +98,7 @@ export default function App() {
         </Stack.Group>) : 
         (<Stack.Group screenOptions={{ headerShown: false }}>
           <Stack.Screen name="GeoApp" component={Tabs} />
+          <Stack.Screen name="UserList" component={UserList} />
         </Stack.Group>) }
       </Stack.Navigator>
     </NavigationContainer>
