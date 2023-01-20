@@ -1,0 +1,18 @@
+{
+    "env": {
+        "es6": true,
+        "node": true,
+        "browser": true
+    },
+    "extends": [
+        "plugin:react/jsx-runtime",
+        "@react-native-community",
+        "prettier"
+    ],
+    "plugins": ["prettier"],
+    "rules": {
+        "prettier/prettier": "error",
+        "react/react-in-jsx-scope": "off",
+        "react-native/no-inline-styles": 0
+    }
+}
