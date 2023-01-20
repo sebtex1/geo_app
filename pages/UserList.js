@@ -6,10 +6,9 @@ import {
 import User from '../components/User';
 import userHelper from '../static/userHelper'
 import SearchBar from '../components/SearchBar';
-import { getAuth } from "firebase/auth";
+import { auth } from '../config/firebaseConfig'
 
 const UserList = ({ route }) => {
-    const auth = getAuth();
     const [value, setValue] = useState('')
     const [users, setUsers] = useState(null)
     const [addFriends, setAddFriends] = useState(null)

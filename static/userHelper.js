@@ -1,9 +1,9 @@
-import { getDatabase, ref, get, set, child, update } from "firebase/database";
-import { getAuth } from "firebase/auth";
+import { ref, get, set, child, update } from "firebase/database";
+import { auth, realTimeDB } from '../config/firebaseConfig'
 
 const userHelper = {
     get: (setFriends) => {
-        const db = getDatabase()
+        const db = realTimeDB
         const dbRef = ref(db);
         get(child(dbRef, `users/`))
             .then((snapshot) => {
@@ -18,8 +18,7 @@ const userHelper = {
             });
     },
     getById: (uid, setFriends) => {
-        const db = getDatabase()
-        const dbRef = ref(db);
+        const dbRef = ref(realTimeDB);
         get(child(dbRef, `users/${uid}`))
                 .then((snapshot) => {
                 if (snapshot.exists()) {
@@ -33,26 +32,21 @@ const userHelper = {
             });
     },
     setUserMe: (pseudo) => {
-        const auth = getAuth();
-        const db = getDatabase()
-
         const me = {
             uid: auth.currentUser.uid,
             email: auth.currentUser.email
         }
 
-        set(ref(db, `users/${me.uid}`), {
+        set(ref(realTimeDB, `users/${me.uid}`), {
             email: me.email,
             pseudo: pseudo
         }
         );
     },
-    setMyFriends: (uid, friendsList) => {
-        const db = getDatabase()
-        
+    setMyFriends: (uid, friendsList) => {        
         const updates = {}
         updates[`users/${uid}/friends`] = friendsList
-        update(ref(db), updates);
+        update(ref(realTimeDB), updates);
     }
 }
 

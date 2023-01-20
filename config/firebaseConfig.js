@@ -14,15 +14,15 @@ const firebaseConfig = {
 
 let app;
 let auth;
-let database;
+let realTimeDB;
 
 // Initialize Firebase
 try {
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
-  database = getDatabase(app);
+  realTimeDB = getDatabase(app);
 } catch (error) {
   console.log("Error:", error);
 }
 
-export { auth };
+export { auth, realTimeDB };
