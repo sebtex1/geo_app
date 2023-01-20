@@ -61,7 +61,7 @@ function Tabs() {
                 }}
             />
             <Tab.Screen
-                name="Chat"
+                name="Conversations"
                 component={Conversations}
                 options={{
                     tabBarIcon: ({ color }) => <Entypo name="chat" color={color} size={26} />,
@@ -113,6 +113,7 @@ export default function App() {
                 ) : (
                     <Stack.Group screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="GeoApp" component={Tabs} />
+                        <Stack.Screen name="Chat" component={Chat} />
                     </Stack.Group>
                 )}
             </Stack.Navigator>
