@@ -8,6 +8,7 @@ const Home = ({navigation}) => {
     <View style={styles.container}>
       <Text>Welcome!</Text>
       <Button title="Log out" onPress={() => AccountHelper.SignOut()}/>
+      <Button title="Chat" onPress={() => navigation.navigate('Chat', { friendId: 'wQyFXbkfuIYwm3OXrX5c8QYjowD2' })}/>
     </View>
   );
 };
