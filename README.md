@@ -4,25 +4,24 @@ A brief description of what this project does and who it's for
 
 ## Table of contents
 
-- [Extensions](#extensions)
-- [ESLint](#eslint)
+- [Requirements](#requirements)
 - [Setup](#setup)
 
-## Extensions
+## Requirements
 
-Extensions required:
+#### Extensions required:
 
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
 - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
 
-## ESLint
+#### ESLint configuration
 
 We are extending our eslint with:
 
 - [react-native-community](https://www.npmjs.com/package/@react-native-community/cli)
   > To use the recommended rules for expo projects
 - [plugin:react/jsx-runtime](https://www.npmjs.com/package/jsx-runtime)
-  > Because we are not using jsx
+  > Disable jsx
 
 ```
 "rules": {
@@ -31,7 +30,7 @@ We are extending our eslint with:
 }
 ```
 
-### VSCode settings
+#### VSCode settings:
 
 ```
 "editor.formatOnSave": true,
