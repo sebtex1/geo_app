@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Input, Button } from "@rneui/base";
-import accountHelper from "../static/accountHelper";
+import AccountHelper from "../static/AccountHelper";
 
 // "olivier@gmail.com", "olivierbigboss123!"
 // "seb@gmail.com", "swaggySeb"
@@ -25,7 +25,7 @@ const SignIn = ({ route, navigation }) => {
       />
       <Button
         title="Login"
-        onPress={() => accountHelper.signinWithEmail(email, password)}
+        onPress={() => AccountHelper.signinWithEmail(email, password)}
       />
     </View>
   );

@@ -1,13 +1,14 @@
 import React from "react";
 import { StyleSheet, View } from 'react-native';
 import { Text, Button } from '@rneui/base';
-import accountHelper from "../static/accountHelper";
+import AccountHelper from "../static/AccountHelper";
 
 const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text>Welcome!</Text>
-      <Button title="Log out" onPress={() => accountHelper.SignOut()}/>
+      <Button title="Log out" onPress={() => AccountHelper.SignOut()}/>
+      <Button title="Chat" onPress={() => navigation.navigate('Chat', { friendId: 'wQyFXbkfuIYwm3OXrX5c8QYjowD2' })}/>
     </View>
   );
 };

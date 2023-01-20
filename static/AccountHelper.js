@@ -1,4 +1,4 @@
-import { auth } from "../config/firebaseConfig";
+import { auth } from "../config/FirebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -6,7 +6,7 @@ import {
   fetchSignInMethodsForEmail,
 } from "firebase/auth";
 
-const accountHelper = {
+const AccountHelper = {
   signupWithEmail: (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((response) => {
@@ -49,4 +49,4 @@ const accountHelper = {
   },
 };
 
-export default accountHelper;
+export default AccountHelper;

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { Input, Button, Text } from "@rneui/base";
-import accountHelper from "../static/accountHelper";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-const Stack = createNativeStackNavigator();
+import { useTheme } from '@react-navigation/native';
+import { Input, Button } from "@rneui/base";
+import AccountHelper from "../static/AccountHelper";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -12,11 +10,22 @@ const Login = ({ navigation }) => {
 
   useEffect(() => {
     if (authMethods?.length > 0 && authMethods[0] === "password") {
-      navigation.navigate('SignIn', { email: email })
+      navigation.navigate('signIn', { email: email })
     } else if (authMethods?.length === 0) {
-      navigation.navigate('SignUp', { email: email })
+      navigation.navigate('signUp', { email: email })
     }
   }, [authMethods]);
+
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.primary,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  });
 
   return (
     <View style={styles.container}>
@@ -27,19 +36,10 @@ const Login = ({ navigation }) => {
       />
       <Button
         title="Check email"
-        onPress={() => accountHelper.checkEmail(email, setAuthMethods)}
+        onPress={() => AccountHelper.checkEmail(email, setAuthMethods)}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default Login;

@@ -1,8 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "@firebase/firestore";
 import { getDatabase } from "firebase/database";
 
-const firebaseConfig = {
+const FirebaseConfig = {
   apiKey: "AIzaSyC3c5UrTaZ5H3pb9bpgPdfzzzOX34EjYeo",
   authDomain: "geo-app-ynov.firebaseapp.com",
   projectId: "geo-app-ynov",
@@ -14,15 +15,19 @@ const firebaseConfig = {
 
 let app;
 let auth;
+let database;
 let realTimeDB;
 
 // Initialize Firebase
 try {
-  app = initializeApp(firebaseConfig);
+  app = initializeApp(FirebaseConfig);
   auth = getAuth(app);
+  database = getFirestore();
   realTimeDB = getDatabase(app);
 } catch (error) {
   console.log("Error:", error);
 }
 
-export { auth, realTimeDB };
+export { auth };
+export { database };
+export { realTimeDB };
