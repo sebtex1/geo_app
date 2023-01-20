@@ -13,6 +13,10 @@ import Chat from "./pages/Chat";
 import { auth } from "./config/FirebaseConfig";
 import FriendList from "./pages/FriendList";
 import Conversations from "./pages/Conversations";
+import Home from './pages/Home';
+import Map from './pages/map';
+import UserList from './pages/UserList';
+import { auth } from "./config/firebaseConfig";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -114,6 +118,7 @@ export default function App() {
                     <Stack.Group screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="GeoApp" component={Tabs} />
                         <Stack.Screen name="Chat" component={Chat} />
+                        <Stack.Screen name="UserList" component={UserList} />
                     </Stack.Group>
                 )}
             </Stack.Navigator>
