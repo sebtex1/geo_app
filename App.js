@@ -118,6 +118,7 @@ export default function App() {
                     <Stack.Group screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="GeoApp" component={Tabs} />
                         <Stack.Screen name="Chat" component={Chat} />
+                        <Stack.Screen name="UserList" component={UserList} />
                     </Stack.Group>
                 )}
             </Stack.Navigator>
