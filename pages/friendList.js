@@ -6,7 +6,7 @@ import {
 import User from '../components/User';
 import userHelper from '../static/userHelper'
 import SearchBar from '../components/SearchBar';
-import { auth } from '../config/firebaseConfig'
+import { auth } from '../config/FirebaseConfig'
 
 const FriendList = ({navigation}) => {
     const [searchText, setSearchText] = useState('')

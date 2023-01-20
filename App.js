@@ -13,10 +13,7 @@ import Chat from "./pages/Chat";
 import { auth } from "./config/FirebaseConfig";
 import FriendList from "./pages/FriendList";
 import Conversations from "./pages/Conversations";
-import Home from './pages/Home';
-import Map from './pages/map';
 import UserList from './pages/UserList';
-import { auth } from "./config/firebaseConfig";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();

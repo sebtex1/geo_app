@@ -1,5 +1,5 @@
 import { ref, get, set, child, update } from "firebase/database";
-import { auth, realTimeDB } from '../config/firebaseConfig'
+import { auth, realTimeDB } from '../config/FirebaseConfig'
 
 const userHelper = {
     get: (setFriends) => {
