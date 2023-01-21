@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, LogBox } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -18,6 +18,8 @@ import UserList from "./pages/UserList";
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const LoginNavigator = createNativeStackNavigator();
+
+LogBox.ignoreAllLogs();
 
 const Theme = {
     dark: false,
