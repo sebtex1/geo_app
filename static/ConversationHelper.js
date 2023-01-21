@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 
 const ConversationHelper = {
-    createConversation: (convName, users, setConversationId) => {
+    createConversation: (convName, users) => {
         console.info("Creating conversation");
 
         const createdAt = new Date();
@@ -22,7 +22,6 @@ const ConversationHelper = {
         })
             .then((result) => {
                 console.info("Conversation created: " + result.id);
-                setConversationId(result.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -52,6 +51,28 @@ const ConversationHelper = {
             });
             return () => unsubscribe();
         }, [setConversations, userId]);
+    },
+
+    getConversationByFriend: (friendUid, setConversation) => {
+        console.info(
+            "Fetching conversations for user: " + auth?.currentUser?.uid
+        );
+
+        const convUsers = [auth?.currentUser?.uid, friendUid].sort();
+
+        const q = query(
+            collection(database, "conversations"),
+            where("users", "==", convUsers)
+        );
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setConversation({
+                _id: snapshot.docs[0].id,
+                createdAt: snapshot.docs[0].data().createdAt.toDate(),
+                convName: snapshot.docs[0].data().convName,
+                users: snapshot.docs[0].data().users,
+            });
+        });
+        return () => unsubscribe();
     },
 };
 

@@ -8,7 +8,7 @@ import { auth } from "../config/FirebaseConfig";
 import ConversationHelper from "../static/ConversationHelper";
 
 const Conversations = () => {
-    const [conversations, setConversations] = useState();
+    const [conversations, setConversations] = useState([]);
 
     useEffect(() => {
         console.log("Number of conversations found: " + conversations.length);

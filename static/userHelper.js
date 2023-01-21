@@ -8,6 +8,7 @@ import {
     where,
 } from "firebase/firestore";
 import { auth, database } from "../config/FirebaseConfig";
+import ConversationHelper from "./ConversationHelper";
 
 const UserHelper = {
     //Creates an user in firestore for the currently authenticated user in auth
@@ -57,12 +58,10 @@ const UserHelper = {
     //Get all users not in user's friendlist
     getAllUsers: (friends, setUsers) => {
         console.info("Fetching all users");
-        console.log(friends);
 
         const friendsId = friends
             .map((friend) => friend.uid)
             .concat(auth.currentUser.uid);
-        console.log(friendsId);
 
         const q = query(
             collection(database, "users"),
@@ -152,6 +151,8 @@ const UserHelper = {
             }
             unsubscribe();
         });
+
+        ConversationHelper.createConversation("", [userId, friendId]);
 
         return () => unsubscribe();
     },

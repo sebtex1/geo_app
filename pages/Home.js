@@ -11,14 +11,6 @@ const Home = ({ navigation }) => {
     const [user, setUser] = useState({});
     const [friends, setFriends] = useState([]);
 
-    useEffect(() => {
-        console.log("Logged user: " + JSON.stringify(user));
-    }, [user]);
-
-    useEffect(() => {
-        console.log("Friends: " + JSON.stringify(friends));
-    }, [friends]);
-
     return (
         <View style={styles.container}>
             <Text>Welcome!</Text>
@@ -28,7 +20,7 @@ const Home = ({ navigation }) => {
                 title="Chat"
                 onPress={() =>
                     navigation.navigate("Chat", {
-                        conversationId: "wQyFXbkfuIYwm3OXrX5c8QYjowD2",
+                        conversationId: "mwo6qrAQkVWBNFGHfzFH",
                     })
                 }
             />

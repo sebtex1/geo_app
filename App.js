@@ -111,7 +111,7 @@ export default function App() {
     useLayoutEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user) {
-                console.log("Logged in");
+                console.info("Logged in");
                 setIsSignedIn(true);
             } else {
                 console.log("Not logged in");
