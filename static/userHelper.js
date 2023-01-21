@@ -16,12 +16,14 @@ const UserHelper = {
         const uid = auth.currentUser.uid;
         const email = auth.currentUser.email;
         const friends = [];
+        const avatar = "https://i.pravatar.cc/300";
 
         addDoc(collection(database, "users"), {
             uid,
             createdAt,
             email,
             friends,
+            avatar,
         })
             .then((result) => {
                 console.info("User created: " + result.id);

@@ -13,7 +13,7 @@ import Chat from "./pages/Chat";
 import { auth } from "./config/FirebaseConfig";
 import FriendList from "./pages/FriendList";
 import Conversations from "./pages/Conversations";
-import UserList from './pages/UserList';
+import UserList from "./pages/UserList";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -44,28 +44,48 @@ function Tabs() {
                 name="Home"
                 component={Home}
                 options={{
-                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home" color={color} size={26} />,
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons
+                            name="home"
+                            color={color}
+                            size={26}
+                        />
+                    ),
                 }}
             />
             <Tab.Screen
                 name="Map"
                 component={Map}
                 options={{
-                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="map" color={color} size={26} />,
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons
+                            name="map"
+                            color={color}
+                            size={26}
+                        />
+                    ),
                 }}
             />
             <Tab.Screen
                 name="FriendList"
                 component={FriendList}
                 options={{
-                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="human" color={color} size={26} />,
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons
+                            name="human"
+                            color={color}
+                            size={26}
+                        />
+                    ),
                 }}
             />
             <Tab.Screen
                 name="Conversations"
                 component={Conversations}
                 options={{
-                    tabBarIcon: ({ color }) => <Entypo name="chat" color={color} size={26} />,
+                    tabBarIcon: ({ color }) => (
+                        <Entypo name="chat" color={color} size={26} />
+                    ),
                 }}
             />
         </Tab.Navigator>
@@ -86,11 +106,9 @@ function LoginPages() {
 
 export default function App() {
     const [isSignedIn, setIsSignedIn] = useState(false);
-    const [userCred] = useState({});
 
     //Listen to the user connection state
     useLayoutEffect(() => {
-        console.log("useEffect" + userCred);
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user) {
                 console.log("Logged in");
@@ -102,7 +120,7 @@ export default function App() {
         });
 
         return unsubscribe;
-    }, [userCred]);
+    }, []);
 
     return (
         <NavigationContainer theme={Theme}>
