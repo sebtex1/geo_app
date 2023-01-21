@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { View, Pressable, Text, StyleSheet, Alert, Image } from "react-native";
+import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import ConversationHelper from "../static/ConversationHelper";
+import UserHelper from "../static/UserHelper";
 
 const User = (props) => {
     const [conversation, setConversation] = useState(null);
@@ -39,7 +40,11 @@ const User = (props) => {
                     style={styles.icon}
                     name={props.addFriendIcon ? "account-plus" : "map-marker"}
                     size={26}
-                    onPress={() => Alert.alert(props.uid)}
+                    onPress={() => {
+                        if (props.addFriendIcon) {
+                            UserHelper.addFriend(props.uid);
+                        }
+                    }}
                 />
             </Pressable>
         </View>

@@ -57,10 +57,7 @@ const Home = ({ navigation }) => {
             <Button
                 title="add friends"
                 onPress={() => {
-                    UserHelper.addFriend(
-                        "HaQ0YTzRhLSkXtoetyX6s12pS7w1",
-                        "QlczoPfh3FZMjnptRGZvhTLvLfD3"
-                    );
+                    UserHelper.addFriend("QlczoPfh3FZMjnptRGZvhTLvLfD3");
                 }}
             />
             <Button

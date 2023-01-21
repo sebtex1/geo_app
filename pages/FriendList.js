@@ -7,24 +7,12 @@ import UserHelper from "../static/UserHelper";
 
 const FriendList = ({ navigation }) => {
     const [friends, setFriends] = useState(null);
-    const [users, setUsers] = useState(null);
 
     const [searchText, setSearchText] = useState("");
 
     useLayoutEffect(() => {
         UserHelper.getFriends(auth.currentUser.uid, setFriends);
     }, []);
-
-    useEffect(() => {
-        if (friends == null) return;
-        console.log("friends", friends);
-        UserHelper.getAllUsers(friends, setUsers);
-    }, [friends]);
-
-    useEffect(() => {
-        if (users == null) return;
-        console.log("users", users);
-    }, [users]);
 
     return (
         <SearchBar

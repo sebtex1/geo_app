@@ -71,6 +71,7 @@ const UserHelper = {
             setUsers(
                 snapshot.docs.map((doc) => ({
                     _id: doc.id,
+                    uid: doc.data().uid,
                     createdAt: doc.data().createdAt.toDate(),
                     email: doc.data().email,
                     friends: doc.data().friends,
@@ -83,6 +84,8 @@ const UserHelper = {
     //Get friends of an user
     getFriends: (userId, setFriends) => {
         console.info("Fetching friend of user: " + userId);
+
+        //Retrieve user's friend's uid
         const q = query(
             collection(database, "users"),
             where("uid", "==", userId)
@@ -92,6 +95,7 @@ const UserHelper = {
 
             if (friends.length <= 0) return () => unsubscribe();
 
+            //Use the uids to retrieve the friends
             const qF = query(
                 collection(database, "users"),
                 where("uid", "in", friends)
@@ -106,15 +110,16 @@ const UserHelper = {
                         friends: doc.data().friends,
                     }))
                 );
-                unsubscribeFriends();
             });
         });
         return () => unsubscribe();
     },
 
     //Add friend mutually
-    addFriend: (userId, friendId) => {
+    addFriend: (friendId) => {
+        const userId = auth.currentUser.uid;
         console.info("Adding friend for user: " + userId);
+
         const qUser = query(
             collection(database, "users"),
             where("uid", "==", userId)
@@ -125,6 +130,7 @@ const UserHelper = {
             where("uid", "==", friendId)
         );
 
+        console.log("ici");
         //Add authenticated user in friend's friendlist
         const unsubscribeF = onSnapshot(qFriend, (snapshot) => {
             const docRef = doc(database, "users", snapshot.docs[0].id);
@@ -134,11 +140,13 @@ const UserHelper = {
                     .data()
                     .friends.concat(userId);
                 updateDoc(docRef, { friends: friendList });
+                console.log("success");
             }
 
             unsubscribeF();
         });
 
+        console.log("la");
         //Adding friend in authenticated user's friendlist
         const unsubscribe = onSnapshot(qUser, (snapshot) => {
             const docRef = doc(database, "users", snapshot.docs[0].id);
@@ -152,7 +160,8 @@ const UserHelper = {
             unsubscribe();
         });
 
-        ConversationHelper.createConversation("", [userId, friendId]);
+        console.log("par ici");
+        ConversationHelper.createConversation("", [userId, friendId].sort());
 
         return () => unsubscribe();
     },

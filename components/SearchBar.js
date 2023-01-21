@@ -1,11 +1,6 @@
-import { 
-    SafeAreaView, 
-    StyleSheet, 
-    View,
-    Alert, 
-} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import { SearchBar } from "react-native-elements";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Friends = (props) => {
     return (
@@ -17,15 +12,22 @@ const Friends = (props) => {
                     lightTheme
                     round
                     value={props.searchText}
-                    onChangeText={(text) => {props.setSearchText(text)}}
+                    onChangeText={(text) => {
+                        props.setSearchText(text);
+                    }}
+                />
+                {props.addFriendIcon ? (
+                    <MaterialCommunityIcons
+                        style={styles.icon}
+                        name="account-plus"
+                        size={35}
+                        onPress={() => {
+                            props.navigation.navigate("UserList", {
+                                friendsList: props.friendsList,
+                            });
+                        }}
                     />
-                { props.addFriendIcon ? <MaterialCommunityIcons 
-                    style={styles.icon}
-                    name="account-plus" 
-                    size={35} 
-                    onPress={() => { props.navigation.navigate('UserList', { friendsList: props.friendsList}) }}/>
-                : null
-                }
+                ) : null}
             </View>
             {props.children}
         </SafeAreaView>
@@ -33,30 +35,30 @@ const Friends = (props) => {
 };
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-start'
+        flexDirection: "column",
+        justifyContent: "flex-start",
     },
-    header:{
+    header: {
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F0B221',
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#F0B221",
         paddingVertical: 8,
         flex: 1,
         flexBasis: 10,
         flexShrink: 0,
         flexGrow: 1,
     },
-    searchBar:{
+    searchBar: {
         flex: 1,
-        flexBasis: 'auto',
+        flexBasis: "auto",
         flexShrink: 1,
         flexGrow: 9,
-        backgroundColor: '#F0B221',
-        borderColor: '#fff', 
+        backgroundColor: "#F0B221",
+        borderColor: "#fff",
         borderTopWidth: 0,
         borderBottomWidth: 0,
     },
@@ -65,10 +67,10 @@ const styles = StyleSheet.create({
         flexBasis: 10,
         flexShrink: 1,
         flexGrow: 1,
-        flexDirection: 'row',
-        alignContent: 'center',
-        justifyContent: 'center'
-    }
-})
+        flexDirection: "row",
+        alignContent: "center",
+        justifyContent: "center",
+    },
+});
 
 export default Friends;
