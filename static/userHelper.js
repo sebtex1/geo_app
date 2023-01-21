@@ -1,61 +1,15 @@
-import { auth, database } from "../config/FirebaseConfig";
 import {
-    collection,
-    where,
-    query,
-    onSnapshot,
     addDoc,
+    collection,
+    doc,
+    onSnapshot,
+    query,
+    updateDoc,
+    where,
 } from "firebase/firestore";
-import { useLayoutEffect } from "react";
-import { useEffect } from "react";
+import { auth, database } from "../config/FirebaseConfig";
 
 const UserHelper = {
-    // get: (setFriends) => {
-    //     const db = realTimeDB;
-    //     const dbRef = ref(db);
-    //     get(child(dbRef, `users/`))
-    //         .then((snapshot) => {
-    //             if (snapshot.exists()) {
-    //                 setFriends(snapshot.val());
-    //             } else {
-    //                 console.log("No data available");
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });
-    // },
-    // getById: (uid, setFriends) => {
-    //     const dbRef = ref(realTimeDB);
-    //     get(child(dbRef, `users/${uid}`))
-    //         .then((snapshot) => {
-    //             if (snapshot.exists()) {
-    //                 setFriends(snapshot.val());
-    //             } else {
-    //                 console.log("user available");
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });
-    // },
-    // setUserMe: (pseudo) => {
-    //     const me = {
-    //         uid: auth.currentUser.uid,
-    //         email: auth.currentUser.email,
-    //     };
-
-    //     set(ref(realTimeDB, `users/${me.uid}`), {
-    //         email: me.email,
-    //         pseudo: pseudo,
-    //     });
-    // },
-    // setMyFriends: (uid, friendsList) => {
-    //     const updates = {};
-    //     updates[`users/${uid}/friends`] = friendsList;
-    //     update(ref(realTimeDB), updates);
-    // },
-
     //Creates an user in firestore for the currently authenticated user in auth
     createUser: () => {
         const createdAt = new Date();
@@ -78,6 +32,7 @@ const UserHelper = {
             });
     },
 
+    //Get a user by uid
     getUser: (userId, setUser) => {
         console.info("Fetching user: " + userId);
 
@@ -97,6 +52,34 @@ const UserHelper = {
         return () => unsubscribe();
     },
 
+    //Get all users not in user's friendlist
+    getAllUsers: (friends, setUsers) => {
+        console.info("Fetching all users");
+        console.log(friends);
+
+        const friendsId = friends
+            .map((friend) => friend.uid)
+            .concat(auth.currentUser.uid);
+        console.log(friendsId);
+
+        const q = query(
+            collection(database, "users"),
+            where("uid", "not-in", friendsId)
+        );
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setUsers(
+                snapshot.docs.map((doc) => ({
+                    _id: doc.id,
+                    createdAt: doc.data().createdAt.toDate(),
+                    email: doc.data().email,
+                    friends: doc.data().friends,
+                }))
+            );
+            unsubscribe();
+        });
+    },
+
+    //Get friends of an user
     getFriends: (userId, setFriends) => {
         console.info("Fetching friend of user: " + userId);
         const q = query(
@@ -116,18 +99,60 @@ const UserHelper = {
                 setFriends(
                     snapshotF.docs.map((doc) => ({
                         _id: doc.id,
-                        uid: doc.data()._id,
+                        uid: doc.data().uid,
                         createdAt: doc.data().createdAt.toDate(),
                         email: doc.data().email,
                         friends: doc.data().friends,
                     }))
                 );
+                unsubscribeFriends();
             });
         });
         return () => unsubscribe();
     },
 
-    addFriend: (userId, friendId) => {},
+    //Add friend mutually
+    addFriend: (userId, friendId) => {
+        console.info("Adding friend for user: " + userId);
+        const qUser = query(
+            collection(database, "users"),
+            where("uid", "==", userId)
+        );
+
+        const qFriend = query(
+            collection(database, "users"),
+            where("uid", "==", friendId)
+        );
+
+        //Add authenticated user in friend's friendlist
+        const unsubscribeF = onSnapshot(qFriend, (snapshot) => {
+            const docRef = doc(database, "users", snapshot.docs[0].id);
+
+            if (!snapshot.docs[0].data().friends.includes(userId)) {
+                const friendList = snapshot.docs[0]
+                    .data()
+                    .friends.concat(userId);
+                updateDoc(docRef, { friends: friendList });
+            }
+
+            unsubscribeF();
+        });
+
+        //Adding friend in authenticated user's friendlist
+        const unsubscribe = onSnapshot(qUser, (snapshot) => {
+            const docRef = doc(database, "users", snapshot.docs[0].id);
+
+            if (!snapshot.docs[0].data().friends.includes(friendId)) {
+                const friendList = snapshot.docs[0]
+                    .data()
+                    .friends.concat(friendId);
+                updateDoc(docRef, { friends: friendList });
+            }
+            unsubscribe();
+        });
+
+        return () => unsubscribe();
+    },
 };
 
 export default UserHelper;

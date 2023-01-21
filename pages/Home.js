@@ -12,11 +12,11 @@ const Home = ({ navigation }) => {
     const [friends, setFriends] = useState([]);
 
     useEffect(() => {
-        console.log("Logged user: " + user);
+        console.log("Logged user: " + JSON.stringify(user));
     }, [user]);
 
     useEffect(() => {
-        console.log("Friends: " + friends);
+        console.log("Friends: " + JSON.stringify(friends));
     }, [friends]);
 
     return (
@@ -60,6 +60,21 @@ const Home = ({ navigation }) => {
                         "HaQ0YTzRhLSkXtoetyX6s12pS7w1",
                         setFriends
                     );
+                }}
+            />
+            <Button
+                title="add friends"
+                onPress={() => {
+                    UserHelper.addFriend(
+                        "HaQ0YTzRhLSkXtoetyX6s12pS7w1",
+                        "QlczoPfh3FZMjnptRGZvhTLvLfD3"
+                    );
+                }}
+            />
+            <Button
+                title="getAllUsers"
+                onPress={() => {
+                    UserHelper.getAllUsers(friends, setFriends);
                 }}
             />
         </View>
