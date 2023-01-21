@@ -1,42 +1,23 @@
 import { Text } from "@rneui/base";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { View } from "react-native";
 import { StyleSheet } from "react-native";
 import Friend from "../components/Friend";
-import { collection, addDoc, where, orderBy, query, onSnapshot } from "firebase/firestore";
-import { auth, database } from "../config/FirebaseConfig";
+import { auth } from "../config/FirebaseConfig";
+import ConversationHelper from "../static/ConversationHelper";
 
 const Conversations = () => {
-    const [conversations, setConversations] = useState();
-
-    //auth?.currentUser?.uid
-    useLayoutEffect(() => {
-        console.log(auth?.currentUser?.uid);
-        const collectionRef = collection(database, "conversations");
-        const q = query(
-            collectionRef,
-            where("users", "array-contains", "wQyFXbkfuIYwm3OXrX5c8QYjowD2"),
-            orderBy("createdAt", "desc")
-        );
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            console.log("snapshot");
-            console.log(snapshot.docs[0]);
-            setConversations(
-                snapshot.docs.map((doc) => ({
-                    _id: doc.id,
-                    createdAt: doc.data().createdAt.toDate(),
-                    convName: doc.data().convName,
-                    users: doc.data().users,
-                }))
-            );
-        });
-        return () => unsubscribe();
-    }, []);
+    const [conversations, setConversations] = useState([]);
 
     useEffect(() => {
-        console.log(conversations);
+        console.log("Number of conversations found: " + conversations.length);
     }, [conversations]);
+
+    ConversationHelper.getConversation(
+        auth?.currentUser?.uid,
+        setConversations
+    );
 
     return (
         <View style={styles.container}>
@@ -44,7 +25,12 @@ const Conversations = () => {
             <FlatList
                 style={styles.container}
                 data={friends}
-                renderItem={({ item }) => <Friend lastName={item.lastName} firstName={item.firstName} />}
+                renderItem={({ item }) => (
+                    <Friend
+                        lastName={item.lastName}
+                        firstName={item.firstName}
+                    />
+                )}
                 keyExtractor={(item) => item.id}
             />
         </View>

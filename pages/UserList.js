@@ -1,53 +1,44 @@
-import { useState, useEffect } from 'react'
-import { 
-    StyleSheet, 
-    FlatList, 
-} from 'react-native';
-import User from '../components/User';
-import UserHelper from '../static/UserHelper'
-import SearchBar from '../components/SearchBar';
-import { auth } from '../config/FirebaseConfig'
+import { useState, useEffect } from "react";
+import { StyleSheet, FlatList } from "react-native";
+import User from "../components/User";
+import UserHelper from "../static/UserHelper";
+import SearchBar from "../components/SearchBar";
+import { auth } from "../config/FirebaseConfig";
 
 const UserList = ({ route }) => {
-    const [searchText, setSearchText] = useState('')
-    const [users, setUsers] = useState(null)
-    const [addFriends, setAddFriends] = useState(null)
-    const [addFriendsList, setAddFriendsList] = useState(null)
+    const [searchText, setSearchText] = useState("");
+    const [users, setUsers] = useState(null);
+    const friendList = route.params.friendsList;
 
     useEffect(() => {
-        if (users == null){
-            UserHelper.get(setUsers) 
-        } 
-        else {
-            const notFriendsUser = Object.values(users)
-            .map((item, index) => {return {...item, key: Object.keys(users)[index]}})
-            .filter((item, index) => Object.keys(users)[index] != auth.currentUser.uid && !route.params.friendsList.find(i => i == Object.keys(users)[index]))
-            setAddFriends(notFriendsUser)
-            setAddFriendsList(notFriendsUser)
-        }
+        console.log("friends", friendList);
+        UserHelper.getAllUsers(friendList, setUsers);
+    }, [friendList]);
+
+    useEffect(() => {
+        console.log("USERS", users);
     }, [users]);
 
-    useEffect(() => {
-        if(addFriends != null){
-            setAddFriendsList(Object.values(addFriends).filter(item => item.pseudo.includes(searchText)))
-        }
-        else{
-            setAddFriendsList(addFriends)
-        }
-    }, [searchText]);
-    
     return (
-        <SearchBar 
-            searchText={searchText} 
-            setSearchText={setSearchText} 
-            addFriendIcon={false}>
+        <SearchBar
+            searchText={searchText}
+            setSearchText={setSearchText}
+            addFriendIcon={false}
+        >
             <FlatList
                 style={styles.flatList}
-                data={addFriendsList}
-                keyExtractor={(item) => item.key}
-                renderItem={({item}) => {
-                    return (<User uid={item.key} pseudo={item?.pseudo} addFriendIcon={true}/>)}}
-                />
+                data={users}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => {
+                    return (
+                        <User
+                            uid={item.uid}
+                            pseudo={item?.email}
+                            addFriendIcon={true}
+                        />
+                    );
+                }}
+            />
         </SearchBar>
     );
 };
@@ -57,10 +48,10 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 65,
         flex: 1,
-        flexBasis: 'auto',
+        flexBasis: "auto",
         flexShrink: 0,
         flexGrow: 10,
-    }
-})
+    },
+});
 
 export default UserList;
