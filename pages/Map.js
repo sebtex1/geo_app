@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import UserHelper from "../static/UserHelper";
 
 import * as Location from "expo-location";
+import { auth } from "../config/FirebaseConfig";
 
 const Map = ({ navigation }) => {
     const [location, setLocation] = useState(null);
     const [count, setCount] = useState(0);
+    const [friends, setFriends] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -21,10 +23,14 @@ const Map = ({ navigation }) => {
     }, []);
 
     useEffect(() => {
-        const timer = setTimeout(() => setCount(count + 1), 10e3); // 5 second delay
+        const timer = setTimeout(() => setCount(count + 1), 10e3); // 10 second delay
         getLocation();
         return () => clearTimeout(timer);
     }, [count]);
+
+    useLayoutEffect(() => {
+        UserHelper.getFriends(auth.currentUser.uid, setFriends);
+    }, []);
 
     const getLocation = async () => {
         const userLocation = await Location.getCurrentPositionAsync({});
@@ -38,12 +44,31 @@ const Map = ({ navigation }) => {
                 {location !== null &&
                 location?.coords?.latitude &&
                 location?.coords?.longitude ? (
-                    <Marker
-                        coordinate={{
-                            latitude: location.coords.latitude,
-                            longitude: location.coords.longitude,
-                        }}
-                    />
+                    <View>
+                        <Marker
+                            coordinate={{
+                                latitude: location.coords.latitude,
+                                longitude: location.coords.longitude,
+                            }}
+                        />
+                        {friends.length > 0
+                            ? friends?.map((friend) => {
+                                  return (
+                                      <Marker
+                                          pinColor="#5677B0"
+                                          coordinate={{
+                                              latitude:
+                                                  friend.location.coords
+                                                      .latitude,
+                                              longitude:
+                                                  friend.location.coords
+                                                      .longitude,
+                                          }}
+                                      />
+                                  );
+                              })
+                            : null}
+                    </View>
                 ) : null}
             </MapView>
         </View>

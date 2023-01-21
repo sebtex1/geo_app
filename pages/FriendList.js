@@ -5,7 +5,7 @@ import User from "../components/User";
 import { auth } from "../config/FirebaseConfig";
 import UserHelper from "../static/UserHelper";
 
-const FriendList = ({ navigation }) => {
+const FriendList = ({ navigation, route }) => {
     const [friends, setFriends] = useState(null);
 
     const [searchText, setSearchText] = useState("");

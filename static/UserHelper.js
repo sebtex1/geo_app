@@ -108,6 +108,7 @@ const UserHelper = {
                         createdAt: doc.data().createdAt.toDate(),
                         email: doc.data().email,
                         friends: doc.data().friends,
+                        location: doc.data().location,
                     }))
                 );
             });
