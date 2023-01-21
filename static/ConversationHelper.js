@@ -30,27 +30,25 @@ const ConversationHelper = {
     },
 
     getConversation: (userId, setConversations) => {
-        useLayoutEffect(() => {
-            console.info(
-                "Fetching conversations for user: " + auth?.currentUser?.uid
+        console.info(
+            "Fetching conversations for user: " + auth?.currentUser?.uid
+        );
+        const q = query(
+            collection(database, "conversations"),
+            where("users", "array-contains", userId),
+            orderBy("createdAt", "desc")
+        );
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setConversations(
+                snapshot.docs.map((doc) => ({
+                    _id: doc.id,
+                    createdAt: doc.data().createdAt.toDate(),
+                    convName: doc.data().convName,
+                    users: doc.data().users,
+                }))
             );
-            const q = query(
-                collection(database, "conversations"),
-                where("users", "array-contains", userId),
-                orderBy("createdAt", "desc")
-            );
-            const unsubscribe = onSnapshot(q, (snapshot) => {
-                setConversations(
-                    snapshot.docs.map((doc) => ({
-                        _id: doc.id,
-                        createdAt: doc.data().createdAt.toDate(),
-                        convName: doc.data().convName,
-                        users: doc.data().users,
-                    }))
-                );
-            });
-            return () => unsubscribe();
-        }, [setConversations, userId]);
+        });
+        return () => unsubscribe();
     },
 
     getConversationByFriend: (friendUid, setConversation) => {
