@@ -165,6 +165,25 @@ const UserHelper = {
 
         return () => unsubscribe();
     },
+
+    //Add location to user
+    addLocation: (location) => {
+        const userId = auth.currentUser.uid;
+        console.info("Adding location for user: " + userId);
+
+        const q = query(
+            collection(database, "users"),
+            where("uid", "==", userId)
+        );
+
+        const unsubscribeF = onSnapshot(q, (snapshot) => {
+            const docRef = doc(database, "users", snapshot.docs[0].id);
+
+            updateDoc(docRef, { location: location });
+
+            unsubscribeF();
+        });
+    },
 };
 
 export default UserHelper;
