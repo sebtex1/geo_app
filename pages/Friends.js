@@ -1,13 +1,12 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import SearchBar from "../components/SearchBar";
 import User from "../components/User";
 import { auth } from "../config/FirebaseConfig";
 import UserHelper from "../static/UserHelper";
 
-const FriendList = ({ navigation }) => {
+const Friends = ({ navigation }) => {
     const [friends, setFriends] = useState(null);
-
     const [searchText, setSearchText] = useState("");
 
     useLayoutEffect(() => {
@@ -15,26 +14,13 @@ const FriendList = ({ navigation }) => {
     }, []);
 
     return (
-        <SearchBar
-            searchText={searchText}
-            setSearchText={setSearchText}
-            addFriendIcon={true}
-            navigation={navigation}
-            friendsList={friends}
-        >
+        <SearchBar searchText={searchText} setSearchText={setSearchText} addFriendIcon={true} navigation={navigation} friendsList={friends}>
             <FlatList
                 style={styles.flatList}
                 data={friends}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => {
-                    return (
-                        <User
-                            navigation={navigation}
-                            uid={item.uid}
-                            pseudo={item.email}
-                            addFriendIcon={false}
-                        />
-                    );
+                    return <User navigation={navigation} uid={item.uid} pseudo={item.email} addFriendIcon={false} />;
                 }}
             />
         </SearchBar>
@@ -52,4 +38,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default FriendList;
+export default Friends;
