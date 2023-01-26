@@ -1,11 +1,11 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import SearchBar from "../components/SearchBar";
 import User from "../components/User";
 import { auth } from "../config/FirebaseConfig";
 import UserHelper from "../static/UserHelper";
 
-const FriendList = ({ navigation, route }) => {
+const FriendList = ({ navigation }) => {
     const [friends, setFriends] = useState(null);
 
     const [searchText, setSearchText] = useState("");

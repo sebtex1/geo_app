@@ -6,7 +6,7 @@ import UserHelper from "../static/UserHelper";
 import * as Location from "expo-location";
 import { auth } from "../config/FirebaseConfig";
 
-const Map = ({ navigation }) => {
+const Map = () => {
     const [location, setLocation] = useState(null);
     const [count, setCount] = useState(0);
     const [friends, setFriends] = useState(null);

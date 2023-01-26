@@ -177,12 +177,12 @@ const UserHelper = {
             where("uid", "==", userId)
         );
 
-        const unsubscribeF = onSnapshot(q, (snapshot) => {
+        const unsubscribe = onSnapshot(q, (snapshot) => {
             const docRef = doc(database, "users", snapshot.docs[0].id);
 
             updateDoc(docRef, { location: location });
 
-            unsubscribeF();
+            unsubscribe();
         });
     },
 };
