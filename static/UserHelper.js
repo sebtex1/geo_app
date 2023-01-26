@@ -108,6 +108,7 @@ const UserHelper = {
                         createdAt: doc.data().createdAt.toDate(),
                         email: doc.data().email,
                         friends: doc.data().friends,
+                        location: doc.data().location,
                     }))
                 );
             });
@@ -164,6 +165,25 @@ const UserHelper = {
         ConversationHelper.createConversation("", [userId, friendId].sort());
 
         return () => unsubscribe();
+    },
+
+    //Add location to user
+    addLocation: (location) => {
+        const userId = auth.currentUser.uid;
+        console.info("Adding location for user: " + userId);
+
+        const q = query(
+            collection(database, "users"),
+            where("uid", "==", userId)
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const docRef = doc(database, "users", snapshot.docs[0].id);
+
+            updateDoc(docRef, { location: location });
+
+            unsubscribe();
+        });
     },
 };
 

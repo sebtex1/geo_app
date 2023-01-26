@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import SearchBar from "../components/SearchBar";
 import User from "../components/User";
