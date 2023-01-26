@@ -41,9 +41,7 @@ const Map = () => {
     return (
         <View style={styles.container}>
             <MapView style={styles.map}>
-                {location !== null &&
-                location?.coords?.latitude &&
-                location?.coords?.longitude ? (
+                {location !== null && location?.coords?.latitude && location?.coords?.longitude ? (
                     <View>
                         <Marker
                             coordinate={{
@@ -53,7 +51,7 @@ const Map = () => {
                         />
                         {friends?.length > 0
                             ? friends?.map((friend) => {
-                                  if (friend?.location === null) {
+                                  if (friend?.location === null || friend?.location === undefined) {
                                       return null;
                                   }
                                   return (
@@ -61,12 +59,8 @@ const Map = () => {
                                           key={friend.uid}
                                           pinColor="#5677B0"
                                           coordinate={{
-                                              latitude:
-                                                  friend.location.coords
-                                                      .latitude,
-                                              longitude:
-                                                  friend.location.coords
-                                                      .longitude,
+                                              latitude: friend.location.coords.latitude,
+                                              longitude: friend.location.coords.longitude,
                                           }}
                                       />
                                   );

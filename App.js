@@ -5,6 +5,7 @@ import { useLayoutEffect, useState } from "react";
 import { LogBox, StyleSheet } from "react-native";
 import { Entypo, MaterialCommunityIcons } from "react-native-vector-icons";
 import { auth } from "./config/FirebaseConfig";
+import AddFriend from "./pages/AddFriend";
 import Chat from "./pages/Chat";
 import Conversations from "./pages/Conversations";
 import CreateConversation from "./pages/CreateConversation";
@@ -14,7 +15,6 @@ import Login from "./pages/Login";
 import Map from "./pages/Map";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import UserList from "./pages/UserList";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -116,7 +116,7 @@ export default function App() {
                     <Stack.Group screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="GeoApp" component={Tabs} />
                         <Stack.Screen name="Chat" component={Chat} />
-                        <Stack.Screen name="UserList" component={UserList} />
+                        <Stack.Screen name="AddFriend" component={AddFriend} />
                         <Stack.Screen name="CreateGroup" component={CreateConversation} />
                     </Stack.Group>
                 )}
