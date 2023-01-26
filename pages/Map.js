@@ -53,6 +53,9 @@ const Map = () => {
                         />
                         {friends?.length > 0
                             ? friends?.map((friend) => {
+                                  if (friend?.location === null) {
+                                      return null;
+                                  }
                                   return (
                                       <Marker
                                           key={friend.uid}
