@@ -1,22 +1,12 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
+import { FloatingAction } from "react-native-floating-action";
 import Conversation from "../components/Conversation";
 import { auth } from "../config/FirebaseConfig";
 import ConversationHelper from "../static/ConversationHelper";
-import { FloatingAction } from "react-native-floating-action";
 
 const Conversations = ({ navigation }) => {
     const [conversations, setConversations] = useState([]);
-
-    useLayoutEffect(() => {
-        ConversationHelper.getConversation(auth.currentUser.uid, setConversations);
-    }, []);
-
-    useEffect(() => {
-        console.info("Number of conversations found: " + conversations.length);
-    }, [conversations]);
-
-    //Props for FloatingAction
     const actions = [
         {
             text: "Add group",
@@ -26,15 +16,19 @@ const Conversations = ({ navigation }) => {
         },
     ];
 
+    useLayoutEffect(() => {
+        ConversationHelper.getConversation(auth.currentUser.uid, setConversations);
+    }, []);
+
     return (
         <View style={styles.container}>
             <FlatList
                 style={styles.container}
-                data={conversations}
+                data={conversations.filter((conv) => conv.users.length > 2)}
                 renderItem={({ item }) => {
-                    return <Conversation convId={item._id} convName={item.convName} />;
+                    return <Conversation convId={item._id} convName={item.convName} navigation={navigation} />;
                 }}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item._id}
             />
             <FloatingAction
                 actions={actions}

@@ -3,8 +3,6 @@ import { FlatList, StyleSheet, View } from "react-native";
 import BaseUser from "./BaseUser";
 
 const UserList = (props) => {
-    console.log("props friends", props.users);
-
     return (
         <View style={styles.flatList}>
             <FlatList
@@ -13,6 +11,7 @@ const UserList = (props) => {
                 renderItem={({ item }) => {
                     return (
                         <BaseUser
+                            key={item.uid}
                             uid={item.uid}
                             pseudo={item.email}
                             onPressMethod={props.onPressMethod}
@@ -21,7 +20,7 @@ const UserList = (props) => {
                         />
                     );
                 }}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item._id}
             />
         </View>
     );

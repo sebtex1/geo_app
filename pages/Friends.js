@@ -18,7 +18,7 @@ const Friends = ({ navigation }) => {
             <FlatList
                 style={styles.flatList}
                 data={friends}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.uid}
                 renderItem={({ item }) => {
                     return <User navigation={navigation} uid={item.uid} pseudo={item.email} addFriendIcon={false} />;
                 }}

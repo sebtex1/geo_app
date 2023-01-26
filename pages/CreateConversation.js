@@ -1,14 +1,18 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Input } from "@rneui/base";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import UserList from "../components/UserList";
 import { auth } from "../config/FirebaseConfig";
+import ConversationHelper from "../static/ConversationHelper";
+import StringHelper from "../static/StringHelper";
 import UserHelper from "../static/UserHelper";
 
 const CreateConversation = ({ navigation }) => {
     const [friends, setFriends] = useState(null);
     const [selectedFriends, setSelectedFriends] = useState([]);
     const [isInitialized, setIsInitialized] = useState(false);
+    const [conversationName, setConversationName] = useState(false);
 
     //Props for FloatingAction
     const actions = [
@@ -22,7 +26,6 @@ const CreateConversation = ({ navigation }) => {
 
     //Update selectedFriends when selected or unselected
     const onPressUserMethod = (uid) => {
-        console.log("Pressed on", uid);
         if (selectedFriends.includes(uid)) {
             setSelectedFriends(selectedFriends.filter((friend) => friend !== uid));
         } else {
@@ -32,14 +35,13 @@ const CreateConversation = ({ navigation }) => {
 
     //Create conversation
     const onPressValidate = () => {
-        if (selectedFriends.length <= 1) return;
-        const convMembers = [...selectedFriends, auth.currentUser.uid];
-        console.log("Creating conversation with", convMembers);
+        if (selectedFriends.length <= 1 || StringHelper.isBlank(conversationName)) return;
+        ConversationHelper.createConversation(conversationName, [...selectedFriends, auth.currentUser.uid]);
+        navigation.goBack();
     };
 
     //Fetch friends
     useLayoutEffect(() => {
-        console.log("Creating group");
         UserHelper.getFriends(auth.currentUser.uid, setFriends);
     }, []);
 
@@ -62,6 +64,7 @@ const CreateConversation = ({ navigation }) => {
 
     return (
         <View style={styles.flatList}>
+            <Input label="Group name" value={conversationName} onChangeText={(text) => setConversationName(text)} />
             <UserList users={friends} navigation={navigation} onPressMethod={onPressUserMethod} />
             <FloatingAction
                 actions={actions}
@@ -69,6 +72,7 @@ const CreateConversation = ({ navigation }) => {
                 onPressItem={(name) => {
                     onPressValidate();
                 }}
+                navigation={navigation}
             />
         </View>
     );

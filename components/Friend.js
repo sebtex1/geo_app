@@ -11,10 +11,7 @@ const Friend = ({ navigation, lastName, firstName, conversationId }) => {
                     }}
                 />
             </Pressable>
-            <Pressable
-                style={styles.button}
-                onPress={() => navigation.navigate("Chat", { conversationId: conversationId })}
-            >
+            <Pressable style={styles.button} onPress={() => navigation.navigate("Chat", { conversationId: conversationId })}>
                 <Text style={styles.text}>
                     {lastName} {firstName}
                 </Text>

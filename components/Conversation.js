@@ -5,7 +5,11 @@ import { View } from "react-native";
 import { Text } from "react-native";
 
 //Todo: use this component for the conversation list
-const Conversation = (props, navigation) => {
+const Conversation = (props) => {
+    const handlePress = () => {
+        props.navigation.navigate("Chat", { conversationId: props.convId });
+    };
+
     return (
         <View style={styles.container}>
             <Pressable onPress={() => Alert.alert("ICON")}>
@@ -16,14 +20,7 @@ const Conversation = (props, navigation) => {
                     }}
                 />
             </Pressable>
-            <Pressable
-                style={styles.button}
-                onPress={() =>
-                    navigation.navigate("Chat", {
-                        conversationId: props.convId,
-                    })
-                }
-            >
+            <Pressable style={styles.button} onPress={() => handlePress()}>
                 <Text style={styles.text}>{props.convName}</Text>
             </Pressable>
         </View>
