@@ -1,15 +1,10 @@
-import React from "react";
+import { Text } from "@rneui/base";
 import PropTypes from "prop-types";
-import { Alert, Image, Pressable, StyleSheet } from "react-native";
-import { View } from "react-native";
-import { Text } from "react-native";
+import React from "react";
+import { Alert, Image, Pressable, StyleSheet, View } from "react-native";
 
 //Todo: use this component for the conversation list
 const Conversation = (props) => {
-    const handlePress = () => {
-        props.navigation.navigate("Chat", { conversationId: props.convId });
-    };
-
     return (
         <View style={styles.container}>
             <Pressable onPress={() => Alert.alert("ICON")}>
@@ -20,7 +15,7 @@ const Conversation = (props) => {
                     }}
                 />
             </Pressable>
-            <Pressable style={styles.button} onPress={() => handlePress()}>
+            <Pressable style={styles.button} onPress={() => props.navigation.navigate("Chat", { conversationId: props.convId })}>
                 <Text style={styles.text}>{props.convName}</Text>
             </Pressable>
         </View>

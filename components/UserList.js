@@ -11,7 +11,6 @@ const UserList = (props) => {
                 renderItem={({ item }) => {
                     return (
                         <BaseUser
-                            key={item.uid}
                             uid={item.uid}
                             pseudo={item.email}
                             onPressMethod={props.onPressMethod}

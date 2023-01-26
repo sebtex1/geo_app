@@ -7,7 +7,6 @@ const Chat = ({ route }) => {
     const [messages, setMessages] = useState([]);
 
     useLayoutEffect(() => {
-        console.info("Conversation ID:", route.params.conversationId);
         const conversationId = route.params.conversationId;
         const collectionRef = collection(database, "chats");
         const q = query(collectionRef, where("conversationId", "==", conversationId), orderBy("createdAt", "desc"));
