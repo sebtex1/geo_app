@@ -1,12 +1,5 @@
 import React, { useState, useLayoutEffect, useCallback } from "react";
-import {
-    collection,
-    addDoc,
-    where,
-    orderBy,
-    query,
-    onSnapshot,
-} from "firebase/firestore";
+import { collection, addDoc, where, orderBy, query, onSnapshot } from "firebase/firestore";
 import { GiftedChat } from "react-native-gifted-chat";
 import { auth, database } from "../config/FirebaseConfig";
 
@@ -16,15 +9,10 @@ const Chat = ({ route }) => {
     useLayoutEffect(() => {
         const conversationId = route.params.conversationId;
         const collectionRef = collection(database, "chats");
-        const q = query(
-            collectionRef,
-            where("conversationId", "==", conversationId),
-            orderBy("createdAt", "desc")
-        );
+        const q = query(collectionRef, where("conversationId", "==", conversationId), orderBy("createdAt", "desc"));
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
-            console.log("snapshot");
-            console.log(snapshot.docs[0]);
+            console.info("Number of messages:", snapshot.docs.length);
             setMessages(
                 snapshot.docs.map((doc) => ({
                     _id: doc.id,
@@ -39,9 +27,7 @@ const Chat = ({ route }) => {
     }, []);
 
     const onSend = useCallback((messages = []) => {
-        setMessages((previousMessages) =>
-            GiftedChat.append(previousMessages, messages)
-        );
+        setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
 
         const conversationId = route.params.conversationId;
         const { _id, createdAt, text, user } = messages[0];

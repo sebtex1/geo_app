@@ -7,7 +7,8 @@ import { Entypo, MaterialCommunityIcons } from "react-native-vector-icons";
 import { auth } from "./config/FirebaseConfig";
 import Chat from "./pages/Chat";
 import Conversations from "./pages/Conversations";
-import FriendList from "./pages/FriendList";
+import CreateConversation from "./pages/CreateConversation";
+import Friends from "./pages/Friends";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Map from "./pages/Map";
@@ -46,48 +47,28 @@ function Tabs() {
                 name="Home"
                 component={Home}
                 options={{
-                    tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons
-                            name="home"
-                            color={color}
-                            size={26}
-                        />
-                    ),
+                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home" color={color} size={26} />,
                 }}
             />
             <Tab.Screen
                 name="Map"
                 component={Map}
                 options={{
-                    tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons
-                            name="map"
-                            color={color}
-                            size={26}
-                        />
-                    ),
+                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="map" color={color} size={26} />,
                 }}
             />
             <Tab.Screen
-                name="FriendList"
-                component={FriendList}
+                name="Friends"
+                component={Friends}
                 options={{
-                    tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons
-                            name="human"
-                            color={color}
-                            size={26}
-                        />
-                    ),
+                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="human" color={color} size={26} />,
                 }}
             />
             <Tab.Screen
                 name="Conversations"
                 component={Conversations}
                 options={{
-                    tabBarIcon: ({ color }) => (
-                        <Entypo name="chat" color={color} size={26} />
-                    ),
+                    tabBarIcon: ({ color }) => <Entypo name="chat" color={color} size={26} />,
                 }}
             />
         </Tab.Navigator>
@@ -136,6 +117,7 @@ export default function App() {
                         <Stack.Screen name="GeoApp" component={Tabs} />
                         <Stack.Screen name="Chat" component={Chat} />
                         <Stack.Screen name="UserList" component={UserList} />
+                        <Stack.Screen name="CreateGroup" component={CreateConversation} />
                     </Stack.Group>
                 )}
             </Stack.Navigator>

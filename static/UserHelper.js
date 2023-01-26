@@ -1,12 +1,4 @@
-import {
-    addDoc,
-    collection,
-    doc,
-    onSnapshot,
-    query,
-    updateDoc,
-    where,
-} from "firebase/firestore";
+import { addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { auth, database } from "../config/FirebaseConfig";
 import ConversationHelper from "./ConversationHelper";
 
@@ -39,10 +31,7 @@ const UserHelper = {
     getUser: (userId, setUser) => {
         console.info("Fetching user: " + userId);
 
-        const q = query(
-            collection(database, "users"),
-            where("uid", "==", userId)
-        );
+        const q = query(collection(database, "users"), where("uid", "==", userId));
         const unsubscribe = onSnapshot(q, (snapshot) => {
             setUser({
                 _id: snapshot.docs[0].id,
@@ -59,14 +48,9 @@ const UserHelper = {
     getAllUsers: (friends, setUsers) => {
         console.info("Fetching all users");
 
-        const friendsId = friends
-            .map((friend) => friend.uid)
-            .concat(auth.currentUser.uid);
+        const friendsId = friends.map((friend) => friend.uid).concat(auth.currentUser.uid);
 
-        const q = query(
-            collection(database, "users"),
-            where("uid", "not-in", friendsId)
-        );
+        const q = query(collection(database, "users"), where("uid", "not-in", friendsId));
         const unsubscribe = onSnapshot(q, (snapshot) => {
             setUsers(
                 snapshot.docs.map((doc) => ({
@@ -86,20 +70,14 @@ const UserHelper = {
         console.info("Fetching friend of user: " + userId);
 
         //Retrieve user's friend's uid
-        const q = query(
-            collection(database, "users"),
-            where("uid", "==", userId)
-        );
+        const q = query(collection(database, "users"), where("uid", "==", userId));
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const friends = snapshot.docs[0].data().friends;
 
             if (friends.length <= 0) return () => unsubscribe();
 
             //Use the uids to retrieve the friends
-            const qF = query(
-                collection(database, "users"),
-                where("uid", "in", friends)
-            );
+            const qF = query(collection(database, "users"), where("uid", "in", friends));
             const unsubscribeFriends = onSnapshot(qF, (snapshotF) => {
                 setFriends(
                     snapshotF.docs.map((doc) => ({
@@ -108,6 +86,7 @@ const UserHelper = {
                         createdAt: doc.data().createdAt.toDate(),
                         email: doc.data().email,
                         friends: doc.data().friends,
+                        avatar: doc.data().avatar,
                         location: doc.data().location,
                     }))
                 );
@@ -121,15 +100,9 @@ const UserHelper = {
         const userId = auth.currentUser.uid;
         console.info("Adding friend for user: " + userId);
 
-        const qUser = query(
-            collection(database, "users"),
-            where("uid", "==", userId)
-        );
+        const qUser = query(collection(database, "users"), where("uid", "==", userId));
 
-        const qFriend = query(
-            collection(database, "users"),
-            where("uid", "==", friendId)
-        );
+        const qFriend = query(collection(database, "users"), where("uid", "==", friendId));
 
         console.log("ici");
         //Add authenticated user in friend's friendlist
@@ -137,9 +110,7 @@ const UserHelper = {
             const docRef = doc(database, "users", snapshot.docs[0].id);
 
             if (!snapshot.docs[0].data().friends.includes(userId)) {
-                const friendList = snapshot.docs[0]
-                    .data()
-                    .friends.concat(userId);
+                const friendList = snapshot.docs[0].data().friends.concat(userId);
                 updateDoc(docRef, { friends: friendList });
                 console.log("success");
             }
@@ -153,9 +124,7 @@ const UserHelper = {
             const docRef = doc(database, "users", snapshot.docs[0].id);
 
             if (!snapshot.docs[0].data().friends.includes(friendId)) {
-                const friendList = snapshot.docs[0]
-                    .data()
-                    .friends.concat(friendId);
+                const friendList = snapshot.docs[0].data().friends.concat(friendId);
                 updateDoc(docRef, { friends: friendList });
             }
             unsubscribe();
@@ -172,10 +141,7 @@ const UserHelper = {
         const userId = auth.currentUser.uid;
         console.info("Adding location for user: " + userId);
 
-        const q = query(
-            collection(database, "users"),
-            where("uid", "==", userId)
-        );
+        const q = query(collection(database, "users"), where("uid", "==", userId));
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const docRef = doc(database, "users", snapshot.docs[0].id);
