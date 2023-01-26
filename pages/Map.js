@@ -51,10 +51,11 @@ const Map = () => {
                                 longitude: location.coords.longitude,
                             }}
                         />
-                        {friends.length > 0
+                        {friends?.length > 0
                             ? friends?.map((friend) => {
                                   return (
                                       <Marker
+                                          key={friend.uid}
                                           pinColor="#5677B0"
                                           coordinate={{
                                               latitude:
