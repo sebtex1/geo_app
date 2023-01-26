@@ -19,10 +19,7 @@ const User = (props) => {
             <Pressable
                 onPress={() => {
                     console.log(props.uid);
-                    ConversationHelper.getConversationByFriend(
-                        props.uid,
-                        setConversation
-                    );
+                    ConversationHelper.getConversationByFriend(props.uid, setConversation);
                 }}
                 style={styles.container}
             >
@@ -34,7 +31,10 @@ const User = (props) => {
                         }}
                     />
                 </Pressable>
-                <Text style={styles.text}>{props.pseudo}</Text>
+                <View style={styles.textContainer}>
+                    <Text style={styles.text}>{props.pseudo}</Text>
+                    <Text style={styles.hint}>{props.hint}</Text>
+                </View>
 
                 <MaterialCommunityIcons
                     style={styles.icon}
@@ -65,6 +65,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         marginVertical: 4,
     },
+    textContainer: {
+        flex: 1,
+        flexDirection: "column",
+    },
     button: {
         maxWidth: 270,
         maxHeight: 50,
@@ -75,6 +79,9 @@ const styles = StyleSheet.create({
     text: {
         textAlign: "left",
         fontSize: 18,
+    },
+    hint: {
+        color: "#525354",
     },
     logo: {
         width: 50,

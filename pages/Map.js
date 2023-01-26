@@ -34,6 +34,7 @@ const Map = () => {
 
     const getLocation = async () => {
         const userLocation = await Location.getCurrentPositionAsync({});
+        console.log("userLocation", userLocation);
         UserHelper.addLocation(location);
         setLocation(userLocation);
     };
