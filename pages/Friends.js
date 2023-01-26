@@ -6,7 +6,7 @@ import { auth } from "../config/FirebaseConfig";
 import UserHelper from "../static/UserHelper";
 
 const Friends = ({ navigation }) => {
-    const [friends, setFriends] = useState(null);
+    const [friends, setFriends] = useState([]);
     const [searchText, setSearchText] = useState("");
 
     useLayoutEffect(() => {
