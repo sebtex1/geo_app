@@ -22,8 +22,9 @@ const Friends = (props) => {
                         name="account-plus"
                         size={35}
                         onPress={() => {
-                            props.navigation.navigate("UserList", {
+                            props.navigation.navigate("AddFriend", {
                                 friendsList: props.friendsList,
+                                navigation: props.navigation,
                             });
                         }}
                     />
@@ -47,7 +48,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#F0B221",
         paddingVertical: 8,
-        flex: 1,
         flexBasis: 10,
         flexShrink: 0,
         flexGrow: 1,
