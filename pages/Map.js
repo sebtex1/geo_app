@@ -1,19 +1,20 @@
 import { Switch, Text } from "@rneui/base";
+import * as Location from "expo-location";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import User from "../components/User";
+import { auth } from "../config/FirebaseConfig";
 import UserHelper from "../static/UserHelper";
 import LocationUtil from "../utils/LocationUtil";
 
-import * as Location from "expo-location";
-import { auth } from "../config/FirebaseConfig";
-
-const Map = () => {
+const Map = ({ navigation }) => {
     const [location, setLocation] = useState(null);
     const [count, setCount] = useState(0);
     const [friends, setFriends] = useState(null);
     const [checked, setChecked] = useState(false);
     const [currentLocationMarker, setCurrentLocationMarker] = useState(0);
+    const [selectedMarker, setSelectedMarker] = useState(null);
 
     useLayoutEffect(() => {
         UserHelper.getFriends(auth.currentUser.uid, setFriends);
@@ -58,6 +59,15 @@ const Map = () => {
                                 latitude: location.coords.latitude,
                                 longitude: location.coords.longitude,
                             }}
+                            onPress={() => {
+                                setSelectedMarker({
+                                    uid: false,
+                                    email: "You",
+                                    location: location,
+                                    avatar: false,
+                                    icon: false,
+                                });
+                            }}
                         />
                         {friends?.length > 0
                             ? friends?.map((friend) => {
@@ -71,6 +81,14 @@ const Map = () => {
                                           coordinate={{
                                               latitude: friend.location.coords.latitude,
                                               longitude: friend.location.coords.longitude,
+                                          }}
+                                          onPress={() => {
+                                              setSelectedMarker({
+                                                  uid: friend.uid,
+                                                  email: friend.email,
+                                                  location: friend.location,
+                                                  avatar: friend.avatar,
+                                              });
                                           }}
                                       />
                                   );
@@ -90,6 +108,17 @@ const Map = () => {
                     }}
                 />
             </View>
+            {selectedMarker ? (
+                <User
+                    navigation={navigation}
+                    uid={selectedMarker?.uid}
+                    pseudo={selectedMarker?.email}
+                    avatar={selectedMarker?.avatar}
+                    hint={`Position: ${selectedMarker?.location?.coords?.latitude.toFixed(
+                        2
+                    )}, ${selectedMarker?.location?.coords?.longitude.toFixed(2)}`}
+                />
+            ) : null}
         </View>
     );
 };
@@ -98,7 +127,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
-        alignItems: "center",
         justifyContent: "center",
     },
     ghostModeContainer: {
@@ -106,8 +134,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     map: {
-        width: "80%",
-        height: "80%",
+        width: "100%",
+        height: "70%",
     },
 });
 
