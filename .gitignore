@@ -10,6 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 *.suo
+.suo
 
 # macOS
 .DS_Store
