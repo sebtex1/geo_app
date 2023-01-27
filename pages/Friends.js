@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
+import { Divider } from "@rneui/base";
 import SearchBar from "../components/SearchBar";
 import User from "../components/User";
 import { auth } from "../config/FirebaseConfig";
@@ -10,6 +11,7 @@ const Friends = ({ navigation }) => {
     const [friends, setFriends] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [userLocation, setUserLocation] = useState(null);
+    const [closestFriend, setClosestFriend] = useState(null);
 
     useLayoutEffect(() => {
         UserHelper.getFriends(auth.currentUser.uid, setFriends);
@@ -33,15 +35,55 @@ const Friends = ({ navigation }) => {
         }
     }, [userLocation]);
 
+    useEffect(() => {
+        if (friends.length === 0 && userLocation?.coords === null) {
+            return;
+        }
+        let closestFriendVar = friends[0];
+        for (let i = 0; i < friends.length; i++) {
+            if (
+                distanceBetween(userLocation.coords, friends[i].location.coords) <
+                distanceBetween(userLocation.coords, closestFriendVar.location.coords)
+            ) {
+                closestFriendVar = friends[i];
+            }
+        }
+        setClosestFriend(closestFriendVar);
+        console.log("closestFriend", closestFriend);
+    }, [userLocation]);
+
     const getLocation = async () => {
         setUserLocation(await Location.getCurrentPositionAsync({}));
     };
 
     return (
-        <SearchBar searchText={searchText} setSearchText={setSearchText} addFriendIcon={true} navigation={navigation} friendsList={friends}>
+        <View style={styles.container}>
+            <SearchBar
+                style={styles.searchBar}
+                searchText={searchText}
+                setSearchText={setSearchText}
+                addFriendIcon={true}
+                navigation={navigation}
+                friendsList={friends}
+            />
+            {userLocation !== null && userLocation?.coords !== null && closestFriend !== null ? (
+                <View style={styles.viewTest}>
+                    <User
+                        navigation={navigation}
+                        uid={closestFriend?.uid}
+                        pseudo={closestFriend?.email}
+                        hint={
+                            userLocation !== null && userLocation?.coords !== null && closestFriend?.location
+                                ? `à ${distanceBetween(userLocation.coords, closestFriend.location.coords).toFixed(2)} km (le plus proche)`
+                                : ""
+                        }
+                        addFriendIcon={false}
+                    />
+                    <Divider width={5} />
+                </View>
+            ) : null}
             <FlatList
-                style={styles.flatList}
-                data={friends}
+                data={friends.filter((friend) => friend.uid !== closestFriend?.uid)}
                 keyExtractor={(item) => item.uid}
                 renderItem={({ item }) => {
                     return (
@@ -50,25 +92,27 @@ const Friends = ({ navigation }) => {
                             uid={item.uid}
                             pseudo={item.email}
                             hint={
-                                userLocation !== null ? `à ${distanceBetween(userLocation.coords, item.location.coords).toFixed(2)} km` : ""
+                                userLocation !== null && userLocation.coords !== null
+                                    ? `à ${distanceBetween(userLocation.coords, item.location.coords).toFixed(2)} km`
+                                    : ""
                             }
                             addFriendIcon={false}
                         />
                     );
                 }}
             />
-        </SearchBar>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    flatList: {
-        marginTop: 5,
-        marginBottom: 65,
+    container: {
         flex: 1,
-        flexBasis: "auto",
-        flexShrink: 0,
-        flexGrow: 10,
+        backgroundColor: "#fff",
+        height: "100%",
+    },
+    viewTest: {
+        flex: 1,
     },
 });
 

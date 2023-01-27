@@ -40,17 +40,14 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         justifyContent: "flex-start",
+        height: "25%",
     },
     header: {
-        flex: 1,
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#F0B221",
         paddingVertical: 8,
-        flexBasis: 10,
-        flexShrink: 0,
-        flexGrow: 1,
     },
     searchBar: {
         flex: 1,

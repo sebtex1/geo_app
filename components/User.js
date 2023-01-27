@@ -23,7 +23,7 @@ const User = (props) => {
                 }}
                 style={styles.container}
             >
-                <Pressable onPress={() => Alert.alert("ICON")}>
+                <Pressable onPress={() => Alert.alert(props.pseudo)}>
                     <Image
                         style={styles.logo}
                         source={{
@@ -53,7 +53,6 @@ const User = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
