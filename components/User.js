@@ -27,7 +27,7 @@ const User = (props) => {
                     <Image
                         style={styles.logo}
                         source={{
-                            uri: "https://reactnative.dev/img/tiny_logo.png",
+                            uri: props.avatar,
                         }}
                     />
                 </Pressable>

@@ -1,11 +1,11 @@
+import { Divider } from "@rneui/base";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import { Divider } from "@rneui/base";
 import SearchBar from "../components/SearchBar";
 import User from "../components/User";
 import { auth } from "../config/FirebaseConfig";
 import UserHelper from "../static/UserHelper";
-import * as Location from "expo-location";
+import LocationUtil from "../utils/LocationUtil";
 
 const Friends = ({ navigation }) => {
     const [friends, setFriends] = useState([]);
@@ -15,45 +15,30 @@ const Friends = ({ navigation }) => {
 
     useLayoutEffect(() => {
         UserHelper.getFriends(auth.currentUser.uid, setFriends);
+        getUserLocation();
     }, []);
 
-    function distanceBetween(user1, user2) {
-        var R = 6371; // Radius of the earth in km
-        var dLat = (user1.latitude - user2.latitude) * (Math.PI / 180); // deg2rad below
-        var dLon = (user1.longitude - user2.longitude) * (Math.PI / 180);
-        var a =
-            0.5 -
-            Math.cos(dLat) / 2 +
-            (Math.cos((user1.latitude * Math.PI) / 180) * Math.cos((user2.latitude * Math.PI) / 180) * (1 - Math.cos(dLon))) / 2;
-        return R * 2 * Math.asin(Math.sqrt(a));
-    }
-
     useEffect(() => {
-        if (userLocation === null) {
-            getLocation();
+        if (friends.length === 0) {
             return;
         }
-    }, [userLocation]);
-
-    useEffect(() => {
-        if (friends.length === 0 && userLocation?.coords === null) {
-            return;
-        }
-        let closestFriendVar = friends[0];
-        for (let i = 0; i < friends.length; i++) {
-            if (
-                distanceBetween(userLocation.coords, friends[i].location.coords) <
-                distanceBetween(userLocation.coords, closestFriendVar.location.coords)
+        let closestFriendVar = null;
+        friends.forEach((friend) => {
+            if (closestFriendVar === null) {
+                closestFriendVar = friend;
+            } else if (
+                LocationUtil.distanceBetween(userLocation.coords, friend.location.coords) <
+                LocationUtil.distanceBetween(userLocation.coords, closestFriendVar.location.coords)
             ) {
-                closestFriendVar = friends[i];
+                closestFriendVar = friend;
             }
-        }
+        });
         setClosestFriend(closestFriendVar);
-        console.log("closestFriend", closestFriend);
     }, [userLocation]);
 
-    const getLocation = async () => {
-        setUserLocation(await Location.getCurrentPositionAsync({}));
+    const getUserLocation = async () => {
+        const currentPosition = await LocationUtil.getLocation();
+        setUserLocation(currentPosition);
     };
 
     return (
@@ -66,15 +51,18 @@ const Friends = ({ navigation }) => {
                 navigation={navigation}
                 friendsList={friends}
             />
-            {userLocation !== null && userLocation?.coords !== null && closestFriend !== null ? (
+            {userLocation !== null && userLocation?.coords && closestFriend !== null ? (
                 <View style={styles.viewTest}>
                     <User
                         navigation={navigation}
                         uid={closestFriend?.uid}
                         pseudo={closestFriend?.email}
+                        avatar={closestFriend?.avatar}
                         hint={
                             userLocation !== null && userLocation?.coords !== null && closestFriend?.location
-                                ? `à ${distanceBetween(userLocation.coords, closestFriend.location.coords).toFixed(2)} km (le plus proche)`
+                                ? `à ${LocationUtil.distanceBetween(userLocation.coords, closestFriend.location.coords).toFixed(
+                                      2
+                                  )} km (le plus proche)`
                                 : ""
                         }
                         addFriendIcon={false}
@@ -91,9 +79,10 @@ const Friends = ({ navigation }) => {
                             navigation={navigation}
                             uid={item.uid}
                             pseudo={item.email}
+                            avatar={item.avatar}
                             hint={
-                                userLocation !== null && userLocation.coords !== null
-                                    ? `à ${distanceBetween(userLocation.coords, item.location.coords).toFixed(2)} km`
+                                userLocation !== null && userLocation?.coords
+                                    ? `à ${LocationUtil.distanceBetween(userLocation.coords, item.location.coords).toFixed(2)} km`
                                     : ""
                             }
                             addFriendIcon={false}

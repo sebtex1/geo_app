@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import UserHelper from "../static/UserHelper";
+import LocationUtil from "../utils/LocationUtil";
 
 import * as Location from "expo-location";
 import { auth } from "../config/FirebaseConfig";
@@ -11,6 +12,10 @@ const Map = () => {
     const [count, setCount] = useState(0);
     const [friends, setFriends] = useState(null);
 
+    useLayoutEffect(() => {
+        UserHelper.getFriends(auth.currentUser.uid, setFriends);
+    }, []);
+
     useEffect(() => {
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -18,25 +23,20 @@ const Map = () => {
                 console.log("Permission to access location was denied");
                 return;
             }
-            getLocation();
+            getUserLocation();
         })();
     }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => setCount(count + 1), 10e3); // 10 second delay
-        getLocation();
+        getUserLocation();
         return () => clearTimeout(timer);
     }, [count]);
 
-    useLayoutEffect(() => {
-        UserHelper.getFriends(auth.currentUser.uid, setFriends);
-    }, []);
-
-    const getLocation = async () => {
-        const userLocation = await Location.getCurrentPositionAsync({});
-        console.log("userLocation", userLocation);
+    const getUserLocation = async () => {
+        const currentPosition = await LocationUtil.getLocation();
+        setLocation(currentPosition);
         UserHelper.addLocation(location);
-        setLocation(userLocation);
     };
 
     return (
