@@ -52,7 +52,7 @@ const Friends = ({ navigation }) => {
                 friendsList={friends}
             />
             {userLocation !== null && userLocation?.coords && closestFriend !== null ? (
-                <View style={styles.viewTest}>
+                <View style={styles.closetFriendContainer}>
                     <User
                         navigation={navigation}
                         uid={closestFriend?.uid}
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         height: "100%",
     },
-    viewTest: {
+    closetFriendContainer: {
         flex: 1,
     },
 });
