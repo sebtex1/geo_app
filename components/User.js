@@ -19,33 +19,41 @@ const User = (props) => {
             <Pressable
                 onPress={() => {
                     console.log(props.uid);
+                    if (props.uid === false) {
+                        Alert.alert(props.pseudo);
+                        return;
+                    }
                     ConversationHelper.getConversationByFriend(props.uid, setConversation);
                 }}
                 style={styles.container}
             >
                 <Pressable onPress={() => Alert.alert(props.pseudo)}>
-                    <Image
-                        style={styles.logo}
-                        source={{
-                            uri: props.avatar,
-                        }}
-                    />
+                    {props.avatar === false ? null : (
+                        <Image
+                            style={styles.logo}
+                            source={{
+                                uri: props.avatar,
+                            }}
+                        />
+                    )}
                 </Pressable>
                 <View style={styles.textContainer}>
                     <Text style={styles.text}>{props.pseudo}</Text>
                     <Text style={styles.hint}>{props.hint}</Text>
                 </View>
 
-                <MaterialCommunityIcons
-                    style={styles.icon}
-                    name={props.addFriendIcon ? "account-plus" : "map-marker"}
-                    size={26}
-                    onPress={() => {
-                        if (props.addFriendIcon) {
-                            UserHelper.addFriend(props.uid);
-                        }
-                    }}
-                />
+                {props.icon === false ? null : (
+                    <MaterialCommunityIcons
+                        style={styles.icon}
+                        name={props.addFriendIcon ? "account-plus" : "map-marker"}
+                        size={26}
+                        onPress={() => {
+                            if (props.addFriendIcon) {
+                                UserHelper.addFriend(props.uid);
+                            }
+                        }}
+                    />
+                )}
             </Pressable>
         </View>
     );
