@@ -19,22 +19,22 @@ const User = (props) => {
             <Pressable
                 onPress={() => {
                     console.log(props.uid);
-                    ConversationHelper.getConversationByFriend(
-                        props.uid,
-                        setConversation
-                    );
+                    ConversationHelper.getConversationByFriend(props.uid, setConversation);
                 }}
                 style={styles.container}
             >
-                <Pressable onPress={() => Alert.alert("ICON")}>
+                <Pressable onPress={() => Alert.alert(props.pseudo)}>
                     <Image
                         style={styles.logo}
                         source={{
-                            uri: "https://reactnative.dev/img/tiny_logo.png",
+                            uri: props.avatar,
                         }}
                     />
                 </Pressable>
-                <Text style={styles.text}>{props.pseudo}</Text>
+                <View style={styles.textContainer}>
+                    <Text style={styles.text}>{props.pseudo}</Text>
+                    <Text style={styles.hint}>{props.hint}</Text>
+                </View>
 
                 <MaterialCommunityIcons
                     style={styles.icon}
@@ -53,7 +53,6 @@ const User = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
@@ -65,6 +64,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         marginVertical: 4,
     },
+    textContainer: {
+        flex: 1,
+        flexDirection: "column",
+    },
     button: {
         maxWidth: 270,
         maxHeight: 50,
@@ -75,6 +78,9 @@ const styles = StyleSheet.create({
     text: {
         textAlign: "left",
         fontSize: 18,
+    },
+    hint: {
+        color: "#525354",
     },
     logo: {
         width: 50,

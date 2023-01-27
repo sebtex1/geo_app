@@ -1,8 +1,8 @@
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { LogBox, StyleSheet } from "react-native";
+import { useLayoutEffect, useState } from "react";
+import { LogBox } from "react-native";
 import { Entypo, MaterialCommunityIcons } from "react-native-vector-icons";
 import { auth } from "./config/FirebaseConfig";
 import AddFriend from "./pages/AddFriend";
@@ -135,12 +135,3 @@ export default function App() {
         </NavigationContainer>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
