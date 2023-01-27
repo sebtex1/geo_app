@@ -1,7 +1,7 @@
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, useEffect } from "react";
 import { LogBox } from "react-native";
 import { Entypo, MaterialCommunityIcons } from "react-native-vector-icons";
 import { auth } from "./config/FirebaseConfig";
@@ -15,7 +15,7 @@ import Login from "./pages/Login";
 import Map from "./pages/Map";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import UserHelper from './static/UserHelper'
+import UserHelper from "./static/UserHelper";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -93,20 +93,19 @@ export default function App() {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        if (!user){
+        if (!user) {
             UserHelper.createUser();
             setIsSignedIn(true);
-        }
-        else if (Object.keys(user).length != 0){
+        } else if (Object.keys(user).length != 0) {
             setIsSignedIn(true);
         }
-    }, [user])
+    }, [user]);
 
     //Listen to the user connection state
     useLayoutEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user) {
-                UserHelper.getUser(user.uid, setUser)
+                UserHelper.getUser(user.uid, setUser);
             } else {
                 console.log("Not logged in");
                 setIsSignedIn(false);
