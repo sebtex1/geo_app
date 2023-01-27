@@ -5,7 +5,6 @@ import AccountHelper from "../static/AccountHelper";
 import ConversationHelper from "../static/ConversationHelper";
 import UserHelper from "../static/UserHelper";
 import { useState } from "react";
-import { useEffect } from "react";
 
 const Home = ({ navigation }) => {
     const [user, setUser] = useState({});
@@ -42,7 +41,7 @@ const Home = ({ navigation }) => {
             <Button
                 title="get user"
                 onPress={() => {
-                    UserHelper.getUser("HaQ0YTzRhLSkXtoetyX6s12pS7w1", setUser);
+                    UserHelper.getUser("fupbLO5Pw0THgsuFjZ9kJi9Pluo2", setUser);
                 }}
             />
             <Button

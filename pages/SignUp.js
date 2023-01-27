@@ -10,13 +10,6 @@ const SignUp = ({ route, navigation }) => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (user) UserHelper.createUser();
-            return unsubscribe;
-        });
-    }, []);
-
     return (
         <View style={styles.container}>
             <Input

@@ -40,10 +40,6 @@ const Login = ({ navigation }) => {
         onPress={() => AccountHelper.checkEmail(email, setAuthMethods)}
       />
       <GoogleAuthButton />
-      <Button 
-        title='Log with google'
-        onPress={() => AccountHelper.signinWithGoogle()}
-      />
     </View>
   );
 };

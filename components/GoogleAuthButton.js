@@ -9,7 +9,6 @@ import  { GOOGLE_CLIENT_ID } from "@env";
 WebBrowser.maybeCompleteAuthSession();
 
 const GoogleAuthButton = () => {
-
     const [request, response, promptAsync] = GoogleAuthSession.useIdTokenAuthRequest({
         clientId: GOOGLE_CLIENT_ID
     });
@@ -17,7 +16,7 @@ const GoogleAuthButton = () => {
     useEffect(() => {
         if (response?.type === 'success') {
             const credential = GoogleAuthProvider.credential(response.params.id_token);
-            signInWithCredential(auth, credential);
+            signInWithCredential(auth, credential)
         }
     }, [response]);
 
