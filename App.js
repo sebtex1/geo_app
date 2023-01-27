@@ -37,7 +37,7 @@ const Theme = {
 function Tabs() {
     return (
         <Tab.Navigator
-            initialRouteName="Friends"
+            initialRouteName="Home"
             labeled={false}
             activeColor="#000000"
             inactiveColor="#fefefe"
