@@ -4,6 +4,7 @@ import { useTheme } from '@react-navigation/native';
 import { Input, Button } from "@rneui/base";
 import AccountHelper from "../static/AccountHelper";
 import GoogleAuthButton from '../components/GoogleAuthButton'
+import FacebookAuthButton from '../components/FacebookAuthButton'
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -40,6 +41,7 @@ const Login = ({ navigation }) => {
         onPress={() => AccountHelper.checkEmail(email, setAuthMethods)}
       />
       <GoogleAuthButton />
+      <FacebookAuthButton />
     </View>
   );
 };

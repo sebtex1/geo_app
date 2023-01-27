@@ -17,6 +17,8 @@ const GoogleAuthButton = () => {
         if (response?.type === 'success') {
             const credential = GoogleAuthProvider.credential(response.params.id_token);
             signInWithCredential(auth, credential)
+            .then((response) => console.info("google response", response))
+            .catch((error) => console.error("google error", error))
         }
     }, [response]);
 
