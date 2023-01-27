@@ -33,13 +33,15 @@ const UserHelper = {
 
         const q = query(collection(database, "users"), where("uid", "==", userId));
         const unsubscribe = onSnapshot(q, (snapshot) => {
-            setUser({
+            setUser(snapshot.docs[0] 
+            ? {
                 _id: snapshot.docs[0].id,
                 uid: snapshot.docs[0].data().uid,
                 createdAt: snapshot.docs[0].data().createdAt.toDate(),
                 email: snapshot.docs[0].data().email,
                 friends: snapshot.docs[0].data().friends,
-            });
+            }
+            : undefined);
         });
         return () => unsubscribe();
     },
