@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { useTheme } from '@react-navigation/native';
 import { Input, Button } from "@rneui/base";
 import AccountHelper from "../static/AccountHelper";
+import GoogleAuthButton from '../components/GoogleAuthButton'
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -37,6 +38,11 @@ const Login = ({ navigation }) => {
       <Button
         title="Check email"
         onPress={() => AccountHelper.checkEmail(email, setAuthMethods)}
+      />
+      <GoogleAuthButton />
+      <Button 
+        title='Log with google'
+        onPress={() => AccountHelper.signinWithGoogle()}
       />
     </View>
   );
