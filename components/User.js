@@ -3,6 +3,8 @@ import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import ConversationHelper from "../static/ConversationHelper";
 import UserHelper from "../static/UserHelper";
+import { sendNotificationToOther } from '../static/NotificationPush'
+import { auth } from '../config/FirebaseConfig'
 
 const User = (props) => {
     const [conversation, setConversation] = useState(null);
@@ -43,6 +45,11 @@ const User = (props) => {
                     onPress={() => {
                         if (props.addFriendIcon) {
                             UserHelper.addFriend(props.uid);
+                            const notification = {
+                                body: `${auth.currentUser.email} vous a ajouté en ami !`,
+                                data: 'hello !'
+                            }
+                            sendNotificationToOther(props.token, notification)
                         }
                     }}
                 />

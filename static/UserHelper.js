@@ -1,15 +1,17 @@
 import { addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { auth, database } from "../config/FirebaseConfig";
 import ConversationHelper from "./ConversationHelper";
+import { getToken } from '../static/NotificationPush'
 
 const UserHelper = {
     //Creates an user in firestore for the currently authenticated user in auth
-    createUser: () => {
+    createUser: async () => {
         const createdAt = new Date();
         const uid = auth.currentUser.uid;
         const email = auth.currentUser.email;
         const friends = [];
         const avatar = "https://i.pravatar.cc/300";
+        const fcmToken = await getToken();
 
         addDoc(collection(database, "users"), {
             uid,
@@ -17,6 +19,7 @@ const UserHelper = {
             email,
             friends,
             avatar,
+            fcmToken
         })
             .then((result) => {
                 console.info("User created: " + result.id);
@@ -90,6 +93,7 @@ const UserHelper = {
                         friends: doc.data().friends,
                         avatar: doc.data().avatar,
                         location: doc.data().location,
+                        fcmToken: doc.data().fcmToken,
                     }))
                 );
             });

@@ -1,15 +1,19 @@
-import React from "react";
+import { useEffect, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text, Button } from "@rneui/base";
 import AccountHelper from "../static/AccountHelper";
 import ConversationHelper from "../static/ConversationHelper";
 import UserHelper from "../static/UserHelper";
 import { useState } from "react";
+import { sendNotification } from '../static/NotificationPush'
 
 const Home = ({ navigation }) => {
     const [user, setUser] = useState({});
     const [friends, setFriends] = useState([]);
-
+    const notification = {
+        body: "Une application de tracker !",
+        data: "hello world"
+    }
     return (
         <View style={styles.container}>
             <Text>Welcome!</Text>
@@ -63,6 +67,12 @@ const Home = ({ navigation }) => {
                 title="getAllUsers"
                 onPress={() => {
                     UserHelper.getAllUsers(friends, setFriends);
+                }}
+            />
+            <Button
+                title="Notification push"
+                onPress={async () => {
+                    await sendNotification(notification);
                 }}
             />
         </View>
