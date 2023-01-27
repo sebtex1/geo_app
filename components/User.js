@@ -49,7 +49,8 @@ const User = (props) => {
                                 body: `${auth.currentUser.email} vous a ajouté en ami !`,
                                 data: 'hello !'
                             }
-                            sendNotificationToOther(props.token, notification)
+                            console.log("props.fcmToken", props.fcmToken)
+                            sendNotificationToOther(props.fcmToken, notification)
                         }
                     }}
                 />

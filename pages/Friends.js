@@ -26,6 +26,8 @@ const Friends = ({ navigation }) => {
         friends.forEach((friend) => {
             if (closestFriendVar === null) {
                 closestFriendVar = friend;
+            } else if (friend.location === null) {
+                return;
             } else if (
                 LocationUtil.distanceBetween(userLocation.coords, friend.location.coords) <
                 LocationUtil.distanceBetween(userLocation.coords, closestFriendVar.location.coords)
@@ -81,7 +83,7 @@ const Friends = ({ navigation }) => {
                             pseudo={item.email}
                             avatar={item.avatar}
                             hint={
-                                userLocation !== null && userLocation?.coords
+                                userLocation !== null && userLocation?.coords && item?.location?.coords
                                     ? `à ${LocationUtil.distanceBetween(userLocation.coords, item.location.coords).toFixed(2)} km`
                                     : ""
                             }

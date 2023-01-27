@@ -32,7 +32,7 @@ const AddFriend = ({ route }) => {
             <FlatList
                 style={styles.flatList}
                 data={users}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.uid}
                 renderItem={({ item }) => {
                     return <User uid={item.uid} pseudo={item?.email} fcmToken={item?.fcmToken} addFriendIcon={true} />;
                 }}

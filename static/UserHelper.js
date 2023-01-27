@@ -64,6 +64,7 @@ const UserHelper = {
                     createdAt: doc.data().createdAt.toDate(),
                     email: doc.data().email,
                     friends: doc.data().friends,
+                    fcmToken: doc.data().fcmToken,
                 }))
             );
             unsubscribe();
