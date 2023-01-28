@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import Conversation from "../components/Conversation";
 import { auth } from "../config/FirebaseConfig";
-import ConversationHelper from "../static/ConversationHelper";
+import ConversationService from "../services/ConversationService";
 
 const Conversations = ({ navigation }) => {
     const [conversations, setConversations] = useState([]);
@@ -17,7 +17,7 @@ const Conversations = ({ navigation }) => {
     ];
 
     useLayoutEffect(() => {
-        ConversationHelper.getConversation(auth.currentUser.uid, setConversations);
+        ConversationService.getConversation(auth.currentUser.uid, setConversations);
     }, []);
 
     return (

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import ConversationHelper from "../static/ConversationHelper";
-import UserHelper from "../static/UserHelper";
-import { sendNotificationToOther } from '../static/NotificationPush'
-import { auth } from '../config/FirebaseConfig'
+import { auth } from "../config/FirebaseConfig";
+import ConversationService from "../services/ConversationService";
+import { sendNotificationToOther } from "../services/NotificationPush";
+import UserService from "../services/UserService";
 
 const User = (props) => {
     const [conversation, setConversation] = useState(null);
@@ -25,7 +25,7 @@ const User = (props) => {
                         Alert.alert(props.pseudo);
                         return;
                     }
-                    ConversationHelper.getConversationByFriend(props.uid, setConversation);
+                    ConversationService.getConversationByFriend(props.uid, setConversation);
                 }}
                 style={styles.container}
             >
@@ -51,13 +51,13 @@ const User = (props) => {
                         size={26}
                         onPress={() => {
                             if (props.addFriendIcon) {
-                                UserHelper.addFriend(props.uid);
+                                UserService.addFriend(props.uid);
                                 const notification = {
                                     body: `${auth.currentUser.email} vous a ajouté en ami !`,
-                                    data: 'hello !'
-                                }
-                                console.log("props.fcmToken", props.fcmToken)
-                                sendNotificationToOther(props.fcmToken, notification)
+                                    data: "hello !",
+                                };
+                                console.log("props.fcmToken", props.fcmToken);
+                                sendNotificationToOther(props.fcmToken, notification);
                             }
                         }}
                     />

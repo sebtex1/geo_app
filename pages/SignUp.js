@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { Button, Input } from "@rneui/base";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Input, Button } from "@rneui/base";
-import AccountHelper from "../static/AccountHelper";
-import { auth } from "../config/FirebaseConfig";
-import UserHelper from "../static/UserHelper";
+import AccountService from "../services/AccountService";
 
 const SignUp = ({ route, navigation }) => {
     const [email, setEmail] = useState(route.params.email ?? "");
@@ -12,17 +10,8 @@ const SignUp = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Input
-                label="Email"
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-            />
-            <Input
-                label="Password"
-                value={password}
-                secureTextEntry={true}
-                onChangeText={(text) => setPassword(text)}
-            />
+            <Input label="Email" value={email} onChangeText={(text) => setEmail(text)} />
+            <Input label="Password" value={password} secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
             <Input
                 label="Confirm Password"
                 value={confirmPassword}
@@ -32,9 +21,7 @@ const SignUp = ({ route, navigation }) => {
             <Button
                 title="Register"
                 onPress={() =>
-                    password === confirmPassword
-                        ? AccountHelper.signupWithEmail(email, password)
-                        : console.log("Passwords not matching")
+                    password === confirmPassword ? AccountService.signupWithEmail(email, password) : console.log("Passwords not matching")
                 }
             />
         </View>

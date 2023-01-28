@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, FlatList, ActivityIndicator, View } from "react-native";
 import User from "../components/User";
-import UserHelper from "../static/UserHelper";
+import UserService from "../services/UserService";
 import SearchBar from "../components/SearchBar";
 
 const AddFriend = ({ route }) => {
@@ -11,7 +11,7 @@ const AddFriend = ({ route }) => {
     const friendList = route.params.friendsList;
 
     useEffect(() => {
-        UserHelper.getAllUsers(friendList, setUsers);
+        UserService.getAllUsers(friendList, setUsers);
     }, [friendList]);
 
     useEffect(() => {

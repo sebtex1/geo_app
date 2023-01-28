@@ -1,9 +1,9 @@
 import { addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { auth, database } from "../config/FirebaseConfig";
-import ConversationHelper from "./ConversationHelper";
-import { getToken } from '../static/NotificationPush'
+import ConversationService from "./ConversationService";
+import { getToken } from "./NotificationPush";
 
-const UserHelper = {
+const UserService = {
     //Creates an user in firestore for the currently authenticated user in auth
     createUser: async () => {
         const createdAt = new Date();
@@ -19,7 +19,7 @@ const UserHelper = {
             email,
             friends,
             avatar,
-            fcmToken
+            fcmToken,
         })
             .then((result) => {
                 console.info("User created: " + result.id);
@@ -36,15 +36,17 @@ const UserHelper = {
 
         const q = query(collection(database, "users"), where("uid", "==", userId));
         const unsubscribe = onSnapshot(q, (snapshot) => {
-            setUser(snapshot.docs[0] 
-            ? {
-                _id: snapshot.docs[0].id,
-                uid: snapshot.docs[0].data().uid,
-                createdAt: snapshot.docs[0].data().createdAt.toDate(),
-                email: snapshot.docs[0].data().email,
-                friends: snapshot.docs[0].data().friends,
-            }
-            : undefined);
+            setUser(
+                snapshot.docs[0]
+                    ? {
+                          _id: snapshot.docs[0].id,
+                          uid: snapshot.docs[0].data().uid,
+                          createdAt: snapshot.docs[0].data().createdAt.toDate(),
+                          email: snapshot.docs[0].data().email,
+                          friends: snapshot.docs[0].data().friends,
+                      }
+                    : undefined
+            );
         });
         return () => unsubscribe();
     },
@@ -138,7 +140,7 @@ const UserHelper = {
         });
 
         console.log("par ici");
-        ConversationHelper.createConversation("", [userId, friendId].sort());
+        ConversationService.createConversation("", [userId, friendId].sort());
 
         return () => unsubscribe();
     },
@@ -160,4 +162,4 @@ const UserHelper = {
     },
 };
 
-export default UserHelper;
+export default UserService;

@@ -1,23 +1,22 @@
-import { useEffect, useRef } from "react";
-import { StyleSheet, View } from "react-native";
-import { Text, Button } from "@rneui/base";
-import AccountHelper from "../static/AccountHelper";
-import ConversationHelper from "../static/ConversationHelper";
-import UserHelper from "../static/UserHelper";
+import { Button, Text } from "@rneui/base";
 import { useState } from "react";
-import { sendNotification } from '../static/NotificationPush'
+import { StyleSheet, View } from "react-native";
+import { sendNotification } from "../services/NotificationPush";
+import AccountService from "../services/AccountService";
+import ConversationService from "../services/ConversationService";
+import UserService from "../services/UserService";
 
 const Home = ({ navigation }) => {
     const [user, setUser] = useState({});
     const [friends, setFriends] = useState([]);
     const notification = {
         body: "Une application de tracker !",
-        data: "hello world"
-    }
+        data: "hello world",
+    };
     return (
         <View style={styles.container}>
             <Text>Welcome!</Text>
-            <Button title="Log out" onPress={() => AccountHelper.SignOut()} />
+            <Button title="Log out" onPress={() => AccountService.SignOut()} />
             {/* <Button title="Chat" onPress={() => navigation.navigate('Chat', { friendId: 'wQyFXbkfuIYwm3OXrX5c8QYjowD2' })}/> */}
             <Button
                 title="Chat"
@@ -30,43 +29,37 @@ const Home = ({ navigation }) => {
             <Button
                 title="Conv"
                 onPress={() =>
-                    ConversationHelper.createConversation("Test conv", [
-                        "HaQ0YTzRhLSkXtoetyX6s12pS7w1",
-                        "wQyFXbkfuIYwm3OXrX5c8QYjowD2",
-                    ])
+                    ConversationService.createConversation("Test conv", ["HaQ0YTzRhLSkXtoetyX6s12pS7w1", "wQyFXbkfuIYwm3OXrX5c8QYjowD2"])
                 }
             />
             <Button
                 title="Create user"
                 onPress={() => {
-                    UserHelper.createUser(setUser);
+                    UserService.createUser(setUser);
                 }}
             />
             <Button
                 title="get user"
                 onPress={() => {
-                    UserHelper.getUser("fupbLO5Pw0THgsuFjZ9kJi9Pluo2", setUser);
+                    UserService.getUser("fupbLO5Pw0THgsuFjZ9kJi9Pluo2", setUser);
                 }}
             />
             <Button
                 title="get friends"
                 onPress={() => {
-                    UserHelper.getFriends(
-                        "HaQ0YTzRhLSkXtoetyX6s12pS7w1",
-                        setFriends
-                    );
+                    UserService.getFriends("HaQ0YTzRhLSkXtoetyX6s12pS7w1", setFriends);
                 }}
             />
             <Button
                 title="add friends"
                 onPress={() => {
-                    UserHelper.addFriend("QlczoPfh3FZMjnptRGZvhTLvLfD3");
+                    UserService.addFriend("QlczoPfh3FZMjnptRGZvhTLvLfD3");
                 }}
             />
             <Button
                 title="getAllUsers"
                 onPress={() => {
-                    UserHelper.getAllUsers(friends, setFriends);
+                    UserService.getAllUsers(friends, setFriends);
                 }}
             />
             <Button

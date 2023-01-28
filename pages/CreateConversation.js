@@ -4,9 +4,9 @@ import { StyleSheet, View } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import UserList from "../components/UserList";
 import { auth } from "../config/FirebaseConfig";
-import ConversationHelper from "../static/ConversationHelper";
-import StringHelper from "../static/StringHelper";
-import UserHelper from "../static/UserHelper";
+import ConversationService from "../services/ConversationService";
+import StringHelper from "../helper/StringHelper";
+import UserService from "../services/UserService";
 
 const CreateConversation = ({ navigation }) => {
     const [friends, setFriends] = useState(null);
@@ -36,13 +36,13 @@ const CreateConversation = ({ navigation }) => {
     //Create conversation
     const onPressValidate = () => {
         if (selectedFriends.length <= 1 || StringHelper.isBlank(conversationName)) return;
-        ConversationHelper.createConversation(conversationName, [...selectedFriends, auth.currentUser.uid]);
+        ConversationService.createConversation(conversationName, [...selectedFriends, auth.currentUser.uid]);
         navigation.goBack();
     };
 
     //Fetch friends
     useLayoutEffect(() => {
-        UserHelper.getFriends(auth.currentUser.uid, setFriends);
+        UserService.getFriends(auth.currentUser.uid, setFriends);
     }, []);
 
     //Initialize friends
