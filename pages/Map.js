@@ -5,7 +5,7 @@ import { StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import User from "../components/User";
 import { auth } from "../config/FirebaseConfig";
-import UserHelper from "../static/UserHelper";
+import UserService from "../services/UserService";
 import LocationUtil from "../utils/LocationUtil";
 
 const Map = ({ navigation }) => {
@@ -17,7 +17,7 @@ const Map = ({ navigation }) => {
     const [selectedMarker, setSelectedMarker] = useState(null);
 
     useLayoutEffect(() => {
-        UserHelper.getFriends(auth.currentUser.uid, setFriends);
+        UserService.getFriends(auth.currentUser.uid, setFriends);
     }, []);
 
     useEffect(() => {
@@ -41,9 +41,9 @@ const Map = ({ navigation }) => {
         const currentPosition = await LocationUtil.getLocation();
         setLocation(currentPosition);
         if (checked) {
-            UserHelper.addLocation(null);
+            UserService.addLocation(null);
         } else {
-            UserHelper.addLocation(location);
+            UserService.addLocation(location);
         }
     };
 

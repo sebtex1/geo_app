@@ -4,7 +4,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import SearchBar from "../components/SearchBar";
 import User from "../components/User";
 import { auth } from "../config/FirebaseConfig";
-import UserHelper from "../static/UserHelper";
+import UserService from "../services/UserService";
 import LocationUtil from "../utils/LocationUtil";
 
 const Friends = ({ navigation }) => {
@@ -14,7 +14,7 @@ const Friends = ({ navigation }) => {
     const [closestFriend, setClosestFriend] = useState(null);
 
     useLayoutEffect(() => {
-        UserHelper.getFriends(auth.currentUser.uid, setFriends);
+        UserService.getFriends(auth.currentUser.uid, setFriends);
         getUserLocation();
     }, []);
 

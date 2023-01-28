@@ -1,7 +1,7 @@
 import { addDoc, collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { auth, database } from "../config/FirebaseConfig";
 
-const ConversationHelper = {
+const ConversationService = {
     createConversation: (convName, users) => {
         const createdAt = new Date();
 
@@ -53,4 +53,4 @@ const ConversationHelper = {
     },
 };
 
-export default ConversationHelper;
+export default ConversationService;
