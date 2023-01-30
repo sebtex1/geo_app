@@ -69,10 +69,7 @@ const UserService = {
                     friends: doc.data().friends,
                     fcmToken: doc.data().fcmToken,
                     avatar: doc.data().avatar,
-<<<<<<< HEAD
                     location: doc.data().location,
-=======
->>>>>>> main
                 }))
             );
             unsubscribe();
