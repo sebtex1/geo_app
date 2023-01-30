@@ -68,6 +68,7 @@ const UserService = {
                     email: doc.data().email,
                     friends: doc.data().friends,
                     fcmToken: doc.data().fcmToken,
+                    avatar: doc.data().avatar,
                 }))
             );
             unsubscribe();
