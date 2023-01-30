@@ -1,10 +1,10 @@
 import { Button } from "@rneui/base";
-import { View, Image, Text } from "react-native";
-import AccountService from "../services/AccountService";
-import styles from "../styles/styles";
-import UserService from "../services/UserService";
 import { useLayoutEffect, useState } from "react";
+import { Image, Text, View } from "react-native";
 import { auth } from "../config/FirebaseConfig";
+import AccountService from "../services/AccountService";
+import UserService from "../services/UserService";
+import styles from "../styles/styles";
 import AvatarUtil from "../utils/AvatarUtil";
 // import { sendNotification } from "../services/NotificationPush";
 // import ConversationService from "../services/ConversationService";
@@ -26,7 +26,9 @@ const Profil = () => {
         // style={styles.container}
         <View style={styles.containerAppScreen}>
             {/* <Text>Welcome!</Text> */}
-            <Image style={styles.profileImg} source={AvatarUtil.getAvatar(user.avatar)} />
+            <View style={styles.containerProfil}>
+                <Image style={styles.profileImg} source={AvatarUtil.getAvatar(user.avatar)} />
+            </View>
             <Text style={styles.textEmail}>{user.email}</Text>
             <Button title="Log out" onPress={() => AccountService.SignOut()} />
             {/* <Button title="Chat" onPress={() => navigation.navigate('Chat', { friendId: 'wQyFXbkfuIYwm3OXrX5c8QYjowD2' })}/> */}
@@ -84,14 +86,5 @@ const Profil = () => {
         </View>
     );
 };
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         backgroundColor: "#fff",
-//         alignItems: "center",
-//         justifyContent: "center",
-//     },
-// });
 
 export default Profil;

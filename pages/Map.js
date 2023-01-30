@@ -1,4 +1,4 @@
-import { Switch, Text } from "@rneui/base";
+import { Switch, Text, Image } from "@rneui/base";
 import * as Location from "expo-location";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { View } from "react-native";
@@ -7,6 +7,9 @@ import BaseUser from "../components/BaseUser";
 import { auth } from "../config/FirebaseConfig";
 import UserService from "../services/UserService";
 import LocationUtil from "../utils/LocationUtil";
+import styles from "../styles/styles";
+import AvatarUtil from "../utils/AvatarUtil";
+import { Divider } from "@rneui/base";
 
 const Map = ({ navigation }) => {
     const [location, setLocation] = useState(null);
@@ -15,9 +18,11 @@ const Map = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
     const [currentLocationMarker, setCurrentLocationMarker] = useState(0);
     const [selectedMarker, setSelectedMarker] = useState(null);
+    const [user, setUser] = useState({});
 
     useLayoutEffect(() => {
         UserService.getFriends(auth.currentUser.uid, setFriends);
+        UserService.getUser(auth?.currentUser?.uid, setUser);
     }, []);
 
     useEffect(() => {
@@ -48,10 +53,19 @@ const Map = ({ navigation }) => {
     };
 
     return (
-        // style={styles.container}
-        <View>
-            {/* style={styles.map} */}
-            <MapView>
+        <View style={styles.containerAppScreen}>
+            <View style={styles.header}>
+                <View style={styles.headerLeft}>
+                    <Image style={styles.lilProfileImg} source={AvatarUtil.getAvatar(user.avatar)} />
+                </View>
+                <View style={styles.headerCenterAndRight}>
+                    <Text style={styles.textHeader}>My Location</Text>
+                </View>
+                <View style={styles.headerCenterAndRight} />
+            </View>
+            <Divider width={5} color={"#000"} />
+
+            <MapView style={styles.containerMap}>
                 {location !== null && location?.coords?.latitude && location?.coords?.longitude ? (
                     <View>
                         <Marker
@@ -99,8 +113,7 @@ const Map = ({ navigation }) => {
                     </View>
                 ) : null}
             </MapView>
-            {/* style={styles.ghostModeContainer} */}
-            <View>
+            <View style={styles.containerGhostMode}>
                 <Text>Ghost Mode: </Text>
                 <Switch
                     value={checked}
@@ -125,21 +138,5 @@ const Map = ({ navigation }) => {
         </View>
     );
 };
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         backgroundColor: "#fff",
-//         justifyContent: "center",
-//     },
-//     ghostModeContainer: {
-//         flexDirection: "row",
-//         alignItems: "center",
-//     },
-//     map: {
-//         width: "100%",
-//         height: "70%",
-//     },
-// });
 
 export default Map;
