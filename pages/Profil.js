@@ -1,12 +1,12 @@
 import { Button, Text } from "@rneui/base";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { sendNotification } from "../services/NotificationPush";
 import AccountService from "../services/AccountService";
 import ConversationService from "../services/ConversationService";
 import UserService from "../services/UserService";
 
-const Home = ({ navigation }) => {
+const Profil = ({ navigation }) => {
     const [user, setUser] = useState({});
     const [friends, setFriends] = useState([]);
     const notification = {
@@ -14,7 +14,8 @@ const Home = ({ navigation }) => {
         data: "hello world",
     };
     return (
-        <View style={styles.container}>
+        // style={styles.container}
+        <View>
             <Text>Welcome!</Text>
             <Button title="Log out" onPress={() => AccountService.SignOut()} />
             {/* <Button title="Chat" onPress={() => navigation.navigate('Chat', { friendId: 'wQyFXbkfuIYwm3OXrX5c8QYjowD2' })}/> */}
@@ -73,13 +74,13 @@ const Home = ({ navigation }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         backgroundColor: "#fff",
+//         alignItems: "center",
+//         justifyContent: "center",
+//     },
+// });
 
-export default Home;
+export default Profil;

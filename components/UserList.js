@@ -1,12 +1,13 @@
 import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, View } from "react-native";
 import BaseUser from "./BaseUser";
 
 const UserList = (props) => {
     return (
-        <View style={styles.flatList}>
+        // style={styles.flatList}
+        <View>
             <FlatList
-                style={styles.container}
+                // style={styles.container}
                 data={props.users}
                 renderItem={({ item }) => {
                     return (
@@ -25,15 +26,15 @@ const UserList = (props) => {
     );
 };
 
-const styles = StyleSheet.create({
-    flatList: {
-        marginTop: 5,
-        marginBottom: 65,
-        flex: 1,
-        flexBasis: "auto",
-        flexShrink: 0,
-        flexGrow: 10,
-    },
-});
+// const styles = StyleSheet.create({
+//     flatList: {
+//         marginTop: 5,
+//         marginBottom: 65,
+//         flex: 1,
+//         flexBasis: "auto",
+//         flexShrink: 0,
+//         flexGrow: 10,
+//     },
+// });
 
 export default UserList;

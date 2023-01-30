@@ -1,6 +1,6 @@
 import { Button, Input } from "@rneui/base";
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import AccountService from "../services/AccountService";
 
 const SignUp = ({ route, navigation }) => {
@@ -9,7 +9,8 @@ const SignUp = ({ route, navigation }) => {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     return (
-        <View style={styles.container}>
+        // style={styles.container}
+        <View>
             <Input label="Email" value={email} onChangeText={(text) => setEmail(text)} />
             <Input label="Password" value={password} secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
             <Input
@@ -28,13 +29,13 @@ const SignUp = ({ route, navigation }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         backgroundColor: "#fff",
+//         alignItems: "center",
+//         justifyContent: "center",
+//     },
+// });
 
 export default SignUp;

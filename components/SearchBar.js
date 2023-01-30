@@ -1,13 +1,16 @@
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { SearchBar } from "react-native-elements";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Friends = (props) => {
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
+        // style={styles.container}
+        <SafeAreaView>
+            {/* style={styles.header} */}
+            <View>
+                {/* containerStyle={styles.searchBar} */}
+
                 <SearchBar
-                    containerStyle={styles.searchBar}
                     placeholder="Rechercher..."
                     lightTheme
                     round
@@ -17,8 +20,8 @@ const Friends = (props) => {
                     }}
                 />
                 {props.addFriendIcon ? (
+                    // style={styles.icon}
                     <MaterialCommunityIcons
-                        style={styles.icon}
                         name="account-plus"
                         size={35}
                         onPress={() => {
@@ -35,39 +38,39 @@ const Friends = (props) => {
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        height: "25%",
-    },
-    header: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#F0B221",
-        paddingVertical: 8,
-    },
-    searchBar: {
-        flex: 1,
-        flexBasis: "auto",
-        flexShrink: 1,
-        flexGrow: 9,
-        backgroundColor: "#F0B221",
-        borderColor: "#fff",
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
-    },
-    icon: {
-        flex: 1,
-        flexBasis: 10,
-        flexShrink: 1,
-        flexGrow: 1,
-        flexDirection: "row",
-        alignContent: "center",
-        justifyContent: "center",
-    },
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         flexDirection: "column",
+//         justifyContent: "flex-start",
+//         height: "25%",
+//     },
+//     header: {
+//         flexDirection: "row",
+//         justifyContent: "center",
+//         alignItems: "center",
+//         backgroundColor: "#F0B221",
+//         paddingVertical: 8,
+//     },
+//     searchBar: {
+//         flex: 1,
+//         flexBasis: "auto",
+//         flexShrink: 1,
+//         flexGrow: 9,
+//         backgroundColor: "#F0B221",
+//         borderColor: "#fff",
+//         borderTopWidth: 0,
+//         borderBottomWidth: 0,
+//     },
+//     icon: {
+//         flex: 1,
+//         flexBasis: 10,
+//         flexShrink: 1,
+//         flexGrow: 1,
+//         flexDirection: "row",
+//         alignContent: "center",
+//         justifyContent: "center",
+//     },
+// });
 
 export default Friends;

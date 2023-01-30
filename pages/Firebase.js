@@ -1,6 +1,6 @@
 import { Button, Text } from "@rneui/base";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { auth } from "../config/firebaseConfig";
 import AccountService from "../services/AccountService";
 
@@ -22,8 +22,10 @@ const Firebase = ({ navigation }) => {
     }, [userCred]);
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Firebase</Text>
+        // style={styles.container}
+        <View>
+            {/* style={styles.title} */}
+            <Text>Firebase</Text>
             <Button title="Signup" onPress={() => AccountService.signupWithEmail("olivier@gmail.com", "olivierbigboss123!")} />
             <Button title="Signin" onPress={() => AccountService.signinWithEmail("olivier@gmail.com", "olivierbigboss123!", setUserCred)} />
             <Button title="Signout" onPress={() => AccountService.SignOut(setUserCred)} />
@@ -31,14 +33,14 @@ const Firebase = ({ navigation }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        margin: 20,
-    },
-    title: {
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         margin: 20,
+//     },
+//     title: {
+//         fontWeight: "bold",
+//         textAlign: "center",
+//     },
+// });
 
 export default Firebase;

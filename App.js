@@ -10,7 +10,7 @@ import Chat from "./pages/Chat";
 import Conversations from "./pages/Conversations";
 import CreateConversation from "./pages/CreateConversation";
 import Friends from "./pages/Friends";
-import Home from "./pages/Home";
+import Profil from "./pages/Profil";
 import Login from "./pages/Login";
 import Map from "./pages/Map";
 import SignIn from "./pages/SignIn";
@@ -38,15 +38,15 @@ const Theme = {
 function Tabs() {
     return (
         <Tab.Navigator
-            initialRouteName="Home"
+            initialRouteName="Profil"
             labeled={false}
             activeColor="#000000"
             inactiveColor="#fefefe"
             barStyle={{ backgroundColor: "#02abff" }}
         >
             <Tab.Screen
-                name="Home"
-                component={Home}
+                name="Profil"
+                component={Profil}
                 options={{
                     tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home" color={color} size={26} />,
                 }}

@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import Conversation from "../components/Conversation";
 import { auth } from "../config/FirebaseConfig";
@@ -21,9 +21,10 @@ const Conversations = ({ navigation }) => {
     }, []);
 
     return (
-        <View style={styles.container}>
+        // style={styles.container}
+        <View>
             <FlatList
-                style={styles.container}
+                // style={styles.container}
                 data={conversations.filter((conv) => conv.users.length > 2)}
                 renderItem={({ item }) => {
                     return <Conversation convId={item._id} convName={item.convName} navigation={navigation} />;
@@ -41,11 +42,11 @@ const Conversations = ({ navigation }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: 50,
-    },
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         marginTop: 50,
+//     },
+// });
 
 export default Conversations;

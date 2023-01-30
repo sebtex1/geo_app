@@ -1,6 +1,6 @@
 import { Input } from "@rneui/base";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import UserList from "../components/UserList";
 import { auth } from "../config/FirebaseConfig";
@@ -63,7 +63,8 @@ const CreateConversation = ({ navigation }) => {
     }, [selectedFriends]);
 
     return (
-        <View style={styles.flatList}>
+        // style={styles.flatList}
+        <View>
             <Input label="Group name" value={conversationName} onChangeText={(text) => setConversationName(text)} />
             <UserList users={friends} navigation={navigation} onPressMethod={onPressUserMethod} />
             <FloatingAction
@@ -78,15 +79,15 @@ const CreateConversation = ({ navigation }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    flatList: {
-        marginTop: 50,
-        marginBottom: 65,
-        flex: 1,
-        flexBasis: "auto",
-        flexShrink: 0,
-        flexGrow: 10,
-    },
-});
+// const styles = StyleSheet.create({
+//     flatList: {
+//         marginTop: 50,
+//         marginBottom: 65,
+//         flex: 1,
+//         flexBasis: "auto",
+//         flexShrink: 0,
+//         flexGrow: 10,
+//     },
+// });
 
 export default CreateConversation;

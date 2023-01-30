@@ -1,8 +1,8 @@
 import { Divider } from "@rneui/base";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, View } from "react-native";
 import SearchBar from "../components/SearchBar";
-import User from "../components/User";
+import BaseUser from "../components/BaseUser";
 import { auth } from "../config/FirebaseConfig";
 import UserService from "../services/UserService";
 import LocationUtil from "../utils/LocationUtil";
@@ -44,9 +44,10 @@ const Friends = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
+        // style={styles.container}
+        <View>
             <SearchBar
-                style={styles.searchBar}
+                // style={styles.searchBar}
                 searchText={searchText}
                 setSearchText={setSearchText}
                 addFriendIcon={true}
@@ -54,8 +55,9 @@ const Friends = ({ navigation }) => {
                 friendsList={friends}
             />
             {userLocation !== null && userLocation?.coords && closestFriend !== null ? (
-                <View style={styles.closetFriendContainer}>
-                    <User
+                // style={styles.closetFriendContainer}
+                <View>
+                    <BaseUser
                         navigation={navigation}
                         uid={closestFriend?.uid}
                         pseudo={closestFriend?.email}
@@ -77,7 +79,7 @@ const Friends = ({ navigation }) => {
                 keyExtractor={(item) => item.uid}
                 renderItem={({ item }) => {
                     return (
-                        <User
+                        <BaseUser
                             navigation={navigation}
                             uid={item.uid}
                             pseudo={item.email}
@@ -96,15 +98,15 @@ const Friends = ({ navigation }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        height: "100%",
-    },
-    closetFriendContainer: {
-        flex: 1,
-    },
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         backgroundColor: "#fff",
+//         height: "100%",
+//     },
+//     closetFriendContainer: {
+//         flex: 1,
+//     },
+// });
 
 export default Friends;

@@ -1,9 +1,9 @@
 import { Switch, Text } from "@rneui/base";
 import * as Location from "expo-location";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import User from "../components/User";
+import BaseUser from "../components/BaseUser";
 import { auth } from "../config/FirebaseConfig";
 import UserService from "../services/UserService";
 import LocationUtil from "../utils/LocationUtil";
@@ -48,8 +48,10 @@ const Map = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
-            <MapView style={styles.map}>
+        // style={styles.container}
+        <View>
+            {/* style={styles.map} */}
+            <MapView>
                 {location !== null && location?.coords?.latitude && location?.coords?.longitude ? (
                     <View>
                         <Marker
@@ -97,7 +99,8 @@ const Map = ({ navigation }) => {
                     </View>
                 ) : null}
             </MapView>
-            <View style={styles.ghostModeContainer}>
+            {/* style={styles.ghostModeContainer} */}
+            <View>
                 <Text>Ghost Mode: </Text>
                 <Switch
                     value={checked}
@@ -109,7 +112,7 @@ const Map = ({ navigation }) => {
                 />
             </View>
             {selectedMarker ? (
-                <User
+                <BaseUser
                     navigation={navigation}
                     uid={selectedMarker?.uid}
                     pseudo={selectedMarker?.email}
@@ -123,20 +126,20 @@ const Map = ({ navigation }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        justifyContent: "center",
-    },
-    ghostModeContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    map: {
-        width: "100%",
-        height: "70%",
-    },
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         backgroundColor: "#fff",
+//         justifyContent: "center",
+//     },
+//     ghostModeContainer: {
+//         flexDirection: "row",
+//         alignItems: "center",
+//     },
+//     map: {
+//         width: "100%",
+//         height: "70%",
+//     },
+// });
 
 export default Map;
