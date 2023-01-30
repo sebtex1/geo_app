@@ -10,7 +10,7 @@ const UserService = {
         const uid = auth.currentUser.uid;
         const email = auth.currentUser.email;
         const friends = [];
-        const avatar = (Math.floor(Math.random() * 2) === 0 ? "man_" : "girl_") + (Math.floor(Math.random() * 5) + 1);
+        const avatar = "https://i.pravatar.cc/300";
         const fcmToken = await getToken();
 
         addDoc(collection(database, "users"), {
@@ -44,7 +44,6 @@ const UserService = {
                           createdAt: snapshot.docs[0].data().createdAt.toDate(),
                           email: snapshot.docs[0].data().email,
                           friends: snapshot.docs[0].data().friends,
-                          avatar: snapshot.docs[0].data().avatar,
                       }
                     : undefined
             );
@@ -68,7 +67,6 @@ const UserService = {
                     email: doc.data().email,
                     friends: doc.data().friends,
                     fcmToken: doc.data().fcmToken,
-                    avatar: doc.data().avatar,
                 }))
             );
             unsubscribe();

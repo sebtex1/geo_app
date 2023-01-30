@@ -41,8 +41,7 @@ const Home = ({ navigation }) => {
             <Button
                 title="get user"
                 onPress={() => {
-                    UserService.getUser("vdhGZK6chnZenvEe14lDfqzK4Jw2", setUser);
-                    console.log("user: ", user);
+                    UserService.getUser("fupbLO5Pw0THgsuFjZ9kJi9Pluo2", setUser);
                 }}
             />
             <Button

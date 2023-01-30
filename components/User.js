@@ -16,42 +16,6 @@ const User = (props) => {
         });
     }, [conversation]);
 
-    let avatar;
-    switch (props.avatar) {
-        case "man_1":
-            avatar = require("../assets/default_avatars/man_1.png");
-            break;
-        case "man_2":
-            avatar = require("../assets/default_avatars/man_2.png");
-            break;
-        case "man_3":
-            avatar = require("../assets/default_avatars/man_3.png");
-            break;
-        case "man_4":
-            avatar = require("../assets/default_avatars/man_4.png");
-            break;
-        case "man_5":
-            avatar = require("../assets/default_avatars/man_5.png");
-            break;
-        case "girl_1":
-            avatar = require("../assets/default_avatars/girl_1.png");
-            break;
-        case "girl_2":
-            avatar = require("../assets/default_avatars/girl_2.png");
-            break;
-        case "girl_3":
-            avatar = require("../assets/default_avatars/girl_3.png");
-            break;
-        case "girl_4":
-            avatar = require("../assets/default_avatars/girl_4.png");
-            break;
-        case "girl_5":
-            avatar = require("../assets/default_avatars/girl_5.png");
-            break;
-        case false:
-            break;
-    }
-
     return (
         <View>
             <Pressable
@@ -66,7 +30,14 @@ const User = (props) => {
                 style={styles.container}
             >
                 <Pressable onPress={() => Alert.alert(props.pseudo)}>
-                    {props.avatar === false ? null : <Image style={styles.logo} source={avatar} />}
+                    {props.avatar === false ? null : (
+                        <Image
+                            style={styles.logo}
+                            source={{
+                                uri: props.avatar,
+                            }}
+                        />
+                    )}
                 </Pressable>
                 <View style={styles.textContainer}>
                     <Text style={styles.text}>{props.pseudo}</Text>

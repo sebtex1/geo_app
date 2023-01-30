@@ -34,9 +34,7 @@ const AddFriend = ({ route }) => {
                 data={users}
                 keyExtractor={(item) => item.uid}
                 renderItem={({ item }) => {
-                    return (
-                        <User uid={item.uid} pseudo={item?.email} fcmToken={item?.fcmToken} addFriendIcon={true} avatar={item?.avatar} />
-                    );
+                    return <User uid={item.uid} pseudo={item?.email} fcmToken={item?.fcmToken} addFriendIcon={true} />;
                 }}
             />
         </SearchBar>
