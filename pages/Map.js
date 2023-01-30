@@ -63,56 +63,56 @@ const Map = ({ navigation }) => {
                 </View>
                 <View style={styles.headerCenterAndRight} />
             </View>
-            <Divider width={5} color={"#000"} />
-
-            <MapView style={styles.containerMap}>
-                {location !== null && location?.coords?.latitude && location?.coords?.longitude ? (
-                    <View>
-                        <Marker
-                            key={currentLocationMarker}
-                            pinColor={checked ? "#EEC72A" : "#E11C1C"}
-                            coordinate={{
-                                latitude: location.coords.latitude,
-                                longitude: location.coords.longitude,
-                            }}
-                            onPress={() => {
-                                setSelectedMarker({
-                                    uid: false,
-                                    email: "You",
-                                    location: location,
-                                    avatar: false,
-                                    icon: false,
-                                });
-                            }}
-                        />
-                        {friends?.length > 0
-                            ? friends?.map((friend) => {
-                                  if (friend?.location === null || friend?.location === undefined) {
-                                      return null;
-                                  }
-                                  return (
-                                      <Marker
-                                          key={friend.uid}
-                                          pinColor="#5677B0"
-                                          coordinate={{
-                                              latitude: friend.location.coords.latitude,
-                                              longitude: friend.location.coords.longitude,
-                                          }}
-                                          onPress={() => {
-                                              setSelectedMarker({
-                                                  uid: friend.uid,
-                                                  email: friend.email,
-                                                  location: friend.location,
-                                                  avatar: friend.avatar,
-                                              });
-                                          }}
-                                      />
-                                  );
-                              })
-                            : null}
-                    </View>
-                ) : null}
-            </MapView>
+            <View style={styles.containerMap}>
+                <MapView style={styles.containerMapView}>
+                    {location !== null && location?.coords?.latitude && location?.coords?.longitude ? (
+                        <View>
+                            <Marker
+                                key={currentLocationMarker}
+                                pinColor={checked ? "#EEC72A" : "#E11C1C"}
+                                coordinate={{
+                                    latitude: location.coords.latitude,
+                                    longitude: location.coords.longitude,
+                                }}
+                                onPress={() => {
+                                    setSelectedMarker({
+                                        uid: false,
+                                        email: "You",
+                                        location: location,
+                                        avatar: false,
+                                        icon: false,
+                                    });
+                                }}
+                            />
+                            {friends?.length > 0
+                                ? friends?.map((friend) => {
+                                      if (friend?.location === null || friend?.location === undefined) {
+                                          return null;
+                                      }
+                                      return (
+                                          <Marker
+                                              key={friend.uid}
+                                              pinColor="#5677B0"
+                                              coordinate={{
+                                                  latitude: friend.location.coords.latitude,
+                                                  longitude: friend.location.coords.longitude,
+                                              }}
+                                              onPress={() => {
+                                                  setSelectedMarker({
+                                                      uid: friend.uid,
+                                                      email: friend.email,
+                                                      location: friend.location,
+                                                      avatar: friend.avatar,
+                                                  });
+                                              }}
+                                          />
+                                      );
+                                  })
+                                : null}
+                        </View>
+                    ) : null}
+                </MapView>
+            </View>
             <View style={styles.containerGhostMode}>
                 <Text>Ghost Mode: </Text>
                 <Switch
@@ -122,6 +122,7 @@ const Map = ({ navigation }) => {
                         getUserLocation();
                         setCurrentLocationMarker(currentLocationMarker + 1);
                     }}
+                    color="#FFDA66"
                 />
             </View>
             {selectedMarker ? (
