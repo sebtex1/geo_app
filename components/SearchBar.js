@@ -37,7 +37,6 @@ const Friends = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: "column",
         justifyContent: "flex-start",
         height: "25%",
@@ -50,7 +49,6 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
     },
     searchBar: {
-        flex: 1,
         flexBasis: "auto",
         flexShrink: 1,
         flexGrow: 9,

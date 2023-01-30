@@ -1,24 +1,29 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, FlatList, ActivityIndicator, View } from "react-native";
+import { Text } from "@rneui/base";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, View } from "react-native";
+import SearchBar from "../components/SearchBar";
 import User from "../components/User";
 import UserService from "../services/UserService";
-import SearchBar from "../components/SearchBar";
 
 const AddFriend = ({ route }) => {
     const [searchText, setSearchText] = useState("");
     const [users, setUsers] = useState(null);
+    const [recommendations, setRecommendations] = useState(null);
     const [loading, setLoading] = useState(true);
     const friendList = route.params.friendsList;
 
+    //Get all users
     useEffect(() => {
+        console.info("PAGE ADD FRIEND");
         UserService.getAllUsers(friendList, setUsers);
-    }, [friendList]);
+        UserService.getFriendRecommendations(friendList, setRecommendations);
+    }, []);
 
+    //Remove loading screen
     useEffect(() => {
-        console.log("Users :", users);
-        if (users == null) return;
+        if (users === null || recommendations === null) return;
         setLoading(false);
-    }, [users]);
+    }, [users, recommendations]);
 
     if (loading)
         return (
@@ -28,9 +33,22 @@ const AddFriend = ({ route }) => {
         );
 
     return (
-        <SearchBar searchText={searchText} setSearchText={setSearchText} addFriendIcon={false}>
+        <SafeAreaView>
+            <SearchBar searchText={searchText} setSearchText={setSearchText} addFriendIcon={false} />
+            {recommendations.length > 0 ? (
+                <>
+                    <Text>recommendations</Text>
+                    <FlatList
+                        data={recommendations}
+                        keyExtractor={(item) => item.uid}
+                        renderItem={({ item }) => {
+                            return <User uid={item.uid} pseudo={item?.email} fcmToken={item?.fcmToken} addFriendIcon={true} />;
+                        }}
+                    />
+                </>
+            ) : null}
+
             <FlatList
-                style={styles.flatList}
                 data={users}
                 keyExtractor={(item) => item.uid}
                 renderItem={({ item }) => {
@@ -39,21 +57,12 @@ const AddFriend = ({ route }) => {
                     );
                 }}
             />
-        </SearchBar>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    flatList: {
-        marginTop: 5,
-        marginBottom: 65,
-        flex: 1,
-        flexBasis: "auto",
-        flexShrink: 0,
-        flexGrow: 10,
-    },
     loader: {
-        flex: 1,
         justifyContent: "center",
         backgroundColor: "#F0B221",
     },
