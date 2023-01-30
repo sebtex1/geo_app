@@ -1,25 +1,36 @@
-import { Button, Text } from "@rneui/base";
-import { useState } from "react";
-import { View } from "react-native";
-import { sendNotification } from "../services/NotificationPush";
+import { Button } from "@rneui/base";
+import { View, Image, Text } from "react-native";
 import AccountService from "../services/AccountService";
-import ConversationService from "../services/ConversationService";
+import styles from "../styles/styles";
 import UserService from "../services/UserService";
+import { useLayoutEffect, useState } from "react";
+import { auth } from "../config/FirebaseConfig";
+import AvatarUtil from "../utils/AvatarUtil";
+// import { sendNotification } from "../services/NotificationPush";
+// import ConversationService from "../services/ConversationService";
 
-const Profil = ({ navigation }) => {
+const Profil = () => {
     const [user, setUser] = useState({});
-    const [friends, setFriends] = useState([]);
-    const notification = {
-        body: "Une application de tracker !",
-        data: "hello world",
-    };
+
+    // const [friends, setFriends] = useState([]);
+    // const notification = {
+    //     body: "Une application de tracker !",
+    //     data: "hello world",
+    // };
+
+    useLayoutEffect(() => {
+        UserService.getUser(auth?.currentUser?.uid, setUser);
+    }, []);
+
     return (
         // style={styles.container}
-        <View>
-            <Text>Welcome!</Text>
+        <View style={styles.containerAppScreen}>
+            {/* <Text>Welcome!</Text> */}
+            <Image style={styles.profileImg} source={AvatarUtil.getAvatar(user.avatar)} />
+            <Text style={styles.textEmail}>{user.email}</Text>
             <Button title="Log out" onPress={() => AccountService.SignOut()} />
             {/* <Button title="Chat" onPress={() => navigation.navigate('Chat', { friendId: 'wQyFXbkfuIYwm3OXrX5c8QYjowD2' })}/> */}
-            <Button
+            {/* <Button
                 title="Chat"
                 onPress={() =>
                     navigation.navigate("Chat", {
@@ -69,7 +80,7 @@ const Profil = ({ navigation }) => {
                 onPress={async () => {
                     await sendNotification(notification);
                 }}
-            />
+            /> */}
         </View>
     );
 };

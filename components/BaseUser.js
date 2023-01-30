@@ -1,5 +1,6 @@
 import { Image, Pressable, Text, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import AvatarUtil from "../utils/AvatarUtil";
 
 const BaseUser = (props) => {
     const conditionalIcon = (icon) => {
@@ -18,42 +19,6 @@ const BaseUser = (props) => {
         }
     };
 
-    let avatar;
-    switch (props.avatar) {
-        case "man_1":
-            avatar = require("../assets/default_avatars/man_1.png");
-            break;
-        case "man_2":
-            avatar = require("../assets/default_avatars/man_2.png");
-            break;
-        case "man_3":
-            avatar = require("../assets/default_avatars/man_3.png");
-            break;
-        case "man_4":
-            avatar = require("../assets/default_avatars/man_4.png");
-            break;
-        case "man_5":
-            avatar = require("../assets/default_avatars/man_5.png");
-            break;
-        case "girl_1":
-            avatar = require("../assets/default_avatars/girl_1.png");
-            break;
-        case "girl_2":
-            avatar = require("../assets/default_avatars/girl_2.png");
-            break;
-        case "girl_3":
-            avatar = require("../assets/default_avatars/girl_3.png");
-            break;
-        case "girl_4":
-            avatar = require("../assets/default_avatars/girl_4.png");
-            break;
-        case "girl_5":
-            avatar = require("../assets/default_avatars/girl_5.png");
-            break;
-        case false:
-            break;
-    }
-
     return (
         <View>
             <Pressable
@@ -63,7 +28,7 @@ const BaseUser = (props) => {
                 // style={styles.container}
             >
                 {/* style={styles.logo} */}
-                <Image source={avatar} />
+                <Image source={AvatarUtil.getAvatar(props.avatar)} />
 
                 {/* style={styles.text} */}
                 <Text>{props.pseudo}</Text>

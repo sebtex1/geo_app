@@ -48,7 +48,7 @@ function Tabs() {
                 name="Profil"
                 component={Profil}
                 options={{
-                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home" color={color} size={26} />,
+                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="account" color={color} size={26} />,
                 }}
             />
             <Tab.Screen

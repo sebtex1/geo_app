@@ -5,7 +5,7 @@ import { FloatingAction } from "react-native-floating-action";
 import UserList from "../components/UserList";
 import { auth } from "../config/FirebaseConfig";
 import ConversationService from "../services/ConversationService";
-import StringHelper from "../helper/StringHelper";
+import StringHelper from "../utils/StringUtil";
 import UserService from "../services/UserService";
 
 const CreateConversation = ({ navigation }) => {
