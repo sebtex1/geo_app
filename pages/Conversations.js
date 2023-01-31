@@ -4,9 +4,12 @@ import { FloatingAction } from "react-native-floating-action";
 import Conversation from "../components/Conversation";
 import { auth } from "../config/FirebaseConfig";
 import ConversationService from "../services/ConversationService";
+import CommonStyles from "../styles/CommonStyles";
+import SearchBar from "../components/SearchBar";
 
 const Conversations = ({ navigation }) => {
     const [conversations, setConversations] = useState([]);
+    const [searchText, setSearchText] = useState("");
     const actions = [
         {
             text: "Add group",
@@ -21,8 +24,8 @@ const Conversations = ({ navigation }) => {
     }, []);
 
     return (
-        // style={styles.container}
-        <View>
+        <View style={CommonStyles.containerAppScreen}>
+            <SearchBar searchText={searchText} setSearchText={setSearchText} />
             <FlatList
                 // style={styles.container}
                 data={conversations.filter((conv) => conv.users.length > 2)}
@@ -41,12 +44,5 @@ const Conversations = ({ navigation }) => {
         </View>
     );
 };
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         marginTop: 50,
-//     },
-// });
 
 export default Conversations;

@@ -1,18 +1,17 @@
-import { Divider } from "@rneui/base";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import BaseUser from "../components/BaseUser";
+import Header from "../components/Header";
+import Loader from "../components/Loader";
 import SearchBar from "../components/SearchBar";
 import { auth } from "../config/FirebaseConfig";
 import ConversationService from "../services/ConversationService";
 import UserService from "../services/UserService";
-import FriendsStyle from "../styles/FriendsStyle";
 import CommonStyles from "../styles/CommonStyles";
-import LocationUtil from "../utils/LocationUtil";
-import Header from "../components/Header";
-import Loader from "../components/Loader";
+import FriendsStyle from "../styles/FriendsStyle";
 import AvatarUtil from "../utils/AvatarUtil";
+import LocationUtil from "../utils/LocationUtil";
 
 const Friends = ({ navigation }) => {
     const [friends, setFriends] = useState([]);
@@ -81,13 +80,7 @@ const Friends = ({ navigation }) => {
             <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Friends"} />
             <View style={FriendsStyle.topRow}>
                 <View style={FriendsStyle.searchBar}>
-                    <SearchBar
-                        searchText={searchText}
-                        setSearchText={setSearchText}
-                        addFriendIcon={true}
-                        navigation={navigation}
-                        friendsList={friends}
-                    />
+                    <SearchBar searchText={searchText} setSearchText={setSearchText} />
                 </View>
                 <View style={FriendsStyle.icon}>
                     <MaterialCommunityIcons
