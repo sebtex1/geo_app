@@ -10,9 +10,10 @@ import Chat from "./pages/Chat";
 import Conversations from "./pages/Conversations";
 import CreateConversation from "./pages/CreateConversation";
 import Friends from "./pages/Friends";
-import Profil from "./pages/Profil";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Map from "./pages/Map";
+import Profil from "./pages/Profil";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import UserService from "./services/UserService";
@@ -80,7 +81,8 @@ function LoginPages() {
     return (
         <LoginNavigator.Navigator>
             <LoginNavigator.Group screenOptions={{ headerShown: false }}>
-                <LoginNavigator.Screen name="checkEmal" component={Login} />
+                <LoginNavigator.Screen name="home" component={Home} />
+                <LoginNavigator.Screen name="checkEmail" component={Login} />
                 <LoginNavigator.Screen name="signIn" component={SignIn} />
                 <LoginNavigator.Screen name="signUp" component={SignUp} />
             </LoginNavigator.Group>

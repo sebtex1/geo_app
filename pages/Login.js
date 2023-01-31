@@ -32,7 +32,7 @@ const Login = ({ navigation }) => {
                     <FacebookAuthButton />
                 </View>
                 <CardText text={"Ton email permettra à tes amis de te retrouver sur Findy !"} />
-                <BoutonLogin onPress={() => AccountService.checkEmail(email, setAuthMethods)} />
+                <BoutonLogin buttonStyle={{ marginTop: 20 }} onPress={() => AccountService.checkEmail(email, setAuthMethods)} />
             </View>
         </View>
     );
