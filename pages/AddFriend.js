@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
-import { FlatList, ActivityIndicator, View } from "react-native";
+import { useEffect, useState } from "react";
+import { FlatList } from "react-native";
 import BaseUser from "../components/BaseUser";
-import UserService from "../services/UserService";
+import Loader from "../components/Loader";
 import SearchBar from "../components/SearchBar";
+import UserService from "../services/UserService";
 
 const AddFriend = ({ route }) => {
     const [searchText, setSearchText] = useState("");
     const [users, setUsers] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const friendList = route.params.friendsList;
 
     useEffect(() => {
@@ -17,16 +18,10 @@ const AddFriend = ({ route }) => {
     useEffect(() => {
         console.log("Users :", users);
         if (users == null) return;
-        setLoading(false);
+        setIsLoading(false);
     }, [users]);
 
-    if (loading)
-        return (
-            // style={styles.loader}
-            <View>
-                <ActivityIndicator size="large" color="#000000" />
-            </View>
-        );
+    if (isLoading) return <Loader />;
 
     return (
         <SearchBar searchText={searchText} setSearchText={setSearchText} addFriendIcon={false}>
@@ -49,21 +44,5 @@ const AddFriend = ({ route }) => {
         </SearchBar>
     );
 };
-
-// const styles = StyleSheet.create({
-//     flatList: {
-//         marginTop: 5,
-//         marginBottom: 65,
-//         flex: 1,
-//         flexBasis: "auto",
-//         flexShrink: 0,
-//         flexGrow: 10,
-//     },
-//     loader: {
-//         flex: 1,
-//         justifyContent: "center",
-//         backgroundColor: "#F0B221",
-//     },
-// });
 
 export default AddFriend;

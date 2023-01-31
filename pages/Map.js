@@ -10,6 +10,7 @@ import LocationUtil from "../utils/LocationUtil";
 import commonStyles from "../styles/CommonStyles";
 import mapStyle from "../styles/MapStyle";
 import AvatarUtil from "../utils/AvatarUtil";
+import Header from "../components/Header";
 
 const Map = ({ navigation }) => {
     const [location, setLocation] = useState(null);
@@ -54,15 +55,7 @@ const Map = ({ navigation }) => {
 
     return (
         <View style={commonStyles.containerAppScreen}>
-            <View style={commonStyles.header}>
-                <View style={commonStyles.headerLeft}>
-                    <Image style={commonStyles.lilProfileImg} source={AvatarUtil.getAvatar(user.avatar)} />
-                </View>
-                <View style={commonStyles.headerCenterAndRight}>
-                    <Text style={commonStyles.textHeader}>My Location</Text>
-                </View>
-                <View style={commonStyles.headerCenterAndRight} />
-            </View>
+            <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"My Location"} />
             <View style={mapStyle.containerMap}>
                 <MapView style={mapStyle.containerMapView}>
                     {location !== null && location?.coords?.latitude && location?.coords?.longitude ? (

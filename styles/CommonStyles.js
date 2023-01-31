@@ -5,7 +5,6 @@ const commonStyles = StyleSheet.create({
     containerAppScreen: {
         flex: 1,
         paddingTop: StatusBar.currentHeight,
-        alignItems: "center",
         backgroundColor: "#F5FCFF",
     },
 
@@ -40,6 +39,11 @@ const commonStyles = StyleSheet.create({
     textHeader: {
         textAlign: "center",
         fontSize: 19,
+    },
+    //LOADER
+    loader: {
+        flex: 1,
+        justifyContent: "center",
     },
 });
 

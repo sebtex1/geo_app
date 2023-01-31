@@ -7,8 +7,12 @@ import SearchBar from "../components/SearchBar";
 import { auth } from "../config/FirebaseConfig";
 import ConversationService from "../services/ConversationService";
 import UserService from "../services/UserService";
-import friendsStyle from "../styles/FriendsStyle";
+import FriendsStyle from "../styles/FriendsStyle";
+import CommonStyles from "../styles/CommonStyles";
 import LocationUtil from "../utils/LocationUtil";
+import Header from "../components/Header";
+import Loader from "../components/Loader";
+import AvatarUtil from "../utils/AvatarUtil";
 
 const Friends = ({ navigation }) => {
     const [friends, setFriends] = useState([]);
@@ -16,11 +20,14 @@ const Friends = ({ navigation }) => {
     const [userLocation, setUserLocation] = useState(null);
     const [closestFriend, setClosestFriend] = useState(null);
     const [conversation, setConversation] = useState(null);
+    const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     //Get friends list and get user location
     useLayoutEffect(() => {
         console.info("PAGE FRIENDS");
         UserService.getFriends(auth.currentUser.uid, setFriends);
+        UserService.getUser(auth?.currentUser?.uid, setUser);
         getUserLocation();
     }, []);
 
@@ -44,6 +51,13 @@ const Friends = ({ navigation }) => {
         setClosestFriend(closestFriendVar);
     }, [userLocation]);
 
+    //Set isLoading to false when friends list and user are loaded
+    useEffect(() => {
+        if (friends === null || user === null) return;
+        console.log("user", user);
+        setIsLoading(false);
+    }, [friends, user]);
+
     //Navigate to conversation with friend
     useEffect(() => {
         if (conversation === null) return;
@@ -61,10 +75,13 @@ const Friends = ({ navigation }) => {
         ConversationService.getConversationByFriend(uid, setConversation);
     };
 
+    if (isLoading) return <Loader />;
+
     return (
-        <View style={friendsStyle.container}>
-            <View style={friendsStyle.topRow}>
-                <View style={friendsStyle.searchBar}>
+        <View style={CommonStyles.containerAppScreen}>
+            <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Friends"} />
+            <View style={FriendsStyle.topRow}>
+                <View style={FriendsStyle.searchBar}>
                     <SearchBar
                         searchText={searchText}
                         setSearchText={setSearchText}
@@ -73,7 +90,7 @@ const Friends = ({ navigation }) => {
                         friendsList={friends}
                     />
                 </View>
-                <View style={friendsStyle.icon}>
+                <View style={FriendsStyle.icon}>
                     <MaterialCommunityIcons
                         name="account-plus"
                         size={35}
