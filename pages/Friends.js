@@ -109,7 +109,7 @@ const Friends = ({ navigation }) => {
                         navigation={navigation}
                         uid={closestFriend?.uid}
                         pseudo={closestFriend?.email}
-                        avatar={closestFriend?.avatar}
+                        avatar={AvatarUtil.getAvatar(closestFriend?.avatar)}
                         hint={
                             userLocation !== null && userLocation?.coords !== null && closestFriend?.location
                                 ? `à ${LocationUtil.distanceBetween(userLocation.coords, closestFriend.location.coords).toFixed(
@@ -120,7 +120,6 @@ const Friends = ({ navigation }) => {
                         addFriendIcon={false}
                         onPressMethod={getFriendConversation}
                     />
-                    <Divider width={3} />
                 </View>
             ) : null}
             <FlatList
@@ -132,7 +131,7 @@ const Friends = ({ navigation }) => {
                             navigation={navigation}
                             uid={item.uid}
                             pseudo={item.email}
-                            avatar={item.avatar}
+                            avatar={AvatarUtil.getAvatar(item.avatar)}
                             hint={
                                 userLocation !== null && userLocation?.coords && item?.location?.coords
                                     ? `à ${LocationUtil.distanceBetween(userLocation.coords, item.location.coords).toFixed(2)} km`

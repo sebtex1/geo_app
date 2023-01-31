@@ -1,13 +1,12 @@
 import { Image, Pressable, Text, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import AvatarUtil from "../utils/AvatarUtil";
 import baseUserStyle from "../styles/BaseUserStyle";
 
 const BaseUser = (props) => {
     const conditionalIcon = (icon) => {
         switch (icon) {
             case "addFriend":
-                return <MaterialCommunityIcons name={"account-plus"} size={26} />;
+                return <MaterialCommunityIcons name={"account-plus"} size={26} onPress={() => props.onPressIconMethod(props.uid)} />;
             case "location":
                 return <MaterialCommunityIcons name={"map-marker"} size={26} />;
             case "unselected":
@@ -28,13 +27,16 @@ const BaseUser = (props) => {
                 }}
                 style={baseUserStyle.containerBaseUser}
             >
-                <Image style={baseUserStyle.logo} source={AvatarUtil.getAvatar(props.avatar)} />
-                <View>
-                    <Text style={baseUserStyle.textBaseUser}>{props.pseudo}</Text>
-                    <Text style={baseUserStyle.hintText}>{props.hint}</Text>
+                <View style={baseUserStyle.userPic}>
+                    <Image style={baseUserStyle.profilePic} source={props.avatar} />
                 </View>
-                {conditionalIcon(props.icon)}
-                <View style={baseUserStyle.childrenBaseUser}>{props.children}</View>
+
+                <View style={baseUserStyle.userInfo}>
+                    <Text style={baseUserStyle.textBaseUser}>{props.pseudo}</Text>
+                    {props.hint === undefined || props.hint === "" ? null : <Text style={baseUserStyle.hintText}>{props.hint}</Text>}
+                </View>
+
+                <View style={baseUserStyle.icon}>{conditionalIcon(props.icon)}</View>
             </Pressable>
         </View>
     );
