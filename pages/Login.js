@@ -1,4 +1,4 @@
-import { Button, Input } from "@rneui/base";
+import { Button, Input, Card, Text } from "@rneui/base";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import FacebookAuthButton from "../components/FacebookAuthButton";
@@ -24,11 +24,22 @@ const Login = ({ navigation }) => {
             <View style={[commonStyles.alignItemsCenter, { flex: 1, justifyContent: "center" }]}>
                 <FindyLogo />
             </View>
-            <View style={{ flex: 2, alignItems: "center", backgroundColor: "white" }}>
-                <Input label="Email" value={email} onChangeText={(text) => setEmail(text)} />
-                <GoogleAuthButton />
-                <FacebookAuthButton />
-                <Button title="CONTINUER" onPress={() => AccountService.checkEmail(email, setAuthMethods)} />
+            <View style={{ marginLeft: 30, marginRight: 30, flex: 2 }}>
+                <Input style={{ backgroundColor: "#eac672" }} label="Email" value={email} onChangeText={(text) => setEmail(text)} />
+                <View style={{ flexDirection: "row", justifyContent: "space-evenly", paddingBottom: 10 }}>
+                    <GoogleAuthButton />
+                    <FacebookAuthButton />
+                </View>
+                <Card containerStyle={{ backgroundColor: "#FFDA66", borderColor: "#FFDA66", marginBottom: 20 }}>
+                    <Text>Ton email permettra à tes amis de te retrouver sur Findy !</Text>
+                </Card>
+                <Button
+                    titleStyle={{ color: "black" }}
+                    buttonStyle={{ borderColor: "black" }}
+                    type="outline"
+                    title="CONTINUER"
+                    onPress={() => AccountService.checkEmail(email, setAuthMethods)}
+                />
             </View>
         </View>
     );

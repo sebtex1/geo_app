@@ -26,7 +26,7 @@ const FacebookAuthButton = () => {
     }, [response]);
 
     return (
-        <View style={{ backgroundColor: "#ff6666" }}>
+        <View>
             <MaterialCommunityIcons
                 name={"facebook"}
                 color={"#1877f2"}

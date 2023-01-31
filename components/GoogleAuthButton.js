@@ -24,7 +24,7 @@ const GoogleAuthButton = () => {
     }, [response]);
 
     return (
-        <View style={{ backgroundColor: "#ff6666" }}>
+        <View>
             <MaterialCommunityIcons
                 name={"google"}
                 color={"white"}
