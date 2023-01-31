@@ -110,14 +110,17 @@ const Friends = ({ navigation }) => {
                               .filter((friend) => friend.email.startsWith(searchText))
                 }
                 onPressMethod={getFriendConversation}
-            <FloatingButton 
+            />
+            <FloatingButton
                 text={"Add Friend"}
                 icon={require("../assets/add-friend.png")}
                 size={20}
-                onPress={() => navigation.navigate("AddFriend", {
-                    friendsList: friends,
-                    navigation: navigation,
-                })}
+                onPress={() =>
+                    navigation.navigate("AddFriend", {
+                        friendsList: friends,
+                        navigation: navigation,
+                    })
+                }
             />
         </View>
     );

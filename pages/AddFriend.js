@@ -26,7 +26,6 @@ const AddFriend = ({ route }) => {
     //Remove loading screen
     useEffect(() => {
         if (users === null || recommendations === null) return;
-        console.log("Users : ", users);
         setIsLoading(false);
     }, [users, recommendations]);
 
@@ -38,6 +37,8 @@ const AddFriend = ({ route }) => {
     const onPressIcon = (uid) => {
         console.log("onPressIcon", uid);
         UserService.addFriend(uid);
+        setUsers(users.filter((user) => user.uid !== uid));
+        setRecommendations(recommendations.filter((recommendation) => recommendation.uid !== uid));
     };
 
     if (isLoading) return <Loader />;
