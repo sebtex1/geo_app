@@ -54,7 +54,6 @@ const Friends = ({ navigation }) => {
     //Set isLoading to false when friends list and user are loaded
     useEffect(() => {
         if (friends === null || user === null) return;
-        console.log("user", user);
         setIsLoading(false);
     }, [friends, user]);
 

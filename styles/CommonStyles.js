@@ -7,6 +7,9 @@ const commonStyles = StyleSheet.create({
         paddingTop: StatusBar.currentHeight,
         backgroundColor: "#F5FCFF",
     },
+    containerAlignItemsCenter: {
+        alignItems: "center",
+    },
 
     // PROFILE_IMAGE
     lilProfileImg: {

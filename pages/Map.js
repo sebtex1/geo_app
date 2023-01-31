@@ -54,7 +54,7 @@ const Map = ({ navigation }) => {
     };
 
     return (
-        <View style={commonStyles.containerAppScreen}>
+        <View style={[commonStyles.containerAppScreen, commonStyles.containerAlignItemsCenter]}>
             <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"My Location"} />
             <View style={mapStyle.containerMap}>
                 <MapView style={mapStyle.containerMapView}>
