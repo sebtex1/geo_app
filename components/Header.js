@@ -1,17 +1,20 @@
 import { Image, Text } from "@rneui/base";
 import { View } from "react-native";
-import commonStyles from "../styles/CommonStyles";
+import HeaderStyle from "../styles/HeaderStyle";
 
 const Header = (props) => {
     return (
-        <View style={commonStyles.header}>
-            <View style={commonStyles.headerLeft}>
-                <Image style={commonStyles.lilProfileImg} source={props.avatar} />
+        <View style={HeaderStyle.header}>
+            {props.avatar ? (
+                <View style={HeaderStyle.headerLeft}>
+                    <Image style={HeaderStyle.lilProfileImg} source={props.avatar} />
+                </View>
+            ) : null}
+
+            <View style={HeaderStyle.headerCenterAndRight}>
+                <Text style={HeaderStyle.textHeader}>{props.title}</Text>
             </View>
-            <View style={commonStyles.headerCenterAndRight}>
-                <Text style={commonStyles.textHeader}>{props.title}</Text>
-            </View>
-            <View style={commonStyles.headerCenterAndRight} />
+            <View style={HeaderStyle.headerCenterAndRight}>{props.children}</View>
         </View>
     );
 };

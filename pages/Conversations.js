@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import Conversation from "../components/Conversation";
@@ -6,10 +6,16 @@ import { auth } from "../config/FirebaseConfig";
 import ConversationService from "../services/ConversationService";
 import CommonStyles from "../styles/CommonStyles";
 import SearchBar from "../components/SearchBar";
+import UserService from "../services/UserService";
+import Loader from "../components/Loader";
+import Header from "../components/Header";
+import AvatarUtil from "../utils/AvatarUtil";
 
 const Conversations = ({ navigation }) => {
-    const [conversations, setConversations] = useState([]);
+    const [conversations, setConversations] = useState(null);
     const [searchText, setSearchText] = useState("");
+    const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const actions = [
         {
             text: "Add group",
@@ -20,11 +26,21 @@ const Conversations = ({ navigation }) => {
     ];
 
     useLayoutEffect(() => {
+        console.info("PAGE CONVERSATIONS");
         ConversationService.getConversation(auth.currentUser.uid, setConversations);
+        UserService.getUser(auth?.currentUser?.uid, setUser);
     }, []);
+
+    useEffect(() => {
+        if (user === null || conversations === null) return;
+        setIsLoading(false);
+    }, [user, conversations]);
+
+    if (isLoading) return <Loader />;
 
     return (
         <View style={CommonStyles.containerAppScreen}>
+            <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Groupes"} />
             <SearchBar searchText={searchText} setSearchText={setSearchText} />
             <FlatList
                 // style={styles.container}

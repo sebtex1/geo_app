@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import BaseUser from "../components/BaseUser";
+import Header from "../components/Header";
 import Loader from "../components/Loader";
 import SearchBar from "../components/SearchBar";
 import UserService from "../services/UserService";
@@ -41,6 +42,7 @@ const AddFriend = ({ route }) => {
 
     return (
         <View style={CommonStyles.containerAppScreen}>
+            <Header title={"Ajouter un ami"} />
             <SearchBar searchText={searchText} setSearchText={setSearchText} addFriendIcon={false} />
             {recommendations.length > 0 ? (
                 <View>

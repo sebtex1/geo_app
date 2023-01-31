@@ -7,6 +7,7 @@ import { auth } from "../config/FirebaseConfig";
 import ConversationService from "../services/ConversationService";
 import StringHelper from "../utils/StringUtil";
 import UserService from "../services/UserService";
+import CommonStyles from "../styles/CommonStyles";
 
 const CreateConversation = ({ navigation }) => {
     const [friends, setFriends] = useState(null);
@@ -63,10 +64,9 @@ const CreateConversation = ({ navigation }) => {
     }, [selectedFriends]);
 
     return (
-        // style={styles.flatList}
-        <View>
+        <View style={CommonStyles.containerAppScreen}>
             <Input label="Group name" value={conversationName} onChangeText={(text) => setConversationName(text)} />
-            <UserList users={friends} navigation={navigation} onPressMethod={onPressUserMethod} />
+            <UserList users={friends} onPressMethod={onPressUserMethod} />
             <FloatingAction
                 actions={actions}
                 overrideWithAction={true}
@@ -78,16 +78,5 @@ const CreateConversation = ({ navigation }) => {
         </View>
     );
 };
-
-// const styles = StyleSheet.create({
-//     flatList: {
-//         marginTop: 50,
-//         marginBottom: 65,
-//         flex: 1,
-//         flexBasis: "auto",
-//         flexShrink: 0,
-//         flexGrow: 10,
-//     },
-// });
 
 export default CreateConversation;

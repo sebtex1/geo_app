@@ -5,6 +5,7 @@ import BaseUser from "../components/BaseUser";
 import Header from "../components/Header";
 import Loader from "../components/Loader";
 import SearchBar from "../components/SearchBar";
+import UserList from "../components/UserList";
 import { auth } from "../config/FirebaseConfig";
 import ConversationService from "../services/ConversationService";
 import UserService from "../services/UserService";
@@ -77,24 +78,19 @@ const Friends = ({ navigation }) => {
 
     return (
         <View style={CommonStyles.containerAppScreen}>
-            <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Friends"} />
-            <View style={FriendsStyle.topRow}>
-                <View style={FriendsStyle.searchBar}>
-                    <SearchBar searchText={searchText} setSearchText={setSearchText} />
-                </View>
-                <View style={FriendsStyle.icon}>
-                    <MaterialCommunityIcons
-                        name="account-plus"
-                        size={35}
-                        onPress={() => {
-                            navigation.navigate("AddFriend", {
-                                friendsList: friends,
-                                navigation: navigation,
-                            });
-                        }}
-                    />
-                </View>
-            </View>
+            <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Amis"}>
+                <MaterialCommunityIcons
+                    name={"account-plus"}
+                    size={26}
+                    onPress={() => {
+                        navigation.navigate("AddFriend", {
+                            friendsList: friends,
+                            navigation: navigation,
+                        });
+                    }}
+                />
+            </Header>
+            <SearchBar searchText={searchText} setSearchText={setSearchText} />
 
             {userLocation !== null && userLocation?.coords && closestFriend !== null ? (
                 <View>
@@ -115,26 +111,7 @@ const Friends = ({ navigation }) => {
                     />
                 </View>
             ) : null}
-            <FlatList
-                data={friends.filter((friend) => friend.uid !== closestFriend?.uid)}
-                keyExtractor={(item) => item.uid}
-                renderItem={({ item }) => {
-                    return (
-                        <BaseUser
-                            navigation={navigation}
-                            uid={item.uid}
-                            pseudo={item.email}
-                            avatar={AvatarUtil.getAvatar(item.avatar)}
-                            hint={
-                                userLocation !== null && userLocation?.coords && item?.location?.coords
-                                    ? `à ${LocationUtil.distanceBetween(userLocation.coords, item.location.coords).toFixed(2)} km`
-                                    : ""
-                            }
-                            onPressMethod={getFriendConversation}
-                        />
-                    );
-                }}
-            />
+            <UserList users={friends.filter((friend) => friend.uid !== closestFriend?.uid)} onPressMethod={getFriendConversation} />
         </View>
     );
 };
