@@ -1,11 +1,12 @@
-import { Button, Text } from "@rneui/base";
+import { Text } from "@rneui/base";
 import React, { useState } from "react";
 import { View } from "react-native";
+import BoutonLogin from "../components/BoutonLogin";
 import FindyLogo from "../components/FindyLogo";
 import InputField from "../components/InputField";
 import AccountService from "../services/AccountService";
-import commonStyles from "../styles/CommonStyles";
-import loginStyles from "../styles/LoginStyle";
+import CommonStyles from "../styles/CommonStyles";
+import LoginStyle from "../styles/LoginStyle";
 
 // "olivier@gmail.com", "olivierbigboss123!"
 // "seb@gmail.com", "swaggySeb"
@@ -14,18 +15,12 @@ const SignIn = ({ route }) => {
     const [password, setPassword] = useState("");
 
     return (
-        <View style={commonStyles.containerLoginScreen}>
+        <View style={CommonStyles.containerLoginScreen}>
             <FindyLogo />
-            <View style={loginStyles.containerFields}>
-                <Text style={[commonStyles.textLogin, { marginBottom: 30 }]}>Te revoilà !</Text>
+            <View style={LoginStyle.containerFields}>
+                <Text style={[CommonStyles.textLogin, { marginBottom: 30 }]}>Te revoilà !</Text>
                 <InputField label="Mot de passe" value={password} secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
-                <Button
-                    titleStyle={{ color: "black" }}
-                    buttonStyle={{ borderColor: "black", borderRadius: 10, borderWidth: 2 }}
-                    type="outline"
-                    title="CONTINUER"
-                    onPress={() => AccountService.signinWithEmail(route.params.email, password)}
-                />
+                <BoutonLogin onPress={() => AccountService.signinWithEmail(route.params.email, password)} />
             </View>
         </View>
     );
