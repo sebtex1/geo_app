@@ -17,7 +17,7 @@ const SignIn = ({ route }) => {
         <View style={commonStyles.containerLoginScreen}>
             <FindyLogo />
             <View style={loginStyles.containerFields}>
-                <Text style={[commonStyles.textHeader, { marginBottom: 30 }]}>Te revoilà !</Text>
+                <Text style={[commonStyles.textLogin, { marginBottom: 30 }]}>Te revoilà !</Text>
                 <InputField label="Mot de passe" value={password} secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
                 <Button
                     titleStyle={{ color: "black" }}

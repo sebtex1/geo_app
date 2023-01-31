@@ -53,7 +53,7 @@ const commonStyles = StyleSheet.create({
     },
 
     // TEXT
-    textHeader: {
+    textLogin: {
         textAlign: "center",
         fontSize: 36,
         fontWeight: "bold",
