@@ -7,9 +7,9 @@ import BaseUser from "../components/BaseUser";
 import { auth } from "../config/FirebaseConfig";
 import UserService from "../services/UserService";
 import LocationUtil from "../utils/LocationUtil";
-import styles from "../styles/styles";
+import commonStyles from "../styles/CommonStyles";
+import mapStyle from "../styles/MapStyle";
 import AvatarUtil from "../utils/AvatarUtil";
-import { Divider } from "@rneui/base";
 
 const Map = ({ navigation }) => {
     const [location, setLocation] = useState(null);
@@ -53,18 +53,18 @@ const Map = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.containerAppScreen}>
-            <View style={styles.header}>
-                <View style={styles.headerLeft}>
-                    <Image style={styles.lilProfileImg} source={AvatarUtil.getAvatar(user.avatar)} />
+        <View style={commonStyles.containerAppScreen}>
+            <View style={commonStyles.header}>
+                <View style={commonStyles.headerLeft}>
+                    <Image style={commonStyles.lilProfileImg} source={AvatarUtil.getAvatar(user.avatar)} />
                 </View>
-                <View style={styles.headerCenterAndRight}>
-                    <Text style={styles.textHeader}>My Location</Text>
+                <View style={commonStyles.headerCenterAndRight}>
+                    <Text style={commonStyles.textHeader}>My Location</Text>
                 </View>
-                <View style={styles.headerCenterAndRight} />
+                <View style={commonStyles.headerCenterAndRight} />
             </View>
-            <View style={styles.containerMap}>
-                <MapView style={styles.containerMapView}>
+            <View style={mapStyle.containerMap}>
+                <MapView style={mapStyle.containerMapView}>
                     {location !== null && location?.coords?.latitude && location?.coords?.longitude ? (
                         <View>
                             <Marker
@@ -113,7 +113,7 @@ const Map = ({ navigation }) => {
                     ) : null}
                 </MapView>
             </View>
-            <View style={styles.containerGhostMode}>
+            <View style={mapStyle.containerGhostMode}>
                 <Text>Ghost Mode: </Text>
                 <Switch
                     value={checked}

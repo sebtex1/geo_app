@@ -4,7 +4,8 @@ import { Image, Text, View } from "react-native";
 import { auth } from "../config/FirebaseConfig";
 import AccountService from "../services/AccountService";
 import UserService from "../services/UserService";
-import styles from "../styles/styles";
+import commonStyles from "../styles/CommonStyles";
+import profilStyle from "../styles/ProfilStyle";
 import AvatarUtil from "../utils/AvatarUtil";
 // import { sendNotification } from "../services/NotificationPush";
 // import ConversationService from "../services/ConversationService";
@@ -24,12 +25,12 @@ const Profil = () => {
 
     return (
         // style={styles.container}
-        <View style={styles.containerAppScreen}>
+        <View style={commonStyles.containerAppScreen}>
             {/* <Text>Welcome!</Text> */}
-            <View style={styles.containerProfil}>
-                <Image style={styles.profileImg} source={AvatarUtil.getAvatar(user.avatar)} />
+            <View style={profilStyle.containerProfil}>
+                <Image style={profilStyle.profileImg} source={AvatarUtil.getAvatar(user.avatar)} />
             </View>
-            <Text style={styles.textEmail}>{user.email}</Text>
+            <Text style={profilStyle.textEmail}>{user.email}</Text>
             <Button title="Log out" onPress={() => AccountService.SignOut()} />
             {/* <Button title="Chat" onPress={() => navigation.navigate('Chat', { friendId: 'wQyFXbkfuIYwm3OXrX5c8QYjowD2' })}/> */}
             {/* <Button

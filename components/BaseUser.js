@@ -1,7 +1,7 @@
 import { Image, Pressable, Text, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import AvatarUtil from "../utils/AvatarUtil";
-import styles from "../styles/styles";
+import baseUserStyle from "../styles/BaseUserStyle";
 
 const BaseUser = (props) => {
     const conditionalIcon = (icon) => {
@@ -26,15 +26,15 @@ const BaseUser = (props) => {
                 onPress={() => {
                     props.onPressMethod(props.uid);
                 }}
-                style={styles.containerBaseUser}
+                style={baseUserStyle.containerBaseUser}
             >
-                <Image style={styles.logo} source={AvatarUtil.getAvatar(props.avatar)} />
+                <Image style={baseUserStyle.logo} source={AvatarUtil.getAvatar(props.avatar)} />
                 <View>
-                    <Text style={styles.textBaseUser}>{props.pseudo}</Text>
-                    <Text style={styles.hintText}>{props.hint}</Text>
+                    <Text style={baseUserStyle.textBaseUser}>{props.pseudo}</Text>
+                    <Text style={baseUserStyle.hintText}>{props.hint}</Text>
                 </View>
                 {conditionalIcon(props.icon)}
-                <View style={styles.childrenBaseUser}>{props.children}</View>
+                <View style={baseUserStyle.childrenBaseUser}>{props.children}</View>
             </Pressable>
         </View>
     );
