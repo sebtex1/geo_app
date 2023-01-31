@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import BaseUser from "../components/BaseUser";
 import Loader from "../components/Loader";
 import SearchBar from "../components/SearchBar";
 import UserService from "../services/UserService";
+import CommonStyles from "../styles/CommonStyles";
 
 const AddFriend = ({ route }) => {
     const [searchText, setSearchText] = useState("");
@@ -21,27 +22,31 @@ const AddFriend = ({ route }) => {
         setIsLoading(false);
     }, [users]);
 
+    const onPressMethod = (uid) => {
+        console.log(uid);
+        //TODO: open user profil page
+    };
+
+    const onPressIconMethod = (uid) => {
+        console.log(uid);
+        //TODO: add friend
+    };
+
     if (isLoading) return <Loader />;
 
     return (
-        <SearchBar searchText={searchText} setSearchText={setSearchText} addFriendIcon={false}>
+        <View style={CommonStyles.containerAppScreen}>
+            <SearchBar searchText={searchText} setSearchText={setSearchText} addFriendIcon={false} />
             <FlatList
-                // style={styles.flatList}
                 data={users}
                 keyExtractor={(item) => item.uid}
                 renderItem={({ item }) => {
                     return (
-                        <BaseUser
-                            uid={item.uid}
-                            pseudo={item?.email}
-                            fcmToken={item?.fcmToken}
-                            addFriendIcon={true}
-                            avatar={item?.avatar}
-                        />
+                        <BaseUser uid={item.uid} pseudo={item?.email} fcmToken={item?.fcmToken} avatar={item?.avatar} icon={"addFriend"} />
                     );
                 }}
             />
-        </SearchBar>
+        </View>
     );
 };
 
