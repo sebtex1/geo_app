@@ -69,6 +69,7 @@ const UserService = {
                     friends: doc.data().friends,
                     fcmToken: doc.data().fcmToken,
                     avatar: doc.data().avatar,
+                    location: doc.data().location,
                 }))
             );
             unsubscribe();
@@ -115,7 +116,6 @@ const UserService = {
 
         const qFriend = query(collection(database, "users"), where("uid", "==", friendId));
 
-        console.log("ici");
         //Add authenticated user in friend's friendlist
         const unsubscribeF = onSnapshot(qFriend, (snapshot) => {
             const docRef = doc(database, "users", snapshot.docs[0].id);
@@ -129,7 +129,6 @@ const UserService = {
             unsubscribeF();
         });
 
-        console.log("la");
         //Adding friend in authenticated user's friendlist
         const unsubscribe = onSnapshot(qUser, (snapshot) => {
             const docRef = doc(database, "users", snapshot.docs[0].id);
@@ -141,7 +140,6 @@ const UserService = {
             unsubscribe();
         });
 
-        console.log("par ici");
         ConversationService.createConversation("", [userId, friendId].sort());
 
         return () => unsubscribe();
@@ -159,6 +157,35 @@ const UserService = {
 
             updateDoc(docRef, { location: location });
 
+            unsubscribe();
+        });
+    },
+
+    getFriendRecommendations: (friendList, setRecommendations) => {
+        console.info("Generating friend recommendations");
+
+        let recommendations = [];
+        friendList.forEach((friend) => {
+            recommendations.push(...friend.friends);
+        });
+
+        recommendations = [...new Set(recommendations)];
+        recommendations = recommendations.filter((recommendation) => recommendation !== auth.currentUser.uid);
+
+        const q = query(collection(database, "users"), where("uid", "in", recommendations));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setRecommendations(
+                snapshot.docs.map((doc) => ({
+                    _id: doc.id,
+                    uid: doc.data().uid,
+                    createdAt: doc.data().createdAt.toDate(),
+                    email: doc.data().email,
+                    friends: doc.data().friends,
+                    fcmToken: doc.data().fcmToken,
+                    avatar: doc.data().avatar,
+                    location: doc.data().location,
+                }))
+            );
             unsubscribe();
         });
     },
