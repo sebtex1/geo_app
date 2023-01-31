@@ -5,8 +5,10 @@ const commonStyles = StyleSheet.create({
     containerAppScreen: {
         flex: 1,
         paddingTop: StatusBar.currentHeight,
-        alignItems: "center",
         backgroundColor: "#F5FCFF",
+    },
+    containerAlignItemsCenter: {
+        alignItems: "center",
     },
 
     // PROFILE_IMAGE

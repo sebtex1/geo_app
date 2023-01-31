@@ -53,7 +53,7 @@ const Map = ({ navigation }) => {
     };
 
     return (
-        <View style={commonStyles.containerAppScreen}>
+        <View style={[commonStyles.containerAppScreen, commonStyles.containerAlignItemsCenter]}>
             <View style={commonStyles.header}>
                 <View style={commonStyles.headerLeft}>
                     <Image style={commonStyles.lilProfileImg} source={AvatarUtil.getAvatar(user.avatar)} />

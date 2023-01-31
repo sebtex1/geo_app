@@ -24,9 +24,7 @@ const Profil = () => {
     }, []);
 
     return (
-        // style={styles.container}
-        <View style={commonStyles.containerAppScreen}>
-            {/* <Text>Welcome!</Text> */}
+        <View style={[commonStyles.containerAppScreen, commonStyles.containerAlignItemsCenter]}>
             <View style={profilStyle.containerProfil}>
                 <Image style={profilStyle.profileImg} source={AvatarUtil.getAvatar(user.avatar)} />
             </View>
