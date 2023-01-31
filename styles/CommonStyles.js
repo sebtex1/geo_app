@@ -55,7 +55,8 @@ const commonStyles = StyleSheet.create({
     // TEXT
     textHeader: {
         textAlign: "center",
-        fontSize: 19,
+        fontSize: 36,
+        fontWeight: "bold",
     },
     //LOADER
     loader: {

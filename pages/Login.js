@@ -1,13 +1,14 @@
-import { Button, Input } from "@rneui/base";
+import { Button } from "@rneui/base";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
+import CardText from "../components/CardText";
 import FacebookAuthButton from "../components/FacebookAuthButton";
 import FindyLogo from "../components/FindyLogo";
 import GoogleAuthButton from "../components/GoogleAuthButton";
+import InputField from "../components/InputField";
 import AccountService from "../services/AccountService";
 import commonStyles from "../styles/CommonStyles";
 import loginStyles from "../styles/LoginStyle";
-import CardText from "../components/CardText";
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ const Login = ({ navigation }) => {
         <View style={[commonStyles.containerLoginScreen, commonStyles.justifyContentStart]}>
             <FindyLogo />
             <View style={loginStyles.containerFields}>
-                <Input style={commonStyles.backgroundSecondary} label="Email" value={email} onChangeText={(text) => setEmail(text)} />
+                <InputField label="Email" value={email} onChangeText={(text) => setEmail(text)} />
                 <View style={loginStyles.containerSocialButtons}>
                     <GoogleAuthButton />
                     <FacebookAuthButton />
@@ -33,7 +34,7 @@ const Login = ({ navigation }) => {
                 <CardText text={"Ton email permettra à tes amis de te retrouver sur Findy !"} />
                 <Button
                     titleStyle={{ color: "black" }}
-                    buttonStyle={{ borderColor: "black" }}
+                    buttonStyle={{ borderColor: "black", borderRadius: 10 }}
                     type="outline"
                     title="CONTINUER"
                     onPress={() => AccountService.checkEmail(email, setAuthMethods)}
