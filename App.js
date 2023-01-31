@@ -40,9 +40,9 @@ function Tabs() {
         <Tab.Navigator
             initialRouteName="Profil"
             labeled={false}
-            activeColor="#000000"
-            inactiveColor="#fefefe"
-            barStyle={{ backgroundColor: "#02abff" }}
+            activeColor="#fff"
+            inactiveColor="#000"
+            barStyle={{ backgroundColor: "#F0B221" }}
         >
             <Tab.Screen
                 name="Profil"
