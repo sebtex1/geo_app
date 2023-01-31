@@ -170,6 +170,12 @@ const UserService = {
         });
 
         recommendations = [...new Set(recommendations)];
+        friendList.map((friend) => {
+            if (recommendations.includes(friend.uid)) {
+                recommendations = recommendations.filter((recommendation) => recommendation !== friend.uid);
+            }
+        });
+
         recommendations = recommendations.filter((recommendation) => recommendation !== auth.currentUser.uid);
 
         const q = query(collection(database, "users"), where("uid", "in", recommendations));

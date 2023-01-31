@@ -111,7 +111,16 @@ const Friends = ({ navigation }) => {
                     />
                 </View>
             ) : null}
-            <UserList users={friends.filter((friend) => friend.uid !== closestFriend?.uid)} onPressMethod={getFriendConversation} />
+            <UserList
+                users={
+                    searchText === ""
+                        ? friends.filter((friend) => friend.uid !== closestFriend?.uid)
+                        : friends
+                              .filter((friend) => friend.uid !== closestFriend?.uid)
+                              .filter((friend) => friend.email.startsWith(searchText))
+                }
+                onPressMethod={getFriendConversation}
+            />
         </View>
     );
 };
