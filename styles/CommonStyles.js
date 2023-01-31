@@ -21,6 +21,9 @@ const commonStyles = StyleSheet.create({
     justifyContentCenter: {
         justifyContent: "center",
     },
+    backgroundSecondary: {
+        backgroundColor: "#eac672",
+    },
 
     //LOADER
     loader: {
