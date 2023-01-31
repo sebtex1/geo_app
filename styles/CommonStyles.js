@@ -21,6 +21,14 @@ const commonStyles = StyleSheet.create({
     justifyContentCenter: {
         justifyContent: "center",
     },
+    backgroundSecondary: {
+        backgroundColor: "#eac672",
+    },
+    cardText: {
+        backgroundColor: "#FFDA66",
+        borderColor: "#FFDA66",
+        marginBottom: 20,
+    },
 
     // PROFILE_IMAGE
     lilProfileImg: {
