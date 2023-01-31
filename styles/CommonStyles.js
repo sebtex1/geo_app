@@ -24,11 +24,15 @@ const commonStyles = StyleSheet.create({
     backgroundSecondary: {
         backgroundColor: "#eac672",
     },
-
     //LOADER
     loader: {
         flex: 1,
         justifyContent: "center",
+    },
+    textLogin: {
+        textAlign: "center",
+        fontSize: 36,
+        fontWeight: "bold",
     },
 });
 
