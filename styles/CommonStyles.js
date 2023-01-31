@@ -24,11 +24,6 @@ const commonStyles = StyleSheet.create({
     backgroundSecondary: {
         backgroundColor: "#eac672",
     },
-    cardText: {
-        backgroundColor: "#FFDA66",
-        borderColor: "#FFDA66",
-        marginBottom: 20,
-    },
 
     // PROFILE_IMAGE
     lilProfileImg: {
