@@ -21,7 +21,7 @@ const SignIn = ({ route }) => {
                 <InputField label="Mot de passe" value={password} secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
                 <Button
                     titleStyle={{ color: "black" }}
-                    buttonStyle={{ borderColor: "black", borderRadius: 10 }}
+                    buttonStyle={{ borderColor: "black", borderRadius: 10, borderWidth: 2 }}
                     type="outline"
                     title="CONTINUER"
                     onPress={() => AccountService.signinWithEmail(route.params.email, password)}

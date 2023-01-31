@@ -4,7 +4,7 @@ import cardTextStyle from "../styles/CardTextStyle";
 const CardText = (props) => {
     return (
         <Card containerStyle={cardTextStyle.container}>
-            <Text>{props.text}</Text>
+            <Text style={cardTextStyle.text}>{props.text}</Text>
         </Card>
     );
 };

@@ -34,7 +34,7 @@ const Login = ({ navigation }) => {
                 <CardText text={"Ton email permettra à tes amis de te retrouver sur Findy !"} />
                 <Button
                     titleStyle={{ color: "black" }}
-                    buttonStyle={{ borderColor: "black", borderRadius: 10 }}
+                    buttonStyle={{ borderColor: "black", borderRadius: 10, borderWidth: 2 }}
                     type="outline"
                     title="CONTINUER"
                     onPress={() => AccountService.checkEmail(email, setAuthMethods)}
