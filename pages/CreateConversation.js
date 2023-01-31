@@ -1,29 +1,19 @@
 import { Input } from "@rneui/base";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { View } from "react-native";
-import { FloatingAction } from "react-native-floating-action";
 import UserList from "../components/UserList";
 import { auth } from "../config/FirebaseConfig";
 import ConversationService from "../services/ConversationService";
 import StringHelper from "../utils/StringUtil";
 import UserService from "../services/UserService";
 import CommonStyles from "../styles/CommonStyles";
+import FloatingButton from "../components/FloatingButton";
 
 const CreateConversation = ({ navigation }) => {
     const [friends, setFriends] = useState(null);
     const [selectedFriends, setSelectedFriends] = useState([]);
     const [isInitialized, setIsInitialized] = useState(false);
     const [conversationName, setConversationName] = useState(false);
-
-    //Props for FloatingAction
-    const actions = [
-        {
-            text: "Add group",
-            icon: require("../assets/pngegg.png"),
-            name: "add group",
-            position: 1,
-        },
-    ];
 
     //Update selectedFriends when selected or unselected
     const onPressUserMethod = (uid) => {
@@ -67,13 +57,11 @@ const CreateConversation = ({ navigation }) => {
         <View style={CommonStyles.containerAppScreen}>
             <Input label="Group name" value={conversationName} onChangeText={(text) => setConversationName(text)} />
             <UserList users={friends} onPressMethod={onPressUserMethod} />
-            <FloatingAction
-                actions={actions}
-                overrideWithAction={true}
-                onPressItem={(name) => {
-                    onPressValidate();
-                }}
-                navigation={navigation}
+            <FloatingButton 
+                text={"Add group"}
+                icon={require("../assets/validate.png")}
+                size={20}
+                onPress={() => onPressValidate()}
             />
         </View>
     );
