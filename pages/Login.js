@@ -2,8 +2,10 @@ import { Button, Input } from "@rneui/base";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import FacebookAuthButton from "../components/FacebookAuthButton";
+import FindyLogo from "../components/FindyLogo";
 import GoogleAuthButton from "../components/GoogleAuthButton";
 import AccountService from "../services/AccountService";
+import commonStyles from "../styles/CommonStyles";
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState("");
@@ -17,22 +19,17 @@ const Login = ({ navigation }) => {
         }
     }, [authMethods]);
 
-    // const styles = StyleSheet.create({
-    //     container: {
-    //         flex: 1,
-    //         backgroundColor: colors.primary,
-    //         alignItems: "center",
-    //         justifyContent: "center",
-    //     },
-    // });
-
     return (
-        // style={styles.container}
-        <View>
-            <Input label="Email" value={email} onChangeText={(text) => setEmail(text)} />
-            <Button title="Check email" onPress={() => AccountService.checkEmail(email, setAuthMethods)} />
-            <GoogleAuthButton />
-            <FacebookAuthButton />
+        <View style={[commonStyles.containerLoginScreen, commonStyles.justifyContentStart]}>
+            <View style={[commonStyles.alignItemsCenter, { flex: 1, justifyContent: "center" }]}>
+                <FindyLogo />
+            </View>
+            <View style={{ flex: 2, alignItems: "center", backgroundColor: "white" }}>
+                <Input label="Email" value={email} onChangeText={(text) => setEmail(text)} />
+                <GoogleAuthButton />
+                <FacebookAuthButton />
+                <Button title="CONTINUER" onPress={() => AccountService.checkEmail(email, setAuthMethods)} />
+            </View>
         </View>
     );
 };
