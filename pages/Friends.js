@@ -1,10 +1,13 @@
 import { Divider } from "@rneui/base";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { FlatList, View } from "react-native";
-import SearchBar from "../components/SearchBar";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import BaseUser from "../components/BaseUser";
+import SearchBar from "../components/SearchBar";
 import { auth } from "../config/FirebaseConfig";
+import ConversationService from "../services/ConversationService";
 import UserService from "../services/UserService";
+import friendsStyle from "../styles/FriendsStyle";
 import LocationUtil from "../utils/LocationUtil";
 
 const Friends = ({ navigation }) => {
@@ -12,8 +15,11 @@ const Friends = ({ navigation }) => {
     const [searchText, setSearchText] = useState("");
     const [userLocation, setUserLocation] = useState(null);
     const [closestFriend, setClosestFriend] = useState(null);
+    const [conversation, setConversation] = useState(null);
 
+    //Get friends list and get user location
     useLayoutEffect(() => {
+        console.info("PAGE FRIENDS");
         UserService.getFriends(auth.currentUser.uid, setFriends);
         getUserLocation();
     }, []);
@@ -38,24 +44,50 @@ const Friends = ({ navigation }) => {
         setClosestFriend(closestFriendVar);
     }, [userLocation]);
 
+    //Navigate to conversation with friend
+    useEffect(() => {
+        if (conversation === null) return;
+        navigation.navigate("Chat", { conversationId: conversation._id });
+    }, [conversation]);
+
     const getUserLocation = async () => {
         const currentPosition = await LocationUtil.getLocation();
         setUserLocation(currentPosition);
     };
 
+    //Get conversation with selected friend
+    const getFriendConversation = (uid) => {
+        console.log(uid);
+        ConversationService.getConversationByFriend(uid, setConversation);
+    };
+
     return (
-        // style={styles.container}
-        <View>
-            <SearchBar
-                // style={styles.searchBar}
-                searchText={searchText}
-                setSearchText={setSearchText}
-                addFriendIcon={true}
-                navigation={navigation}
-                friendsList={friends}
-            />
+        <View style={friendsStyle.container}>
+            <View style={friendsStyle.topRow}>
+                <View style={friendsStyle.searchBar}>
+                    <SearchBar
+                        searchText={searchText}
+                        setSearchText={setSearchText}
+                        addFriendIcon={true}
+                        navigation={navigation}
+                        friendsList={friends}
+                    />
+                </View>
+                <View style={friendsStyle.icon}>
+                    <MaterialCommunityIcons
+                        name="account-plus"
+                        size={35}
+                        onPress={() => {
+                            navigation.navigate("AddFriend", {
+                                friendsList: friends,
+                                navigation: navigation,
+                            });
+                        }}
+                    />
+                </View>
+            </View>
+
             {userLocation !== null && userLocation?.coords && closestFriend !== null ? (
-                // style={styles.closetFriendContainer}
                 <View>
                     <BaseUser
                         navigation={navigation}
@@ -70,8 +102,9 @@ const Friends = ({ navigation }) => {
                                 : ""
                         }
                         addFriendIcon={false}
+                        onPressMethod={getFriendConversation}
                     />
-                    <Divider width={5} />
+                    <Divider width={3} />
                 </View>
             ) : null}
             <FlatList
@@ -89,7 +122,7 @@ const Friends = ({ navigation }) => {
                                     ? `à ${LocationUtil.distanceBetween(userLocation.coords, item.location.coords).toFixed(2)} km`
                                     : ""
                             }
-                            addFriendIcon={false}
+                            onPressMethod={getFriendConversation}
                         />
                     );
                 }}
@@ -97,16 +130,5 @@ const Friends = ({ navigation }) => {
         </View>
     );
 };
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         backgroundColor: "#fff",
-//         height: "100%",
-//     },
-//     closetFriendContainer: {
-//         flex: 1,
-//     },
-// });
 
 export default Friends;
