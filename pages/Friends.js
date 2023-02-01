@@ -25,7 +25,7 @@ const Friends = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     //Get friends list and get user location
-    useLayoutEffect(() => {
+    useEffect(() => {
         console.info("PAGE FRIENDS");
         UserService.getFriends(auth.currentUser.uid, setFriends);
         UserService.getUser(auth?.currentUser?.uid, setUser);
@@ -38,10 +38,10 @@ const Friends = ({ navigation }) => {
         }
         let closestFriendVar = null;
         friends.forEach((friend) => {
-            if (closestFriendVar === null) {
-                closestFriendVar = friend;
-            } else if (!friend.location || !friend.location.coords || !closestFriendVar.location || !closestFriendVar.location.coords) {
+            if (!friend.location || !friend.location.coords) {
                 return;
+            } else if (closestFriendVar === null) {
+                closestFriendVar = friend;
             } else if (
                 LocationUtil.distanceBetween(userLocation.coords, friend.location.coords) <
                 LocationUtil.distanceBetween(userLocation.coords, closestFriendVar.location.coords)
@@ -101,15 +101,33 @@ const Friends = ({ navigation }) => {
                     />
                 </View>
             ) : null}
-            <UserList
-                users={
+            <FlatList
+                data={
                     searchText === ""
                         ? friends.filter((friend) => friend.uid !== closestFriend?.uid)
                         : friends
                               .filter((friend) => friend.uid !== closestFriend?.uid)
                               .filter((friend) => friend.email.startsWith(searchText))
                 }
-                onPressMethod={getFriendConversation}
+                renderItem={({ item }) => {
+                    return (
+                        <BaseUser
+                            uid={item.uid}
+                            pseudo={item.email}
+                            onPressMethod={getFriendConversation}
+                            icon={item.icon}
+                            avatar={AvatarUtil.getAvatar(item.avatar)}
+                            hint={
+                                userLocation !== null && userLocation?.coords !== null && item?.location
+                                    ? `à ${LocationUtil.distanceBetween(userLocation.coords, item.location.coords).toFixed(
+                                          2
+                                      )} km (le plus proche)`
+                                    : ""
+                            }
+                        />
+                    );
+                }}
+                keyExtractor={(item) => item._id}
             />
             <FloatingButton
                 text={"Add Friend"}
