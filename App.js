@@ -2,7 +2,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { LogBox } from "react-native";
+import { LogBox, View } from "react-native";
 import { Entypo, MaterialCommunityIcons } from "react-native-vector-icons";
 import { auth } from "./config/FirebaseConfig";
 import AddFriend from "./pages/AddFriend";
@@ -17,6 +17,13 @@ import Profil from "./pages/Profil";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import UserService from "./services/UserService";
+import FindyLogo from "./components/FindyLogo";
+import CommonStyles from "./styles/CommonStyles";
+import LoginStyle from "./styles/LoginStyle";
+import CardText from "./components/CardText";
+import BoutonLogin from "./components/BoutonLogin";
+import FindyYellow from "./components/FindyYellow";
+import PermissionUtils from "./utils/PermissionUtils";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -93,12 +100,13 @@ function LoginPages() {
 export default function App() {
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [user, setUser] = useState({});
+    const [gpsAccepted, setGpsAccepted] = useState(false);
 
     useEffect(() => {
         if (!user) {
             UserService.createUser();
             setIsSignedIn(true);
-        } else if (Object.keys(user).length != 0) {
+        } else if (Object.keys(user).length !== 0) {
             setIsSignedIn(true);
         }
     }, [user]);
@@ -117,12 +125,34 @@ export default function App() {
         return unsubscribe;
     }, []);
 
+    const GPS = () => {
+        return (
+            <View style={[CommonStyles.containerLoginScreen, CommonStyles.justifyContentStart]}>
+                <FindyLogo />
+                <View style={LoginStyle.containerFields}>
+                    <CardText text={"Findy a besoin d’accès à ta localisation pour aider tes amis à te retrouver"} />
+                    <FindyYellow />
+                    <BoutonLogin
+                        buttonStyle={{ marginBottom: 20 }}
+                        onPress={() => {
+                            setGpsAccepted(PermissionUtils.getLocationAcess());
+                        }}
+                    />
+                </View>
+            </View>
+        );
+    };
+
     return (
         <NavigationContainer theme={Theme}>
             <Stack.Navigator>
                 {isSignedIn === false ? (
                     <Stack.Group screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="Login" component={LoginPages} />
+                    </Stack.Group>
+                ) : gpsAccepted === false ? (
+                    <Stack.Group screenOptions={{ headerShown: false }}>
+                        <Stack.Screen name="GPS" component={GPS} />
                     </Stack.Group>
                 ) : (
                     <Stack.Group screenOptions={{ headerShown: false }}>
