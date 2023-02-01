@@ -15,6 +15,7 @@ const ConversationStyle = StyleSheet.create({
         borderRadius: 50,
     },
     conversationName: {
+        fontFamily: "Poppins-Medium",
         textAlign: "left",
         fontSize: 18,
     },

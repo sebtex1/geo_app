@@ -26,6 +26,7 @@ const HeaderStyle = StyleSheet.create({
         alignSelf: "flex-end",
     },
     textHeader: {
+        fontFamily: "Poppins-Medium",
         textAlign: "center",
         fontSize: 19,
     },
