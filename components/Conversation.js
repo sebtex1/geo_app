@@ -8,9 +8,11 @@ import ConversationStyle from "../styles/ConversationStyle";
 const Conversation = (props) => {
     return (
         <View style={ConversationStyle.container}>
-            <Pressable style={ConversationStyle.row} onPress={() => props.navigation.navigate("Chat", { conversationId: props.convId })}>
+            <Pressable
+                style={ConversationStyle.row}
+                onPress={() => props.navigation.navigate("Chat", { conversationId: props.convId, users: props.users })}
+            >
                 <Image style={ConversationStyle.groupPic} source={require("../assets/default_avatars/man_1.png")} />
-
                 <Text style={ConversationStyle.conversationName}>{props.convName}</Text>
             </Pressable>
         </View>

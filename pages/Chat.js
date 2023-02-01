@@ -7,7 +7,7 @@ import { sendNotificationToOther } from "../services/NotificationPushService";
 
 const Chat = ({ route }) => {
     const [messages, setMessages] = useState([]);
-    const [friend, setFriend] = useState(null);
+    const [friends, setFriends] = useState(null);
 
     useLayoutEffect(() => {
         const conversationId = route.params.conversationId;
@@ -41,19 +41,21 @@ const Chat = ({ route }) => {
             conversationId,
         });
 
-        const friendUid = route.params.users.filter((x) => x !== auth?.currentUser?.uid)[0];
-        UserService.getUser(friendUid, setFriend);
+        const friendUid = route.params.users.filter((x) => x !== auth?.currentUser?.uid);
+        UserService.getUsers(friendUid, setFriends);
     }, []);
 
     useEffect(() => {
-        if (friend === null) return;
+        if (friends === null) return;
         const notification = {
             body: `${auth?.currentUser?.email} vous a envoyer un message !`,
             data: "hello !",
         };
-        sendNotificationToOther(friend.fcmToken, notification);
-        setFriend(null);
-    }, [friend]);
+        friends.forEach((friend) => {
+            sendNotificationToOther(friend.fcmToken, notification);
+        });
+        setFriends(null);
+    }, [friends]);
 
     return (
         <GiftedChat

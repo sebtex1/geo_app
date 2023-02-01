@@ -41,7 +41,7 @@ const Conversations = ({ navigation }) => {
                         : conversations.filter((conv) => conv.users.length > 2).filter((conv) => conv.convName.startsWith(searchText))
                 }
                 renderItem={({ item }) => {
-                    return <Conversation convId={item._id} convName={item.convName} navigation={navigation} />;
+                    return <Conversation convId={item._id} convName={item.convName} navigation={navigation} users={item.users} />;
                 }}
                 keyExtractor={(item) => item._id}
             />
