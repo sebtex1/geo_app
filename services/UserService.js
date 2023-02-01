@@ -54,6 +54,28 @@ const UserService = {
         return () => unsubscribe();
     },
 
+    //Get multiple users
+    getUsers: (usersId, setUsers) => {
+        console.info("Fetching asked users");
+
+        const q = query(collection(database, "users"), where("uid", "in", usersId));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setUsers(
+                snapshot.docs.map((doc) => ({
+                    _id: doc.id,
+                    uid: doc.data().uid,
+                    createdAt: doc.data().createdAt.toDate(),
+                    email: doc.data().email,
+                    friends: doc.data().friends,
+                    fcmToken: doc.data().fcmToken,
+                    avatar: doc.data().avatar,
+                    location: doc.data().location,
+                }))
+            );
+            unsubscribe();
+        });
+    },
+
     //Get all users not in user's friendlist
     getAllUsers: (friends, setUsers) => {
         console.info("Fetching all users");
