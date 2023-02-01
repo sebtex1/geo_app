@@ -1,8 +1,10 @@
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useFonts } from "expo-font";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { LogBox } from "react-native";
+import { setCustomText } from "react-native-global-props";
 import { Entypo, MaterialCommunityIcons } from "react-native-vector-icons";
 import { auth } from "./config/FirebaseConfig";
 import AddFriend from "./pages/AddFriend";
@@ -10,15 +12,13 @@ import Chat from "./pages/Chat";
 import Conversations from "./pages/Conversations";
 import CreateConversation from "./pages/CreateConversation";
 import Friends from "./pages/Friends";
-import Profil from "./pages/Profil";
 import Login from "./pages/Login";
 import Map from "./pages/Map";
+import Profil from "./pages/Profil";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import UserService from "./services/UserService";
-import { setCustomText } from "react-native-global-props";
 import CustomTextProps from "./styles/GlobalStyle";
-import { useFonts } from "expo-font";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
