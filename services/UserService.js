@@ -5,7 +5,7 @@ import { getToken } from "./NotificationPushService";
 
 const UserService = {
     //Creates an user in firestore for the currently authenticated user in auth
-    createUser: async () => {
+    createUser: async (setUserDocumentId) => {
         const createdAt = new Date();
         const uid = auth.currentUser.uid;
         const email = auth.currentUser.email;
@@ -23,6 +23,7 @@ const UserService = {
         })
             .then((result) => {
                 console.info("User created: " + result.id);
+                setUserDocumentId(result.id);
             })
             .catch((error) => {
                 console.error(error);

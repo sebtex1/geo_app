@@ -1,5 +1,4 @@
 import { Switch, Text } from "@rneui/base";
-import * as Location from "expo-location";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { View } from "react-native";
 import MapView, { Marker } from "react-native-maps";

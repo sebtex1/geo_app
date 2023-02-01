@@ -7,17 +7,9 @@ import UserService from "../services/UserService";
 import commonStyles from "../styles/CommonStyles";
 import profilStyle from "../styles/ProfilStyle";
 import AvatarUtil from "../utils/AvatarUtil";
-// import { sendNotification } from "../services/NotificationPush";
-// import ConversationService from "../services/ConversationService";
 
 const Profil = () => {
     const [user, setUser] = useState({});
-
-    // const [friends, setFriends] = useState([]);
-    // const notification = {
-    //     body: "Une application de tracker !",
-    //     data: "hello world",
-    // };
 
     useLayoutEffect(() => {
         UserService.getUser(auth?.currentUser?.uid, setUser);
@@ -25,9 +17,12 @@ const Profil = () => {
 
     return (
         <View style={[commonStyles.containerAppScreen, commonStyles.alignItemsCenter]}>
-            <View style={profilStyle.containerProfil}>
-                <Image style={profilStyle.profileImg} source={AvatarUtil.getAvatar(user.avatar)} />
-            </View>
+            {user.avatar !== undefined ? (
+                <View style={profilStyle.containerProfil}>
+                    <Image style={profilStyle.profileImg} source={AvatarUtil.getAvatar(user.avatar)} />
+                </View>
+            ) : null}
+
             <Text style={profilStyle.textEmail}>{user.email}</Text>
             <Button title="Log out" onPress={() => AccountService.SignOut()} />
             {/* <Button title="Chat" onPress={() => navigation.navigate('Chat', { friendId: 'wQyFXbkfuIYwm3OXrX5c8QYjowD2' })}/> */}

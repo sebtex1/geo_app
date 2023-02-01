@@ -1,10 +1,16 @@
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { LogBox, View } from "react-native";
 import { setCustomText } from "react-native-global-props";
 import { Entypo, MaterialCommunityIcons } from "react-native-vector-icons";
+import BoutonLogin from "./components/BoutonLogin";
+import CardText from "./components/CardText";
+import FindyLogo from "./components/FindyLogo";
+import FindyYellow from "./components/FindyYellow";
 import { auth } from "./config/FirebaseConfig";
 import AddFriend from "./pages/AddFriend";
 import Chat from "./pages/Chat";
@@ -18,16 +24,10 @@ import Profil from "./pages/Profil";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import UserService from "./services/UserService";
-import FindyLogo from "./components/FindyLogo";
 import CommonStyles from "./styles/CommonStyles";
-import LoginStyle from "./styles/LoginStyle";
-import CardText from "./components/CardText";
-import BoutonLogin from "./components/BoutonLogin";
-import FindyYellow from "./components/FindyYellow";
-import PermissionUtils from "./utils/PermissionUtils";
 import CustomTextProps from "./styles/GlobalStyle";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
+import LoginStyle from "./styles/LoginStyle";
+import PermissionUtils from "./utils/PermissionUtils";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -119,30 +119,36 @@ function LoginPages() {
 export default function App() {
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [user, setUser] = useState({});
+    const [userDocumentId, setUserDocumentId] = useState("");
     const [gpsAccepted, setGpsAccepted] = useState(false);
-
-    useEffect(() => {
-        if (!user) {
-            UserService.createUser();
-            setIsSignedIn(true);
-        } else if (Object.keys(user).length !== 0) {
-            setIsSignedIn(true);
-        }
-    }, [user]);
 
     //Listen to the user connection state
     useLayoutEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (user) {
-                UserService.getUser(user.uid, setUser);
+        const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+            if (userAuth) {
+                UserService.getUser(userAuth.uid, setUser);
             } else {
-                console.log("Not logged in");
                 setIsSignedIn(false);
             }
         });
 
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        if (user === undefined) {
+            UserService.createUser(setUserDocumentId);
+        } else if (Object.keys(user).length !== 0) {
+            setIsSignedIn(true);
+        }
+    }, [user]);
+
+    useEffect(() => {
+        if (auth?.currentUser?.uid && user) {
+            UserService.getUser(auth?.currentUser?.uid, setUser);
+            setIsSignedIn(true);
+        }
+    }, [userDocumentId]);
 
     const GPS = () => {
         PermissionUtils.getPermissions(setGpsAccepted);
