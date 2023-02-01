@@ -1,7 +1,7 @@
 import { addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { auth, database } from "../config/FirebaseConfig";
 import ConversationService from "./ConversationService";
-import { getToken } from "./NotificationPush";
+import { getToken } from "./NotificationPushService";
 
 const UserService = {
     //Creates an user in firestore for the currently authenticated user in auth

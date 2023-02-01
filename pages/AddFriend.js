@@ -8,6 +8,8 @@ import SearchBar from "../components/SearchBar";
 import UserService from "../services/UserService";
 import CommonStyles from "../styles/CommonStyles";
 import AvatarUtil from "../utils/AvatarUtil";
+import { sendNotificationToOther } from "../services/NotificationPushService";
+import { auth } from "../config/FirebaseConfig";
 
 const AddFriend = ({ route }) => {
     const [searchText, setSearchText] = useState("");
@@ -43,11 +45,17 @@ const AddFriend = ({ route }) => {
         //TODO: open user profil page
     };
 
-    const onPressIcon = (uid) => {
+    const onPressIcon = (uid, fcmToken) => {
         console.log("onPressIcon", uid);
+        console.log("onPressIcon fcmToken", fcmToken);
         UserService.addFriend(uid);
         setUsers(users.filter((user) => user.uid !== uid));
         setRecommendations(recommendations.filter((recommendation) => recommendation.uid !== uid));
+        const notification = {
+            body: `${auth.currentUser.email} vous a ajouté en ami !`,
+            data: "hello !",
+        };
+        sendNotificationToOther(fcmToken, notification);
     };
 
     if (isLoading) return <Loader />;

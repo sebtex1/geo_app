@@ -3,10 +3,17 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import baseUserStyle from "../styles/BaseUserStyle";
 
 const BaseUser = (props) => {
+    console.log("BaseUser props", props.fcmToken);
     const conditionalIcon = (icon) => {
         switch (icon) {
             case "addFriend":
-                return <MaterialCommunityIcons name={"account-plus"} size={26} onPress={() => props.onPressIconMethod(props.uid)} />;
+                return (
+                    <MaterialCommunityIcons
+                        name={"account-plus"}
+                        size={26}
+                        onPress={() => props.onPressIconMethod(props.uid, props.fcmToken)}
+                    />
+                );
             case "location":
                 return <MaterialCommunityIcons name={"map-marker"} size={26} />;
             case "unselected":
