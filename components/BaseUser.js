@@ -3,7 +3,6 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import baseUserStyle from "../styles/BaseUserStyle";
 
 const BaseUser = (props) => {
-    console.log("BaseUser props", props.fcmToken);
     const conditionalIcon = (icon) => {
         switch (icon) {
             case "addFriend":

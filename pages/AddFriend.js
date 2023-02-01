@@ -17,6 +17,7 @@ const AddFriend = ({ route }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [recommendations, setRecommendations] = useState(null);
     const friendList = route.params.friendsList;
+    const [isInitialized, setIsInitialized] = useState(false);
 
     //Get all users
     useEffect(() => {
@@ -31,7 +32,7 @@ const AddFriend = ({ route }) => {
             setRecommendations([]);
             return;
         }
-        UserService.getFriendRecommendations(friendList, setRecommendations);
+        if (isLoading) UserService.getFriendRecommendations(friendList, setRecommendations);
     }, [users]);
 
     //Remove loading screen
@@ -46,11 +47,10 @@ const AddFriend = ({ route }) => {
     };
 
     const onPressIcon = (uid, fcmToken) => {
-        console.log("onPressIcon", uid);
-        console.log("onPressIcon fcmToken", fcmToken);
         UserService.addFriend(uid);
         setUsers(users.filter((user) => user.uid !== uid));
         setRecommendations(recommendations.filter((recommendation) => recommendation.uid !== uid));
+
         const notification = {
             body: `${auth.currentUser.email} vous a ajouté en ami !`,
             data: "hello !",
