@@ -35,7 +35,6 @@ const Conversations = ({ navigation }) => {
             <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Groupes"} />
             <SearchBar searchText={searchText} setSearchText={setSearchText} />
             <FlatList
-                // style={styles.container}
                 data={
                     searchText === ""
                         ? conversations.filter((conv) => conv.users.length > 2)
@@ -46,13 +45,12 @@ const Conversations = ({ navigation }) => {
                 }}
                 keyExtractor={(item) => item._id}
             />
-            <FloatingButton 
+            <FloatingButton
                 text={"Create group"}
                 icon={require("../assets/pngegg.png")}
                 size={18}
                 onPress={() => navigation.navigate("CreateGroup")}
             />
-            
         </View>
     );
 };
