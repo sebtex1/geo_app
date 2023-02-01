@@ -26,16 +26,16 @@ const Map = ({ navigation }) => {
         UserService.getUser(auth?.currentUser?.uid, setUser);
     }, []);
 
-    useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== "granted") {
-                console.log("Permission to access location was denied");
-                return;
-            }
-            getUserLocation();
-        })();
-    }, []);
+    // useEffect(() => {
+    //     (async () => {
+    //         let { status } = await Location.requestForegroundPermissionsAsync();
+    //         if (status !== "granted") {
+    //             console.log("Permission to access location was denied");
+    //             return;
+    //         }
+    //         getUserLocation();
+    //     })();
+    // }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => setCount(count + 1), 10e3); // 10 second delay
