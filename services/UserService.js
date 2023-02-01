@@ -177,6 +177,10 @@ const UserService = {
         });
 
         recommendations = recommendations.filter((recommendation) => recommendation !== auth.currentUser.uid);
+        if (recommendations.length === 0) {
+            setRecommendations([]);
+            return;
+        }
 
         const q = query(collection(database, "users"), where("uid", "in", recommendations));
         const unsubscribe = onSnapshot(q, (snapshot) => {
