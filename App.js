@@ -126,6 +126,7 @@ export default function App() {
     }, []);
 
     const GPS = () => {
+        PermissionUtils.getPermissions(setGpsAccepted);
         return (
             <View style={[CommonStyles.containerLoginScreen, CommonStyles.justifyContentStart]}>
                 <FindyLogo />
@@ -135,7 +136,7 @@ export default function App() {
                     <BoutonLogin
                         buttonStyle={{ marginBottom: 20 }}
                         onPress={() => {
-                            setGpsAccepted(PermissionUtils.getLocationAcess());
+                            PermissionUtils.getLocationAcess(setGpsAccepted);
                         }}
                     />
                 </View>
