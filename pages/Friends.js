@@ -119,9 +119,7 @@ const Friends = ({ navigation }) => {
                             avatar={AvatarUtil.getAvatar(item.avatar)}
                             hint={
                                 userLocation !== null && userLocation?.coords !== null && item?.location
-                                    ? `à ${LocationUtil.distanceBetween(userLocation.coords, item.location.coords).toFixed(
-                                          2
-                                      )} km (le plus proche)`
+                                    ? `à ${LocationUtil.distanceBetween(userLocation.coords, item.location.coords).toFixed(2)} km`
                                     : ""
                             }
                         />
