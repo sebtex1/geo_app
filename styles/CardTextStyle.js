@@ -5,7 +5,6 @@ const FindyLogoStyle = StyleSheet.create({
         backgroundColor: "#FFDA66",
         borderColor: "#C8A536",
         borderRadius: 10,
-        marginBottom: 20,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

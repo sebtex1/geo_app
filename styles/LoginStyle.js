@@ -4,7 +4,7 @@ const LoginStyle = StyleSheet.create({
     containerFields: {
         marginLeft: 30,
         marginRight: 30,
-        flex: 2,
+        flex: 3,
     },
     containerSocialButtons: {
         flexDirection: "row",
