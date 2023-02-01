@@ -17,11 +17,9 @@ const CreateConversation = ({ navigation }) => {
 
     //Update selectedFriends when selected or unselected
     const onPressUserMethod = (uid) => {
-        if (selectedFriends.includes(uid)) {
-            setSelectedFriends(selectedFriends.filter((friend) => friend !== uid));
-        } else {
-            setSelectedFriends([...selectedFriends, uid]);
-        }
+        selectedFriends.includes(uid)
+            ? setSelectedFriends(selectedFriends.filter((friend) => friend !== uid))
+            : setSelectedFriends([...selectedFriends, uid]);
     };
 
     //Create conversation
@@ -33,6 +31,7 @@ const CreateConversation = ({ navigation }) => {
 
     //Fetch friends
     useLayoutEffect(() => {
+        console.info("PAGE CREATE CONVERSATION");
         UserService.getFriends(auth.currentUser.uid, setFriends);
     }, []);
 
@@ -57,12 +56,7 @@ const CreateConversation = ({ navigation }) => {
         <View style={CommonStyles.containerAppScreen}>
             <Input label="Group name" value={conversationName} onChangeText={(text) => setConversationName(text)} />
             <UserList users={friends} onPressMethod={onPressUserMethod} />
-            <FloatingButton 
-                text={"Add group"}
-                icon={require("../assets/validate.png")}
-                size={20}
-                onPress={() => onPressValidate()}
-            />
+            <FloatingButton text={"Add group"} icon={require("../assets/validate.png")} size={20} onPress={() => onPressValidate()} />
         </View>
     );
 };

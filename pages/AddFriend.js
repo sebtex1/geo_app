@@ -20,8 +20,17 @@ const AddFriend = ({ route }) => {
     useEffect(() => {
         console.info("PAGE ADD FRIEND");
         UserService.getAllUsers(friendList, setUsers);
-        UserService.getFriendRecommendations(friendList, setRecommendations);
     }, []);
+
+    //Remove loading screen
+    useEffect(() => {
+        if (users === null) return;
+        if (users.length === 0) {
+            setRecommendations([]);
+            return;
+        }
+        UserService.getFriendRecommendations(friendList, setRecommendations);
+    }, [users]);
 
     //Remove loading screen
     useEffect(() => {
