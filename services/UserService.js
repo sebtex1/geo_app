@@ -45,6 +45,7 @@ const UserService = {
                           email: snapshot.docs[0].data().email,
                           friends: snapshot.docs[0].data().friends,
                           avatar: snapshot.docs[0].data().avatar,
+                          fcmToken: snapshot.docs[0].data().fcmToken,
                       }
                     : undefined
             );

@@ -36,7 +36,7 @@ const ConversationService = {
     },
 
     getConversationByFriend: (friendUid, setConversation) => {
-        console.info("Fetching conversation for auth user and: " + friendUid);
+        // console.info("Fetching conversation for auth user and: " + friendUid);
 
         const convUsers = [auth?.currentUser?.uid, friendUid].sort();
 

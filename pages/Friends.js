@@ -61,7 +61,7 @@ const Friends = ({ navigation }) => {
     //Navigate to conversation with friend
     useEffect(() => {
         if (conversation === null) return;
-        navigation.navigate("Chat", { conversationId: conversation._id });
+        navigation.navigate("Chat", { conversationId: conversation._id, users: conversation.users });
     }, [conversation]);
 
     const getUserLocation = async () => {
