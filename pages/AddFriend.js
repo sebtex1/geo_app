@@ -1,3 +1,4 @@
+import { Text } from "@rneui/base";
 import { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import BaseUser from "../components/BaseUser";
@@ -19,8 +20,17 @@ const AddFriend = ({ route }) => {
     useEffect(() => {
         console.info("PAGE ADD FRIEND");
         UserService.getAllUsers(friendList, setUsers);
-        UserService.getFriendRecommendations(friendList, setRecommendations);
     }, []);
+
+    //Remove loading screen
+    useEffect(() => {
+        if (users === null) return;
+        if (users.length === 0) {
+            setRecommendations([]);
+            return;
+        }
+        UserService.getFriendRecommendations(friendList, setRecommendations);
+    }, [users]);
 
     //Remove loading screen
     useEffect(() => {
@@ -36,6 +46,8 @@ const AddFriend = ({ route }) => {
     const onPressIcon = (uid) => {
         console.log("onPressIcon", uid);
         UserService.addFriend(uid);
+        setUsers(users.filter((user) => user.uid !== uid));
+        setRecommendations(recommendations.filter((recommendation) => recommendation.uid !== uid));
     };
 
     if (isLoading) return <Loader />;
@@ -44,8 +56,8 @@ const AddFriend = ({ route }) => {
         <View style={CommonStyles.containerAppScreen}>
             <Header title={"Ajouter un ami"} />
             <SearchBar searchText={searchText} setSearchText={setSearchText} addFriendIcon={false} />
-            {recommendations.length > 0 ? (
-                <View>
+            {recommendations.length > 0 && searchText === "" ? (
+                <>
                     <FlatList
                         data={recommendations}
                         keyExtractor={(item) => item.uid}
@@ -64,25 +76,29 @@ const AddFriend = ({ route }) => {
                             );
                         }}
                     />
-                </View>
+                </>
+            ) : searchText === "" ? (
+                <Text>Aucune recommendations</Text>
             ) : null}
-            <FlatList
-                data={users}
-                keyExtractor={(item) => item.uid}
-                renderItem={({ item }) => {
-                    return (
-                        <BaseUser
-                            uid={item.uid}
-                            pseudo={item?.email}
-                            fcmToken={item?.fcmToken}
-                            avatar={AvatarUtil.getAvatar(item?.avatar)}
-                            icon={"addFriend"}
-                            onPressMethod={onPressUser}
-                            onPressIconMethod={onPressIcon}
-                        />
-                    );
-                }}
-            />
+            {searchText !== "" ? (
+                <FlatList
+                    data={searchText === "" ? users : users.filter((user) => user.email.startsWith(searchText))}
+                    keyExtractor={(item) => item.uid}
+                    renderItem={({ item }) => {
+                        return (
+                            <BaseUser
+                                uid={item.uid}
+                                pseudo={item?.email}
+                                fcmToken={item?.fcmToken}
+                                avatar={AvatarUtil.getAvatar(item?.avatar)}
+                                icon={"addFriend"}
+                                onPressMethod={onPressUser}
+                                onPressIconMethod={onPressIcon}
+                            />
+                        );
+                    }}
+                />
+            ) : null}
         </View>
     );
 };

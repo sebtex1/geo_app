@@ -13,6 +13,7 @@ import CommonStyles from "../styles/CommonStyles";
 import FriendsStyle from "../styles/FriendsStyle";
 import AvatarUtil from "../utils/AvatarUtil";
 import LocationUtil from "../utils/LocationUtil";
+import FloatingButton from "../components/FloatingButton";
 
 const Friends = ({ navigation }) => {
     const [friends, setFriends] = useState([]);
@@ -78,18 +79,7 @@ const Friends = ({ navigation }) => {
 
     return (
         <View style={CommonStyles.containerAppScreen}>
-            <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Amis"}>
-                <MaterialCommunityIcons
-                    name={"account-plus"}
-                    size={26}
-                    onPress={() => {
-                        navigation.navigate("AddFriend", {
-                            friendsList: friends,
-                            navigation: navigation,
-                        });
-                    }}
-                />
-            </Header>
+            <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Amis"} />
             <SearchBar searchText={searchText} setSearchText={setSearchText} />
 
             {userLocation !== null && userLocation?.coords && closestFriend !== null ? (
@@ -111,7 +101,27 @@ const Friends = ({ navigation }) => {
                     />
                 </View>
             ) : null}
-            <UserList users={friends.filter((friend) => friend.uid !== closestFriend?.uid)} onPressMethod={getFriendConversation} />
+            <UserList
+                users={
+                    searchText === ""
+                        ? friends.filter((friend) => friend.uid !== closestFriend?.uid)
+                        : friends
+                              .filter((friend) => friend.uid !== closestFriend?.uid)
+                              .filter((friend) => friend.email.startsWith(searchText))
+                }
+                onPressMethod={getFriendConversation}
+            />
+            <FloatingButton
+                text={"Add Friend"}
+                icon={require("../assets/add-friend.png")}
+                size={20}
+                onPress={() =>
+                    navigation.navigate("AddFriend", {
+                        friendsList: friends,
+                        navigation: navigation,
+                    })
+                }
+            />
         </View>
     );
 };

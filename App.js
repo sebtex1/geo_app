@@ -1,8 +1,10 @@
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useFonts } from "expo-font";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { LogBox, View } from "react-native";
+import { setCustomText } from "react-native-global-props";
 import { Entypo, MaterialCommunityIcons } from "react-native-vector-icons";
 import { auth } from "./config/FirebaseConfig";
 import AddFriend from "./pages/AddFriend";
@@ -24,6 +26,7 @@ import CardText from "./components/CardText";
 import BoutonLogin from "./components/BoutonLogin";
 import FindyYellow from "./components/FindyYellow";
 import PermissionUtils from "./utils/PermissionUtils";
+import CustomTextProps from "./styles/GlobalStyle";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -44,6 +47,11 @@ const Theme = {
 };
 
 function Tabs() {
+    const [fontsLoaded] = useFonts({
+        "Poppins-Medium": require("./assets/fonts/Poppins-Medium.ttf"),
+    });
+
+    setCustomText(CustomTextProps);
     return (
         <Tab.Navigator
             initialRouteName="Profil"
