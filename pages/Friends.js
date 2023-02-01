@@ -39,7 +39,7 @@ const Friends = ({ navigation }) => {
         friends.forEach((friend) => {
             if (closestFriendVar === null) {
                 closestFriendVar = friend;
-            } else if (friend.location === null || friend.location === undefined) {
+            } else if (!friend.location || !friend.location.coords || !closestFriendVar.location || !closestFriendVar.location.coords) {
                 return;
             } else if (
                 LocationUtil.distanceBetween(userLocation.coords, friend.location.coords) <
