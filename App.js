@@ -1,8 +1,7 @@
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useFonts } from "expo-font";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { LogBox, View } from "react-native";
 import { setCustomText } from "react-native-global-props";
 import { Entypo, MaterialCommunityIcons } from "react-native-vector-icons";
@@ -27,6 +26,8 @@ import BoutonLogin from "./components/BoutonLogin";
 import FindyYellow from "./components/FindyYellow";
 import PermissionUtils from "./utils/PermissionUtils";
 import CustomTextProps from "./styles/GlobalStyle";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -50,6 +51,16 @@ function Tabs() {
     const [fontsLoaded] = useFonts({
         "Poppins-Medium": require("./assets/fonts/Poppins-Medium.ttf"),
     });
+
+    useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) {
+        return null;
+    }
 
     setCustomText(CustomTextProps);
     return (
