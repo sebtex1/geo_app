@@ -79,7 +79,7 @@ const Friends = ({ navigation }) => {
 
     return (
         <View style={CommonStyles.containerAppScreen}>
-            <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Amis"} />
+            <Header navigation={navigation} avatar={AvatarUtil.getAvatar(user.avatar)} title={"Amis"} />
             <SearchBar searchText={searchText} setSearchText={setSearchText} />
 
             {userLocation !== null && userLocation?.coords && closestFriend !== null ? (

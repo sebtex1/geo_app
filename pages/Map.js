@@ -43,7 +43,7 @@ const Map = ({ navigation }) => {
 
     return (
         <View style={commonStyles.containerAppScreen}>
-            <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Localisation"} />
+            <Header navigation={navigation} avatar={AvatarUtil.getAvatar(user.avatar)} title={"Localisation"} />
             <View style={mapStyle.containerMap}>
                 <MapView style={mapStyle.containerMapView}>
                     {location !== null && location?.coords?.latitude && location?.coords?.longitude ? (

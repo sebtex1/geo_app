@@ -65,19 +65,12 @@ function Tabs() {
     setCustomText(CustomTextProps);
     return (
         <Tab.Navigator
-            initialRouteName="Profil"
+            initialRouteName="Map"
             labeled={false}
             activeColor="#fff"
             inactiveColor="#000"
             barStyle={{ backgroundColor: "#F0B221" }}
         >
-            <Tab.Screen
-                name="Profil"
-                component={Profil}
-                options={{
-                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="account" color={color} size={26} />,
-                }}
-            />
             <Tab.Screen
                 name="Map"
                 component={Map}
@@ -183,6 +176,7 @@ export default function App() {
                 ) : (
                     <Stack.Group screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="GeoApp" component={Tabs} />
+                        <Stack.Screen name="Profil" component={Profil} />
                         <Stack.Screen name="Chat" component={Chat} />
                         <Stack.Screen name="AddFriend" component={AddFriend} />
                         <Stack.Screen name="CreateGroup" component={CreateConversation} />

@@ -32,7 +32,7 @@ const Conversations = ({ navigation }) => {
 
     return (
         <View style={CommonStyles.containerAppScreen}>
-            <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Groupes"} />
+            <Header navigation={navigation} avatar={AvatarUtil.getAvatar(user.avatar)} title={"Groupes"} />
             <SearchBar searchText={searchText} setSearchText={setSearchText} />
             <FlatList
                 data={
