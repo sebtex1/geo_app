@@ -25,17 +25,6 @@ const Map = ({ navigation }) => {
         UserService.getUser(auth?.currentUser?.uid, setUser);
     }, []);
 
-    // useEffect(() => {
-    //     (async () => {
-    //         let { status } = await Location.requestForegroundPermissionsAsync();
-    //         if (status !== "granted") {
-    //             console.log("Permission to access location was denied");
-    //             return;
-    //         }
-    //         getUserLocation();
-    //     })();
-    // }, []);
-
     useEffect(() => {
         const timer = setTimeout(() => setCount(count + 1), 10e3); // 10 second delay
         getUserLocation();
@@ -53,7 +42,7 @@ const Map = ({ navigation }) => {
     };
 
     return (
-        <View style={[commonStyles.containerAppScreen, commonStyles.alignItemsCenter]}>
+        <View style={commonStyles.containerAppScreen}>
             <Header avatar={AvatarUtil.getAvatar(user.avatar)} title={"Localisation"} />
             <View style={mapStyle.containerMap}>
                 <MapView style={mapStyle.containerMapView}>
@@ -90,6 +79,7 @@ const Map = ({ navigation }) => {
                                                   longitude: friend.location.coords.longitude,
                                               }}
                                               onPress={() => {
+                                                  console.log("Friend: ", friend.avatar);
                                                   setSelectedMarker({
                                                       uid: friend.uid,
                                                       email: friend.email,
@@ -122,7 +112,7 @@ const Map = ({ navigation }) => {
                     navigation={navigation}
                     uid={selectedMarker?.uid}
                     pseudo={selectedMarker?.email}
-                    avatar={selectedMarker?.avatar}
+                    avatar={AvatarUtil.getAvatar(selectedMarker?.avatar)}
                     hint={`Position: ${selectedMarker?.location?.coords?.latitude.toFixed(
                         2
                     )}, ${selectedMarker?.location?.coords?.longitude.toFixed(2)}`}

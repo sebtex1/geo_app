@@ -12,6 +12,7 @@ const profilStyles = StyleSheet.create({
         height: "100%",
     },
     containerGhostMode: {
+        alignSelf: "center",
         flexDirection: "row",
         alignItems: "center",
     },
