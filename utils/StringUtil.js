@@ -1,7 +1,7 @@
-const StringHelper = {
+const StringUtil = {
     isBlank: (string) => {
         return !string || /^\s*$/.test(string);
     },
 };
 
-export default StringHelper;
+export default StringUtil;

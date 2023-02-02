@@ -1,12 +1,15 @@
 import { Input } from "@rneui/base";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { FloatingAction } from "react-native-floating-action";
+import { View } from "react-native";
 import UserList from "../components/UserList";
 import { auth } from "../config/FirebaseConfig";
 import ConversationService from "../services/ConversationService";
-import StringHelper from "../helper/StringHelper";
+import StringHelper from "../utils/StringUtil";
 import UserService from "../services/UserService";
+import CommonStyles from "../styles/CommonStyles";
+import CreateConversationStyle from "../styles/CreateConversationStyle";
+import FloatingButton from "../components/FloatingButton";
+import Toast from "react-native-toast-message";
 
 const CreateConversation = ({ navigation }) => {
     const [friends, setFriends] = useState(null);
@@ -14,34 +17,39 @@ const CreateConversation = ({ navigation }) => {
     const [isInitialized, setIsInitialized] = useState(false);
     const [conversationName, setConversationName] = useState(false);
 
-    //Props for FloatingAction
-    const actions = [
-        {
-            text: "Add group",
-            icon: require("../assets/pngegg.png"),
-            name: "add group",
-            position: 1,
-        },
-    ];
-
     //Update selectedFriends when selected or unselected
     const onPressUserMethod = (uid) => {
-        if (selectedFriends.includes(uid)) {
-            setSelectedFriends(selectedFriends.filter((friend) => friend !== uid));
-        } else {
-            setSelectedFriends([...selectedFriends, uid]);
-        }
+        selectedFriends.includes(uid)
+            ? setSelectedFriends(selectedFriends.filter((friend) => friend !== uid))
+            : setSelectedFriends([...selectedFriends, uid]);
     };
 
     //Create conversation
     const onPressValidate = () => {
-        if (selectedFriends.length <= 1 || StringHelper.isBlank(conversationName)) return;
+        if (StringHelper.isBlank(conversationName)) {
+            Toast.show({
+                type: "error",
+                text1: "Veuillez renseigner un nom de groupe",
+                text2: "Le nom de groupe sera visible par tous les membres",
+            });
+            return;
+        }
+
+        if (selectedFriends.length <= 1) {
+            Toast.show({
+                type: "error",
+                text1: "Veuillez sélectionner plus d'amis",
+                text2: "Vous devez être au moins 3 pour créer un groupe",
+            });
+            return;
+        }
         ConversationService.createConversation(conversationName, [...selectedFriends, auth.currentUser.uid]);
         navigation.goBack();
     };
 
     //Fetch friends
     useLayoutEffect(() => {
+        console.info("PAGE CREATE CONVERSATION");
         UserService.getFriends(auth.currentUser.uid, setFriends);
     }, []);
 
@@ -63,30 +71,13 @@ const CreateConversation = ({ navigation }) => {
     }, [selectedFriends]);
 
     return (
-        <View style={styles.flatList}>
+        <View style={[CommonStyles.containerAppScreen, CreateConversationStyle.container]}>
             <Input label="Group name" value={conversationName} onChangeText={(text) => setConversationName(text)} />
-            <UserList users={friends} navigation={navigation} onPressMethod={onPressUserMethod} />
-            <FloatingAction
-                actions={actions}
-                overrideWithAction={true}
-                onPressItem={(name) => {
-                    onPressValidate();
-                }}
-                navigation={navigation}
-            />
+            <UserList users={friends} onPressMethod={onPressUserMethod} />
+            <FloatingButton text={"Add group"} icon={require("../assets/validate.png")} size={20} onPress={() => onPressValidate()} />
+            <Toast />
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    flatList: {
-        marginTop: 50,
-        marginBottom: 65,
-        flex: 1,
-        flexBasis: "auto",
-        flexShrink: 0,
-        flexGrow: 10,
-    },
-});
 
 export default CreateConversation;

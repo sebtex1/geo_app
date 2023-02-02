@@ -1,10 +1,14 @@
-import { useTheme } from "@react-navigation/native";
-import { Button, Input } from "@rneui/base";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
+import BoutonLogin from "../components/BoutonLogin";
+import CardText from "../components/CardText";
 import FacebookAuthButton from "../components/FacebookAuthButton";
+import FindyLogo from "../components/FindyLogo";
 import GoogleAuthButton from "../components/GoogleAuthButton";
+import InputField from "../components/InputField";
 import AccountService from "../services/AccountService";
+import CommonStyles from "../styles/CommonStyles";
+import LoginStyle from "../styles/LoginStyle";
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState("");
@@ -18,23 +22,18 @@ const Login = ({ navigation }) => {
         }
     }, [authMethods]);
 
-    const { colors } = useTheme();
-
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: colors.primary,
-            alignItems: "center",
-            justifyContent: "center",
-        },
-    });
-
     return (
-        <View style={styles.container}>
-            <Input label="Email" value={email} onChangeText={(text) => setEmail(text)} />
-            <Button title="Check email" onPress={() => AccountService.checkEmail(email, setAuthMethods)} />
-            <GoogleAuthButton />
-            <FacebookAuthButton />
+        <View style={[CommonStyles.containerLoginScreen, CommonStyles.justifyContentStart]}>
+            <FindyLogo />
+            <View style={LoginStyle.containerFields}>
+                <InputField label="Email" value={email} onChangeText={(text) => setEmail(text)} />
+                <View style={LoginStyle.containerSocialButtons}>
+                    <GoogleAuthButton />
+                    <FacebookAuthButton />
+                </View>
+                <CardText text={"Ton email permettra à tes amis de te retrouver sur Findy !"} />
+                <BoutonLogin buttonStyle={{ marginTop: 20 }} onPress={() => AccountService.checkEmail(email, setAuthMethods)} />
+            </View>
         </View>
     );
 };

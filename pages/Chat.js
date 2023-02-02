@@ -1,10 +1,13 @@
-import React, { useState, useLayoutEffect, useCallback } from "react";
+import React, { useState, useLayoutEffect, useCallback, useEffect } from "react";
 import { collection, addDoc, where, orderBy, query, onSnapshot } from "firebase/firestore";
 import { GiftedChat } from "react-native-gifted-chat";
 import { auth, database } from "../config/FirebaseConfig";
+import UserService from "../services/UserService";
+import { sendNotificationToOther } from "../services/NotificationPushService";
 
 const Chat = ({ route }) => {
     const [messages, setMessages] = useState([]);
+    const [friends, setFriends] = useState(null);
 
     useLayoutEffect(() => {
         const conversationId = route.params.conversationId;
@@ -12,7 +15,6 @@ const Chat = ({ route }) => {
         const q = query(collectionRef, where("conversationId", "==", conversationId), orderBy("createdAt", "desc"));
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
-            console.info("Number of messages:", snapshot.docs.length);
             setMessages(
                 snapshot.docs.map((doc) => ({
                     _id: doc.id,
@@ -38,7 +40,22 @@ const Chat = ({ route }) => {
             user,
             conversationId,
         });
+
+        const friendUid = route.params.users.filter((x) => x !== auth?.currentUser?.uid);
+        UserService.getUsers(friendUid, setFriends);
     }, []);
+
+    useEffect(() => {
+        if (friends === null) return;
+        const notification = {
+            body: `${auth?.currentUser?.email} vous a envoyer un message !`,
+            data: "hello !",
+        };
+        friends.forEach((friend) => {
+            sendNotificationToOther(friend.fcmToken, notification);
+        });
+        setFriends(null);
+    }, [friends]);
 
     return (
         <GiftedChat

@@ -1,9 +1,16 @@
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { LogBox } from "react-native";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { LogBox, View } from "react-native";
+import { setCustomText } from "react-native-global-props";
 import { Entypo, MaterialCommunityIcons } from "react-native-vector-icons";
+import BoutonLogin from "./components/BoutonLogin";
+import CardText from "./components/CardText";
+import FindyLogo from "./components/FindyLogo";
+import FindyYellow from "./components/FindyYellow";
 import { auth } from "./config/FirebaseConfig";
 import AddFriend from "./pages/AddFriend";
 import Chat from "./pages/Chat";
@@ -13,9 +20,14 @@ import Friends from "./pages/Friends";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Map from "./pages/Map";
+import Profil from "./pages/Profil";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import UserService from "./services/UserService";
+import CommonStyles from "./styles/CommonStyles";
+import CustomTextProps from "./styles/GlobalStyle";
+import LoginStyle from "./styles/LoginStyle";
+import PermissionUtils from "./utils/PermissionUtils";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -36,21 +48,29 @@ const Theme = {
 };
 
 function Tabs() {
+    const [fontsLoaded] = useFonts({
+        "Poppins-Medium": require("./assets/fonts/Poppins-Medium.ttf"),
+    });
+
+    useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
+    setCustomText(CustomTextProps);
     return (
         <Tab.Navigator
-            initialRouteName="Home"
+            initialRouteName="Map"
             labeled={false}
-            activeColor="#000000"
-            inactiveColor="#fefefe"
-            barStyle={{ backgroundColor: "#02abff" }}
+            activeColor="#fff"
+            inactiveColor="#000"
+            barStyle={{ backgroundColor: "#F0B221" }}
         >
-            <Tab.Screen
-                name="Home"
-                component={Home}
-                options={{
-                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home" color={color} size={26} />,
-                }}
-            />
             <Tab.Screen
                 name="Map"
                 component={Map}
@@ -80,7 +100,8 @@ function LoginPages() {
     return (
         <LoginNavigator.Navigator>
             <LoginNavigator.Group screenOptions={{ headerShown: false }}>
-                <LoginNavigator.Screen name="checkEmal" component={Login} />
+                <LoginNavigator.Screen name="home" component={Home} />
+                <LoginNavigator.Screen name="checkEmail" component={Login} />
                 <LoginNavigator.Screen name="signIn" component={SignIn} />
                 <LoginNavigator.Screen name="signUp" component={SignUp} />
             </LoginNavigator.Group>
@@ -91,29 +112,55 @@ function LoginPages() {
 export default function App() {
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [user, setUser] = useState({});
-
-    useEffect(() => {
-        if (!user) {
-            UserService.createUser();
-            setIsSignedIn(true);
-        } else if (Object.keys(user).length != 0) {
-            setIsSignedIn(true);
-        }
-    }, [user]);
+    const [userDocumentId, setUserDocumentId] = useState("");
+    const [gpsAccepted, setGpsAccepted] = useState(false);
 
     //Listen to the user connection state
     useLayoutEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (user) {
-                UserService.getUser(user.uid, setUser);
+        const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+            if (userAuth) {
+                UserService.getUser(userAuth.uid, setUser);
             } else {
-                console.log("Not logged in");
                 setIsSignedIn(false);
             }
         });
 
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        if (user === undefined) {
+            UserService.createUser(setUserDocumentId);
+        } else if (Object.keys(user).length !== 0) {
+            setIsSignedIn(true);
+        }
+    }, [user]);
+
+    useEffect(() => {
+        if (auth?.currentUser?.uid && user) {
+            UserService.getUser(auth?.currentUser?.uid, setUser);
+            setIsSignedIn(true);
+        }
+    }, [userDocumentId]);
+
+    const GPS = () => {
+        PermissionUtils.getPermissions(setGpsAccepted);
+        return (
+            <View style={[CommonStyles.containerLoginScreen, CommonStyles.justifyContentStart]}>
+                <FindyLogo />
+                <View style={LoginStyle.containerFields}>
+                    <CardText text={"Findy a besoin d’accès à ta localisation pour aider tes amis à te retrouver"} />
+                    <FindyYellow />
+                    <BoutonLogin
+                        buttonStyle={{ marginBottom: 20 }}
+                        onPress={() => {
+                            PermissionUtils.getLocationAcess(setGpsAccepted);
+                        }}
+                    />
+                </View>
+            </View>
+        );
+    };
 
     return (
         <NavigationContainer theme={Theme}>
@@ -122,9 +169,14 @@ export default function App() {
                     <Stack.Group screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="Login" component={LoginPages} />
                     </Stack.Group>
+                ) : gpsAccepted === false ? (
+                    <Stack.Group screenOptions={{ headerShown: false }}>
+                        <Stack.Screen name="GPS" component={GPS} />
+                    </Stack.Group>
                 ) : (
                     <Stack.Group screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="GeoApp" component={Tabs} />
+                        <Stack.Screen name="Profil" component={Profil} />
                         <Stack.Screen name="Chat" component={Chat} />
                         <Stack.Screen name="AddFriend" component={AddFriend} />
                         <Stack.Screen name="CreateGroup" component={CreateConversation} />

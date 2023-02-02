@@ -1,11 +1,11 @@
 import { addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { auth, database } from "../config/FirebaseConfig";
 import ConversationService from "./ConversationService";
-import { getToken } from "./NotificationPush";
+import { getToken } from "./NotificationPushService";
 
 const UserService = {
     //Creates an user in firestore for the currently authenticated user in auth
-    createUser: async () => {
+    createUser: async (setUserDocumentId) => {
         const createdAt = new Date();
         const uid = auth.currentUser.uid;
         const email = auth.currentUser.email;
@@ -23,6 +23,7 @@ const UserService = {
         })
             .then((result) => {
                 console.info("User created: " + result.id);
+                setUserDocumentId(result.id);
             })
             .catch((error) => {
                 console.error(error);
@@ -45,11 +46,34 @@ const UserService = {
                           email: snapshot.docs[0].data().email,
                           friends: snapshot.docs[0].data().friends,
                           avatar: snapshot.docs[0].data().avatar,
+                          fcmToken: snapshot.docs[0].data().fcmToken,
                       }
                     : undefined
             );
         });
         return () => unsubscribe();
+    },
+
+    //Get multiple users
+    getUsers: (usersId, setUsers) => {
+        console.info("Fetching asked users");
+
+        const q = query(collection(database, "users"), where("uid", "in", usersId));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setUsers(
+                snapshot.docs.map((doc) => ({
+                    _id: doc.id,
+                    uid: doc.data().uid,
+                    createdAt: doc.data().createdAt.toDate(),
+                    email: doc.data().email,
+                    friends: doc.data().friends,
+                    fcmToken: doc.data().fcmToken,
+                    avatar: doc.data().avatar,
+                    location: doc.data().location,
+                }))
+            );
+            unsubscribe();
+        });
     },
 
     //Get all users not in user's friendlist
@@ -170,7 +194,17 @@ const UserService = {
         });
 
         recommendations = [...new Set(recommendations)];
+        friendList.map((friend) => {
+            if (recommendations.includes(friend.uid)) {
+                recommendations = recommendations.filter((recommendation) => recommendation !== friend.uid);
+            }
+        });
+
         recommendations = recommendations.filter((recommendation) => recommendation !== auth.currentUser.uid);
+        if (recommendations.length === 0) {
+            setRecommendations([]);
+            return;
+        }
 
         const q = query(collection(database, "users"), where("uid", "in", recommendations));
         const unsubscribe = onSnapshot(q, (snapshot) => {
