@@ -116,6 +116,7 @@ const Map = ({ navigation }) => {
                     hint={`Position: ${selectedMarker?.location?.coords?.latitude.toFixed(
                         2
                     )}, ${selectedMarker?.location?.coords?.longitude.toFixed(2)}`}
+                    onPressMethod={() => {}}
                 />
             ) : null}
         </View>
